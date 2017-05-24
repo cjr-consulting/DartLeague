@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* CSS Document */
+/*ul.mymenu {
+  font-family: Arial, Verdana;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul.mymenu li {
+  display: block;
+  position: relative;
+  float: left;
+}
+ul.mymenu li ul { display: none; }
+ul.mymenu li a {
+  display: block;
+  text-decoration: none;
+  color: #EEC553;
+  border-top: 1px solid #CD4F41;
+  padding: 5px 28px 5px 28px;
+  background: #CC0000;
+  margin-left: 1px;
+  white-space: nowrap;
+}
+ul.mymenu li a:hover { background: #CD4F41; }
+ul.mymenu li:hover ul {
+  display: block;
+  position: absolute;
+}
+ul.mymenu li:hover li {
+  float: none;
+  font-size: 12px;
+}
+ul.mymenu li:hover a { background: #CC0000; }
+ul.mymenu li:hover li a:hover { background: #CD4F41; }*/

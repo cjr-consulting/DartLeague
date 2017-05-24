@@ -1,0 +1,27 @@
+<template>
+    <div class="season-teams">
+        <h1>${season.name} Teams</h1>
+
+        <a click.delegate="addTeam()" class="btn btn-default">Add</a>
+        <div class="panel panel-default">
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Pre Div</th>
+                <th>Reg Div</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr repeat.for="team of teams">
+                <td><a route-href="route: seasonTeamEdit; params.bind: {seasonId: $parent.season.id, id: team.id }">Edit</a></td>
+                <td>${team.team.name}</td>
+                <td>${team.preDiv}</td>
+                <td>${team.regularDiv}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</template>

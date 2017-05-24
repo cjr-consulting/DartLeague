@@ -1,0 +1,8 @@
+<template>
+    <div>
+        <a class="btn btn-danger btn-block" route-href="route: createSeason" >Start New Season</a>
+        <div repeat.for="season of seasons">
+            <a route-href="route: seasonEdit; params.bind: { id: season.id }" class="btn btn-default btn-block">${season.name}</a>
+        </div>
+    </div>
+</template>

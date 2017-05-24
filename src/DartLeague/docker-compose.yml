@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  dartleagueweb:
+    image: dartleagueweb
+    build:
+      context: ./DartLeague.Web
+      dockerfile: Dockerfile
+    links:
+    - mysqlserver
+  mysqlserver:
+    image: mysql
+    ports:
+    - "3306:3306"
+    volumes:
+    - "C:/SQLData/mysql-leaguedb:/var/lib/mysql"
+    environment:
+    - MYSQL_ROOT_PASSWORD=my-secret-pw

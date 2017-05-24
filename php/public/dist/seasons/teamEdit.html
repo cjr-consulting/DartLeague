@@ -1,0 +1,28 @@
+<template>
+    <dialog>
+        <dialog-header>
+            Add Team
+        </dialog-header>
+        <dialog-body>
+            <div class="form-group">
+                <label>Team</label>
+                <select value.bind="team.leagueTeamId" class="form-control">
+                    <option>Select Team</option>
+                    <option repeat.for="leagueTeam of leagueTeams" value.bind="leagueTeam.id">${leagueTeam.name}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Pre Div</label>
+                <input type="text" value.bind="team.preDiv" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Regular Div</label>
+                <input type="text" value.bind="team.regularDiv" class="form-control"/>
+            </div>
+        </dialog-body>
+        <dialog-footer>
+            <button click.delegate="controller.cancel()">Cancel</button>
+            <button click.delegate="controller.ok(team)">Ok</button>
+        </dialog-footer>
+    </dialog>
+</template>

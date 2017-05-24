@@ -1,0 +1,29 @@
+<template>
+    <form role="form" submit.delegate="submit()">
+        <div class="form-group">
+            <label>Season Name</label>
+            <input type="text" value.bind="name" class="form-control" placeholder="Title"/>
+        </div>
+        <div class="form-group">
+            <label>Start Year</label>
+            <input type="text" value.bind="startYear" class="form-control" placeholder="Start Year"/>
+        </div>
+        <div class="form-group">
+            <label>End Year</label>
+            <input type="text" value.bind="endYear" class="form-control" placeholder="End Year"/>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" checked.bind="isCurrent"/> Is Current Season?
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" checked.bind="copyPreviousYearTeams"/>Copy teams from previous season?
+            </label>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Create Season</button>
+        </div>
+    </form>
+</template>

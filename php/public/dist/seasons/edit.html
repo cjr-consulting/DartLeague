@@ -1,0 +1,9 @@
+<template>
+    <div class="season">
+        <div>${season.name}</div>
+        <div><a route-href="route: seasonTeams; params.bind: { id: season.id }" class="btn btn-default btn-block btn-with-tag">Teams <i class="fa fa-chevron-circle-right fa-lg"></i></a></div>
+        <div class="schedule">Pre Season <a href="#" class="btn btn-default"><i class="fa fa-plus-circle fa-lg"></i></a></div>
+        <div class="schedule">Regular Season <a href="#" class="btn btn-default"><i class="fa fa-plus-circle fa-lg"></i></a></div>
+        <div class="schedule">Post Season <a href="#" class="btn btn-default"><i class="fa fa-plus-circle fa-lg"></i></a></div>
+    </div>
+</template>
