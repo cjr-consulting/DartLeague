@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.Web", "DartLeague.Web\DartLeague.Web.csproj", "{5B3B99D9-16FC-4E58-BDC4-475CFE930947}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Web", "DartLeague.Web\DartLeague.Web.csproj", "{5B3B99D9-16FC-4E58-BDC4-475CFE930947}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{28208A92-71E6-43F8-AB00-463699EBCFCD}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Readme.txt = Readme.txt
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Core", "DartLeague.Core\DartLeague.Core.csproj", "{15515DAF-2156-4512-9A65-294B7C367121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{28208A92-71E6-43F8-AB00-463699EBCFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28208A92-71E6-43F8-AB00-463699EBCFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28208A92-71E6-43F8-AB00-463699EBCFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15515DAF-2156-4512-9A65-294B7C367121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15515DAF-2156-4512-9A65-294B7C367121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15515DAF-2156-4512-9A65-294B7C367121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15515DAF-2156-4512-9A65-294B7C367121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

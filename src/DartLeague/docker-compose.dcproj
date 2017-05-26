@@ -4,7 +4,7 @@
     <ProjectGuid>28208a92-71e6-43f8-ab00-463699ebcfcd</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
     <DockerServiceUrl>http://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>websitewithaccount</DockerServiceName>
+    <DockerServiceName>dartleagueweb</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.ci.build.yml" />

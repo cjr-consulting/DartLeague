@@ -12,7 +12,7 @@ services:
     image: mysql
     ports:
     - "3306:3306"
-    volumes:
-    - "C:/SQLData/mysql-leaguedb:/var/lib/mysql"
+#    volumes:
+#    - "C:/SQLData/mysql-leaguedb:/var/lib/mysql"
     environment:
     - MYSQL_ROOT_PASSWORD=my-secret-pw

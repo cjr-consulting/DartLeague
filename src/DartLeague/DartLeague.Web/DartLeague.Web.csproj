@@ -33,5 +33,8 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DartLeague.Core\DartLeague.Core.csproj" />
+  </ItemGroup>
 
 </Project>
