@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using DartLeague.Web.Data;
 using DartLeague.Web.Data.Initializers;
 using DartLeague.Web.Services;
+using DartLeague.Repositories.LeagueData;
 
 namespace DartLeague.Web
 {
@@ -54,6 +55,7 @@ namespace DartLeague.Web
 
             // CONNECTION TO MySQL
             var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
+            
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<AuthDbContext>(options =>
@@ -62,15 +64,22 @@ namespace DartLeague.Web
                     b => b.MigrationsAssembly(migrationsAssembly)
                 )          
             );
-            
-            //// Connection to SQL Vnext
-            //var sqlConnectionString = Configuration.GetConnectionString("AuthSqlServerProvider");
-            //services.AddDbContext<AuthDbContext>(options =>
-            //    options.UseSqlServer(
-            //        sqlConnectionString,
-            //        b => b.MigrationsAssembly("WebSiteWithAccount")
-            //    )
-            //);
+
+            var leagueConnectionString = Configuration.GetConnectionString("LeagueMySqlProvider");
+            services.AddDbContext<LeagueContext>(options =>
+            options.UseMySql(
+                leagueConnectionString,
+                b => b.MigrationsAssembly(migrationsAssembly)
+                )
+            );
+
+            var winterSeasonConnectionString = Configuration.GetConnectionString("WinterSeasonMySqlProvider");
+            services.AddDbContext<LeagueContext>(options =>
+            options.UseMySql(
+                winterSeasonConnectionString,
+                b => b.MigrationsAssembly(migrationsAssembly)
+                )
+            );
 
             services.AddIdentity<UserIdentity, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()

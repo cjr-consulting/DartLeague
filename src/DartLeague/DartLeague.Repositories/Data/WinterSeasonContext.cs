@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DartLeague.Repositories.TrentonDartsModels
 {
-    public partial class TrentondartsContext : DbContext
+    public partial class WinterSeasonContext : DbContext
     {
-        public virtual DbSet<BrowsableFiles> BrowsableFiles { get; set; }
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<MatchTypeGameRules> MatchTypeGameRules { get; set; }
         public virtual DbSet<MatchTypes> MatchTypes { get; set; }
@@ -26,43 +25,8 @@ namespace DartLeague.Repositories.TrentonDartsModels
         public virtual DbSet<WinterStatsPlayerGames> WinterStatsPlayerGames { get; set; }
         public virtual DbSet<WinterStatsTeamGames> WinterStatsTeamGames { get; set; }
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseMySql(@"server=127.0.0.1;userid=root;pwd=my-secret-pw;port=3306;database=trentondarts;sslmode=none;");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BrowsableFiles>(entity =>
-            {
-                entity.ToTable("browsable_files");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.Category)
-                    .IsRequired()
-                    .HasColumnName("category")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.FileName)
-                    .IsRequired()
-                    .HasColumnName("fileName")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.MimeType)
-                    .IsRequired()
-                    .HasColumnName("mimeType")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.RelativePath)
-                    .IsRequired()
-                    .HasColumnName("relativePath")
-                    .HasColumnType("varchar(255)");
-            });
-
             modelBuilder.Entity<Jobs>(entity =>
             {
                 entity.ToTable("jobs");

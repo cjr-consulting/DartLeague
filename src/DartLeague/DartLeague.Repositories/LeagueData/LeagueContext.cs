@@ -7,6 +7,7 @@ namespace DartLeague.Repositories.LeagueData
 {
     public partial class LeagueContext : DbContext
     {
+        public virtual DbSet<BrowsableFiles> BrowsableFiles { get; set; }
         public virtual DbSet<BoardMembers> BoardMembers { get; set; }
         public virtual DbSet<DartEventResults> DartEventResults { get; set; }
         public virtual DbSet<DartEvents> DartEvents { get; set; }
@@ -14,15 +15,37 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Sponsors> Sponsors { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseMySql(@"server=127.0.0.1;userid=root;pwd=my-secret-pw;port=3306;database=trentondarts;sslmode=none;");
-        }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BrowsableFiles>(entity =>
+            {
+                entity.ToTable("browsable_files");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.Category)
+                    .IsRequired()
+                    .HasColumnName("category")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasColumnName("fileName")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.MimeType)
+                    .IsRequired()
+                    .HasColumnName("mimeType")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.RelativePath)
+                    .IsRequired()
+                    .HasColumnName("relativePath")
+                    .HasColumnType("varchar(255)");
+            });
             modelBuilder.Entity<BoardMembers>(entity =>
             {
                 entity.ToTable("board_members");
@@ -82,7 +105,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("timestamp");
 
             });
-
             modelBuilder.Entity<DartEventResults>(entity =>
             {
                 entity.ToTable("dart_event_results");
@@ -113,7 +135,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("specificEventName")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<DartEvents>(entity =>
             {
                 entity.ToTable("dart_events");
@@ -242,7 +263,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("zip")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<PageParts>(entity =>
             {
                 entity.ToTable("page_parts");
@@ -266,7 +286,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("name")
                     .HasColumnType("text");
             });
-
             modelBuilder.Entity<Players>(entity =>
             {
                 entity.ToTable("players");
@@ -362,7 +381,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("zip")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<Sponsors>(entity =>
             {
                 entity.ToTable("sponsors");
@@ -453,7 +471,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("zip")
                     .HasColumnType("varchar(10)");
             });
-
             modelBuilder.Entity<Teams>(entity =>
             {
                 entity.ToTable("teams");
@@ -486,7 +503,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("sponsorId")
                     .HasColumnType("int(10) unsigned");
             });
-
         }
     }
 }
