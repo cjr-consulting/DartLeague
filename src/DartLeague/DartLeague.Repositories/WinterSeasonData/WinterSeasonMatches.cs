@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DartLeague.Repositories.TrentonDartsModels
+namespace DartLeague.Repositories.WinterSeasonData
 {
     public partial class WinterSeasonMatches
     {

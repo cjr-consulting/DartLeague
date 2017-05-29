@@ -11,6 +11,7 @@ using DartLeague.Web.Data;
 using DartLeague.Web.Data.Initializers;
 using DartLeague.Web.Services;
 using DartLeague.Repositories.LeagueData;
+using DartLeague.Repositories.WinterSeasonData;
 
 namespace DartLeague.Web
 {
@@ -74,7 +75,7 @@ namespace DartLeague.Web
             );
 
             var winterSeasonConnectionString = Configuration.GetConnectionString("WinterSeasonMySqlProvider");
-            services.AddDbContext<LeagueContext>(options =>
+            services.AddDbContext<WinterSeasonContext>(options =>
             options.UseMySql(
                 winterSeasonConnectionString,
                 b => b.MigrationsAssembly(migrationsAssembly)

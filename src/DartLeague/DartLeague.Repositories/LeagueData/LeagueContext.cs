@@ -15,7 +15,12 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Sponsors> Sponsors { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
-        
+
+        public LeagueContext(DbContextOptions<LeagueContext> options)
+            : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BrowsableFiles>(entity =>

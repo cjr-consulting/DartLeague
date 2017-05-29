@@ -2,11 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DartLeague.Repositories.TrentonDartsModels
+namespace DartLeague.Repositories.WinterSeasonData
 {
     public partial class WinterSeasonContext : DbContext
     {
-        public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<MatchTypeGameRules> MatchTypeGameRules { get; set; }
         public virtual DbSet<MatchTypes> MatchTypes { get; set; }
         public virtual DbSet<Seasons> Seasons { get; set; }
@@ -24,50 +23,14 @@ namespace DartLeague.Repositories.TrentonDartsModels
         public virtual DbSet<WinterStatsMatches> WinterStatsMatches { get; set; }
         public virtual DbSet<WinterStatsPlayerGames> WinterStatsPlayerGames { get; set; }
         public virtual DbSet<WinterStatsTeamGames> WinterStatsTeamGames { get; set; }
-        
+
+        public WinterSeasonContext(DbContextOptions<WinterSeasonContext> options)
+            :base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Jobs>(entity =>
-            {
-                entity.ToTable("jobs");
-
-                entity.HasIndex(e => new { e.Queue, e.Reserved, e.ReservedAt })
-                    .HasName("jobs_queue_reserved_reserved_at_index");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("bigint(20) unsigned");
-
-                entity.Property(e => e.Attempts)
-                    .HasColumnName("attempts")
-                    .HasColumnType("tinyint(3) unsigned");
-
-                entity.Property(e => e.AvailableAt)
-                    .HasColumnName("available_at")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnName("created_at")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.Payload)
-                    .IsRequired()
-                    .HasColumnName("payload");
-
-                entity.Property(e => e.Queue)
-                    .IsRequired()
-                    .HasColumnName("queue")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.Reserved)
-                    .HasColumnName("reserved")
-                    .HasColumnType("tinyint(3) unsigned");
-
-                entity.Property(e => e.ReservedAt)
-                    .HasColumnName("reserved_at")
-                    .HasColumnType("int(10) unsigned");
-            });
-
             modelBuilder.Entity<MatchTypeGameRules>(entity =>
             {
                 entity.ToTable("match_type_game_rules");
@@ -131,7 +94,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("whoStarts")
                     .HasColumnType("varchar(1)");
             });
-
             modelBuilder.Entity<MatchTypes>(entity =>
             {
                 entity.ToTable("match_types");
@@ -145,7 +107,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("name")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<Seasons>(entity =>
             {
                 entity.ToTable("seasons");
@@ -172,7 +133,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("name")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<WinterGameAwards>(entity =>
             {
                 entity.ToTable("winter_game_awards");
@@ -198,7 +158,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("value")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterGameResults>(entity =>
             {
                 entity.ToTable("winter_game_results");
@@ -238,7 +197,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("matchId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterMatchResults>(entity =>
             {
                 entity.ToTable("winter_match_results");
@@ -259,7 +217,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("homeScoreOverride")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonMatches>(entity =>
             {
                 entity.ToTable("winter_season_matches");
@@ -293,7 +250,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("weekId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonPlayerPayments>(entity =>
             {
                 entity.ToTable("winter_season_player_payments");
@@ -318,7 +274,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("seasonId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonTeamPayments>(entity =>
             {
                 entity.ToTable("winter_season_team_payments");
@@ -343,7 +298,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("teamId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonTeamPlayers>(entity =>
             {
                 entity.ToTable("winter_season_team_players");
@@ -373,7 +327,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("seasonTeamId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonTeams>(entity =>
             {
                 entity.ToTable("winter_season_teams");
@@ -400,7 +353,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("teamId")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterSeasonWeeks>(entity =>
             {
                 entity.ToTable("winter_season_weeks");
@@ -422,7 +374,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("weekType")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<WinterSeasons>(entity =>
             {
                 entity.ToTable("winter_seasons");
@@ -485,7 +436,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("winPoints")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterStatsAwards>(entity =>
             {
                 entity.ToTable("winter_stats_awards");
@@ -551,7 +501,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("value")
                     .HasColumnType("int(11)");
             });
-
             modelBuilder.Entity<WinterStatsMatches>(entity =>
             {
                 entity.ToTable("winter_stats_matches");
@@ -617,7 +566,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("teamName")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<WinterStatsPlayerGames>(entity =>
             {
                 entity.ToTable("winter_stats_player_games");
@@ -712,7 +660,6 @@ namespace DartLeague.Repositories.TrentonDartsModels
                     .HasColumnName("teamName")
                     .HasColumnType("varchar(255)");
             });
-
             modelBuilder.Entity<WinterStatsTeamGames>(entity =>
             {
                 entity.ToTable("winter_stats_team_games");
