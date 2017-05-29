@@ -14,8 +14,9 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                 {
                     id = table.Column<int>(type: "int(10) unsigned", nullable: false)
                         .Annotation("MySql:ValueGeneratedOnAdd", true),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     endSeasonId = table.Column<long>(type: "bigint(20)", nullable: true),
                     endingSeason = table.Column<string>(type: "varchar(255)", nullable: true),
                     leagueId = table.Column<int>(type: "int(11)", nullable: false),
@@ -23,7 +24,8 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                     position = table.Column<string>(type: "varchar(255)", nullable: false),
                     startSeasonId = table.Column<long>(type: "bigint(20)", nullable: true),
                     startingSeason = table.Column<string>(type: "varchar(255)", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "datetime", nullable: true)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     userId = table.Column<int>(type: "int(11)", nullable: true)
                 },
                 constraints: table =>

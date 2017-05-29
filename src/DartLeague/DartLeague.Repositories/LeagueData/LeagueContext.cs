@@ -99,16 +99,17 @@ namespace DartLeague.Repositories.LeagueData
 
                 entity.Property(x => x.CreatedAt)
                     .HasColumnName("created_at")
-                    .HasColumnType("timestamp");
+                    .HasColumnType("datetime(6)");
 
                 entity.Property(x => x.DeletedAt)
                     .HasColumnName("deleted_at")
-                    .HasColumnType("timestamp");
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
 
                 entity.Property(x => x.UpdatedAt)
                     .HasColumnName("updated_at")
-                    .HasColumnType("timestamp");
-
+                    .HasColumnType("datetime")
+                    .HasDefaultValue(null);
             });
             modelBuilder.Entity<DartEventResults>(entity =>
             {

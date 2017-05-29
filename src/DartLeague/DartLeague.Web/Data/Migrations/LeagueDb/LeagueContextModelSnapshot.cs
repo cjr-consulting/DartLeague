@@ -24,11 +24,12 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnName("created_at")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DeletedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("deleted_at")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<long?>("EndSeasonId")
                         .HasColumnName("endSeasonId")
@@ -62,8 +63,9 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("updated_at")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("datetime");
 
                     b.Property<int?>("UserId")
                         .HasColumnName("userId")
