@@ -25,6 +25,7 @@ namespace DartLeague.Web.Areas.Manage.Models
         [DisplayName("Street")]
         public string Address1 { get; set; }
 
+        [DisplayName("Apartment / Building Number")]
         public string Address2 { get; set; }
 
         public string City { get; set; }
