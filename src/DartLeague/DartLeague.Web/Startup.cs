@@ -31,39 +31,13 @@ namespace DartLeague.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
-
-                // Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-
-                // Cookie settings
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
-                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
-
-                // User settings
-                options.User.RequireUniqueEmail = true;
-            });
-
-            // CONNECTION TO MySQL
             var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
             
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-            services.AddDbContext<AuthDbContext>(options =>
-                options.UseMySql(
-                    authSqlConnectionString,
-                    b => b.MigrationsAssembly(migrationsAssembly)
-                )          
-            );
+            
+            services.AddIdentityServerConfiguration(
+                Configuration.GetConnectionString("AuthMySqlProvider"),
+                migrationsAssembly);
 
             services.AddLeagueDbContext(
                 Configuration.GetConnectionString("LeagueMySqlProvider"),
