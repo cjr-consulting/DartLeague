@@ -4,6 +4,8 @@ namespace DartLeague.Web.Areas.Manage.Models
 {
     public class Player
     {
+        public string ID { get; set; }
+
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
@@ -25,6 +27,7 @@ namespace DartLeague.Web.Areas.Manage.Models
         [DisplayName("Street")]
         public string Address1 { get; set; }
 
+        [DisplayName("Apartment / Building Number")]
         public string Address2 { get; set; }
 
         public string City { get; set; }
