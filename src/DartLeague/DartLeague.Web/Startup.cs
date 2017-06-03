@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+using DartLeague.Web.Configurations;
 using DartLeague.Web.Data;
 using DartLeague.Web.Data.Initializers;
 using DartLeague.Web.Services;
-using DartLeague.Repositories.LeagueData;
-using DartLeague.Repositories.WinterSeasonData;
-using DartLeague.Web.Configurations;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DartLeague.Web
 {

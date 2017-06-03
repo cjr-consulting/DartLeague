@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -51,7 +48,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var p = new Players
+                    var p = new Player
                     {
                         FirstName = player.FirstName,
                         LastName = player.LastName,

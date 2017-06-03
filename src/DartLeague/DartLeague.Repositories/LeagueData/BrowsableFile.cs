@@ -2,7 +2,7 @@
 
 namespace DartLeague.Repositories.LeagueData
 {
-    public partial class BrowsableFiles
+    public partial class BrowsableFile
     {
         public int Id { get; set; }
         public string Category { get; set; }

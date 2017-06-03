@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DartLeague.Repositories.LeagueData
 {
-    public partial class BoardMembers
+    public partial class BoardMember
     {
         public int Id { get; set; }
         public long? EndSeasonId { get; set; }
