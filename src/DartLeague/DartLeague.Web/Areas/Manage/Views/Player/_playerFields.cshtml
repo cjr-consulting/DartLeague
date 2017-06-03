@@ -1,7 +1,6 @@
-﻿@using System.Security.Cryptography.X509Certificates
-@model DartLeague.Web.Areas.Manage.Models.Player
+﻿@model DartLeague.Web.Areas.Manage.Models.PlayerViewModel
 
-@*@if (count($errors) > 0)
+@*@if (count() > 0) { 
 <div class="alert alert-danger">
     <ul>
         @foreach ($errors->all() as $error)
@@ -9,7 +8,7 @@
         @endforeach
     </ul>
 </div>
-@endif*@
+}*@
 
 <div class="form-group">
     @*<@Html.LabelFor(x => x.User)>
@@ -20,12 +19,14 @@
         <div class="form-group">
             <label asp-for="FirstName"></label>
             <input class="form-control" asp-for="FirstName" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-6 col-md-6">
         <div class="form-group">
             <label asp-for="LastName"></label>
             <input class="form-control" asp-for="LastName"/>
+            <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
     </div>
 </div>
@@ -34,12 +35,14 @@
         <div class="form-group">
             <label asp-for="Nickname"></label>
             <input class="form-control" asp-for="Nickname"/>
+            <span asp-validation-for="Nickname" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-6 col-md-6">
         <div class="form-group">
             <label asp-for="Email"></label>
             <input class="form-control" asp-for="Email"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
 </div>
@@ -48,53 +51,63 @@
         <div class="form-group">
             <label asp-for="HomePhone"></label>
             <input class="form-control" asp-for="HomePhone"/>
+            <span asp-validation-for="HomePhone" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-5 col-md-5">
         <div class="form-group">
             <label asp-for="CellPhone"></label>
             <input class="form-control" asp-for="CellPhone"/>
+            <span asp-validation-for="CellPhone" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-2 col-md-2">
         <div class="form-group">
             <label asp-for="ShirtSize"></label>
             <input class="form-control" asp-for="ShirtSize"/>
+            <span asp-validation-for="ShirtSize" class="text-danger"></span>
         </div>
     </div>
 </div>
 <div class="form-group">
     <label asp-for="Address1"></label>
     <input class="form-control" asp-for="Address1"/>
+    <span asp-validation-for="Address1" class="text-danger"></span>
 </div>
 <div class="form-group">
     <label asp-for="Address2"></label>
     <input class="form-control" asp-for="Address2"/>
+    <span asp-validation-for="Address2" class="text-danger"></span>
 </div>
 <div class="row">
     <div class="col-sm-8 col-md-8">
         <div class="form-group">
             <label asp-for="City"></label>
             <input class="form-control" asp-for="City"/>
+            <span asp-validation-for="City" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-2 col-md-2">
         <div class="form-group">
             <label asp-for="State"></label>
             <input class="form-control" asp-for="State"/>
+            <span asp-validation-for="State" class="text-danger"></span>
         </div>
     </div>
     <div class="col-sm-2 col-md-2">
         <div class="form-group">
             <label asp-for="Zip"></label>
             <input class="form-control" asp-for="Zip"/>
+            <span asp-validation-for="Zip" class="text-danger"></span>
         </div>
     </div>
 </div>
 <div class="checkbox">
-    <label><input type="checkbox" value="" asp-for="AcceptEmail">Accept Email</label>
+    <label><input type="checkbox" asp-for="AcceptEmail">Accept Email</label>
+    <span asp-validation-for="AcceptEmail" class="text-danger"></span>
 </div>
 <div class="checkbox">
-    <label><input type="checkbox" value="" asp-for="AcceptText">Accept Text</label>
+    <label><input type="checkbox" asp-for="AcceptText">Accept Text</label>
+    <span asp-validation-for="AcceptText" class="text-danger"></span>
 </div>
 

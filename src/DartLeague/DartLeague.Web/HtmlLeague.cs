@@ -238,7 +238,7 @@ namespace DartLeague.Web
                         Title = "League",
                         Href = "#",
                         SubNavigations = {
-                            new Navigation{ Title = "Players", Href = "manage.player.index"},
+                            new Navigation{ Title = "Players", Href = url.Action("Index", "Player", new {Area = "Manage" }) },
                             new Navigation{ Title = "Teams", Href = "manage.team.index"},
                             new Navigation{ Title = "Sponsors", Href = "manage.sponsor.index"},
                             new Navigation{ Title = "Board Members", Href = "manage.boardmember.index"},

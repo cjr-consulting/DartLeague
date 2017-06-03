@@ -5,10 +5,11 @@
 
 <h2>Edit Player</h2>
 <form asp-controller="Player" asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.Partial("_playerFields")
     <div>
         <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
-        <a class="btn btn-danger" href="">Cancel</a>
+        <a class="btn btn-danger" asp-controller="Player" asp-action="Index">Cancel</a>
     </div>
 </form>
 
