@@ -63,13 +63,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(SponsorViewModel sponsor)
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Edit(SponsorViewModel sponsor)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int? id)
         {
             return View();
         }

@@ -2,7 +2,6 @@
     ViewData["Title"] = "Players List";
 }
 
-@using IdentityServer4.Extensions
 @model DartLeague.Web.Areas.Manage.Models.SponsorListViewModel
 
 <div class="single-form">
@@ -18,7 +17,6 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Contact</th>
-                    <th># of Teams</th>
                     <th width="5px"></th>
                 </tr>
                 </thead>
@@ -38,7 +36,6 @@
                             <td>@sponsor.Name</td>
                             <td>@sponsor.Type</td>
                             <td>@sponsor.ContactName</td>
-                            <td>@sponsor.Teams.Count()</td>
                             <td><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="Sponsor" asp-action="Delete" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                         </tr>
                     }
