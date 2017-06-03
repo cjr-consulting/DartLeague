@@ -47,30 +47,40 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PlayerViewModel player)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var p = new Players
+                if (ModelState.IsValid)
                 {
-                    FirstName = player.FirstName,
-                    LastName = player.LastName,
-                    Email = player.Email,
-                    CellPhone = player.CellPhone,
-                    HomePhone = player.HomePhone,
-                    AcceptEmail = player.AcceptEmail,
-                    AcceptText = player.AcceptText,
-                    LeagueId = 1,
-                    Nickname = player.Nickname,
-                    Notes = "",
-                    Address1 = player.Address1,
-                    Address2 = player.Address2,
-                    City = player.City,
-                    State = player.State,
-                    Zip = player.Zip,
-                    ShirtSize = player.ShirtSize
-                };
-                _leagueContext.Players.Add(p);
-                await _leagueContext.SaveChangesAsync();
-                return Redirect("Index");
+                    var p = new Players
+                    {
+                        FirstName = player.FirstName,
+                        LastName = player.LastName,
+                        Email = player.Email,
+                        CellPhone = player.CellPhone,
+                        HomePhone = player.HomePhone,
+                        AcceptEmail = player.AcceptEmail,
+                        AcceptText = player.AcceptText,
+                        LeagueId = 1,
+                        Nickname = player.Nickname,
+                        Notes = "",
+                        Address1 = player.Address1,
+                        Address2 = player.Address2,
+                        City = player.City,
+                        State = player.State,
+                        Zip = player.Zip,
+                        ShirtSize = player.ShirtSize
+                    };
+                    _leagueContext.Players.Add(p);
+                    await _leagueContext.SaveChangesAsync();
+                    return Redirect("Index");
+                }
+            }
+            catch(DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
 
             return View(player);
@@ -108,28 +118,38 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? Id, PlayerViewModel player)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
-                p.FirstName = player.FirstName;
-                p.LastName = player.LastName;
-                p.Email = player.Email;
-                p.CellPhone = player.CellPhone;
-                p.HomePhone = player.HomePhone;
-                p.AcceptEmail = player.AcceptEmail;
-                p.AcceptText = player.AcceptText;
-                p.LeagueId = 1;
-                p.Nickname = player.Nickname;
-                p.Notes = "";
-                p.Address1 = player.Address1;
-                p.Address2 = player.Address2;
-                p.City = player.City;
-                p.State = player.State;
-                p.Zip = player.Zip;
-                p.ShirtSize = player.ShirtSize;
+                if (ModelState.IsValid)
+                {
+                    var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
+                    p.FirstName = player.FirstName;
+                    p.LastName = player.LastName;
+                    p.Email = player.Email;
+                    p.CellPhone = player.CellPhone;
+                    p.HomePhone = player.HomePhone;
+                    p.AcceptEmail = player.AcceptEmail;
+                    p.AcceptText = player.AcceptText;
+                    p.LeagueId = 1;
+                    p.Nickname = player.Nickname;
+                    p.Notes = "";
+                    p.Address1 = player.Address1;
+                    p.Address2 = player.Address2;
+                    p.City = player.City;
+                    p.State = player.State;
+                    p.Zip = player.Zip;
+                    p.ShirtSize = player.ShirtSize;
 
-                await _leagueContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                    await _leagueContext.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
 
             return View(player);
