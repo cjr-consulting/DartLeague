@@ -1,0 +1,2 @@
+Add-Migration -Name "Initial Setup" -OutputDir Data\Migrations\LeagueDb -Context DartLeague.Repositories.LeagueData.LeagueContext -StartupProject DartLeague.Web
+Add-Migration -Name "Initial Setup" -OutputDir Data\Migrations\WinterSeasonDb -Context DartLeague.Repositories.WinterSeasonData.WinterSeasonContext -StartupProject DartLeague.Web

@@ -10,6 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using DartLeague.Web.Data;
 using DartLeague.Web.Data.Initializers;
 using DartLeague.Web.Services;
+using DartLeague.Repositories.LeagueData;
+using DartLeague.Repositories.WinterSeasonData;
+using DartLeague.Web.Configurations;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web
 {
@@ -54,6 +58,7 @@ namespace DartLeague.Web
 
             // CONNECTION TO MySQL
             var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
+            
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<AuthDbContext>(options =>
@@ -62,15 +67,14 @@ namespace DartLeague.Web
                     b => b.MigrationsAssembly(migrationsAssembly)
                 )          
             );
+
+            services.AddLeagueDbContext(
+                Configuration.GetConnectionString("LeagueMySqlProvider"),
+                migrationsAssembly);
             
-            //// Connection to SQL Vnext
-            //var sqlConnectionString = Configuration.GetConnectionString("AuthSqlServerProvider");
-            //services.AddDbContext<AuthDbContext>(options =>
-            //    options.UseSqlServer(
-            //        sqlConnectionString,
-            //        b => b.MigrationsAssembly("WebSiteWithAccount")
-            //    )
-            //);
+            services.AddWinterSeasonDbContext(
+                Configuration.GetConnectionString("WinterSeasonMySqlProvider"),
+                migrationsAssembly);
 
             services.AddIdentity<UserIdentity, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
@@ -94,11 +98,8 @@ namespace DartLeague.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AuthDbContext authDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            InitializeAuthDb.Initialize(app);
-            InitializeIdentityDb.Initialize(app);
-
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             
@@ -112,12 +113,16 @@ namespace DartLeague.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                authDbContext.Database.Migrate();
+                app.UseLeagueDbMigrations();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
+            InitializeAuthDb.Initialize(app).Wait();
+            InitializeIdentityDb.Initialize(app);
+            InitializeLeagueDb.Initialize(app).Wait();
 
             app.UseStaticFiles();
 
@@ -133,7 +138,5 @@ namespace DartLeague.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        
     }
 }
