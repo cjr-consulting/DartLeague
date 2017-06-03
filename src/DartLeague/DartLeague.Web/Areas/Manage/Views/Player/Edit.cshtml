@@ -1,0 +1,21 @@
+﻿    @{
+        ViewData["Title"] = "Edit Player";
+
+    }
+
+<h2>Edit Player</h2>
+<form asp-controller="Player" asp-action="Edit" method="post">
+    @Html.Partial("_playerFields")
+    <div>
+        <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
+        <a class="btn btn-danger" href="">Cancel</a>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        (function(d) {
+            d.getElementsByName('firstName')[0].focus();
+        })(document);
+    </script>
+}

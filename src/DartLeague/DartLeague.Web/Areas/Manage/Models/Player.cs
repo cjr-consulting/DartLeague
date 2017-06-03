@@ -4,6 +4,8 @@ namespace DartLeague.Web.Areas.Manage.Models
 {
     public class Player
     {
+        public string ID { get; set; }
+
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
