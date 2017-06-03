@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170603220803_Removed no null on Player")]
+    partial class RemovednonullonPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

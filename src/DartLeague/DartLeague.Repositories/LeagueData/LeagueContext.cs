@@ -7,14 +7,14 @@ namespace DartLeague.Repositories.LeagueData
 {
     public partial class LeagueContext : DbContext
     {
-        public virtual DbSet<BrowsableFiles> BrowsableFiles { get; set; }
-        public virtual DbSet<BoardMembers> BoardMembers { get; set; }
-        public virtual DbSet<DartEventResults> DartEventResults { get; set; }
-        public virtual DbSet<DartEvents> DartEvents { get; set; }
-        public virtual DbSet<PageParts> PageParts { get; set; }
-        public virtual DbSet<Players> Players { get; set; }
-        public virtual DbSet<Sponsors> Sponsors { get; set; }
-        public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<BrowsableFile> BrowsableFiles { get; set; }
+        public virtual DbSet<BoardMember> BoardMembers { get; set; }
+        public virtual DbSet<DartEventResult> DartEventResults { get; set; }
+        public virtual DbSet<DartEvent> DartEvents { get; set; }
+        public virtual DbSet<PagePart> PageParts { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Sponsor> Sponsors { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
 
         public LeagueContext(DbContextOptions<LeagueContext> options)
             : base(options)
@@ -23,7 +23,7 @@ namespace DartLeague.Repositories.LeagueData
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BrowsableFiles>(entity =>
+            modelBuilder.Entity<BrowsableFile>(entity =>
             {
                 entity.ToTable("browsable_files");
 
@@ -51,7 +51,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("relativePath")
                     .HasColumnType("varchar(255)");
             });
-            modelBuilder.Entity<BoardMembers>(entity =>
+            modelBuilder.Entity<BoardMember>(entity =>
             {
                 entity.ToTable("board_members");
 
@@ -111,7 +111,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("datetime")
                     .HasDefaultValue(null);
             });
-            modelBuilder.Entity<DartEventResults>(entity =>
+            modelBuilder.Entity<DartEventResult>(entity =>
             {
                 entity.ToTable("dart_event_results");
 
@@ -141,7 +141,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("specificEventName")
                     .HasColumnType("varchar(255)");
             });
-            modelBuilder.Entity<DartEvents>(entity =>
+            modelBuilder.Entity<DartEvent>(entity =>
             {
                 entity.ToTable("dart_events");
 
@@ -269,7 +269,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("zip")
                     .HasColumnType("varchar(255)");
             });
-            modelBuilder.Entity<PageParts>(entity =>
+            modelBuilder.Entity<PagePart>(entity =>
             {
                 entity.ToTable("page_parts");
 
@@ -292,7 +292,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("name")
                     .HasColumnType("text");
             });
-            modelBuilder.Entity<Players>(entity =>
+            modelBuilder.Entity<Player>(entity =>
             {
                 entity.ToTable("players");
 
@@ -315,27 +315,22 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("tinyint(1)");
 
                 entity.Property(e => e.Address1)
-                    .IsRequired()
                     .HasColumnName("address1")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Address2)
-                    .IsRequired()
                     .HasColumnName("address2")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.CellPhone)
-                    .IsRequired()
                     .HasColumnName("cellPhone")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.City)
-                    .IsRequired()
                     .HasColumnName("city")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnName("email")
                     .HasColumnType("varchar(255)");
 
@@ -345,7 +340,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.HomePhone)
-                    .IsRequired()
                     .HasColumnName("homePhone")
                     .HasColumnType("varchar(255)");
 
@@ -359,22 +353,18 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Nickname)
-                    .IsRequired()
                     .HasColumnName("nickname")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Notes)
-                    .IsRequired()
                     .HasColumnName("notes")
                     .HasColumnType("text");
 
                 entity.Property(e => e.ShirtSize)
-                    .IsRequired()
                     .HasColumnName("shirtSize")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.State)
-                    .IsRequired()
                     .HasColumnName("state")
                     .HasColumnType("varchar(255)");
 
@@ -383,11 +373,10 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Zip)
-                    .IsRequired()
                     .HasColumnName("zip")
                     .HasColumnType("varchar(255)");
             });
-            modelBuilder.Entity<Sponsors>(entity =>
+            modelBuilder.Entity<Sponsor>(entity =>
             {
                 entity.ToTable("sponsors");
 
@@ -477,7 +466,7 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("zip")
                     .HasColumnType("varchar(10)");
             });
-            modelBuilder.Entity<Teams>(entity =>
+            modelBuilder.Entity<Team>(entity =>
             {
                 entity.ToTable("teams");
 
