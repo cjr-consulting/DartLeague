@@ -1,0 +1,51 @@
+@using DartLeague.Web.Models
+@model SiteNavigationViewModel
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Dart League</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> Trenton Dart League</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @foreach (var parentNav in Model.ParentNavigations)
+                {
+                    <li>
+                        @if (parentNav.SubNavigations.Any())
+                        {
+                            <a href="@parentNav.Href" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@parentNav.Title <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach (var item in parentNav.SubNavigations)
+                                {
+                                    @if (item.IsHeader)
+                                    {
+                                        <li class="dropdown-header">@item.Title</li>
+                                    }
+                                    else if (item.IsSeperator)
+                                    {
+                                        <li role="separator" class="divider"></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@item.Href">@item.Title</a></li>
+                                    }
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <a href="@parentNav.Href">@parentNav.Title</a>
+                        }
+                    </li>
+                }
+            </ul>
+
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</nav>

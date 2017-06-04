@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using DartLeague.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DartLeague.Web
+namespace DartLeague.Web.Controllers.Components
 {
-    public static class HtmlLeagueHelper
+    public class NavigationViewComponent : ViewComponent
     {
-        public static SiteNavigation NavBuilder(IUrlHelper url, string name = "Default")
+        public NavigationViewComponent()
+        {
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(string template)
+        {
+            var model = NavBuilder(Url, template);
+            return View(model);
+        }
+
+
+        public static SiteNavigationViewModel NavBuilder(IUrlHelper url, string name = "Default")
         {
             switch (name)
             {
@@ -21,190 +30,190 @@ namespace DartLeague.Web
             }
         }
 
-        private static SiteNavigation DefaultNavigation(IUrlHelper url)
+        private static SiteNavigationViewModel DefaultNavigation(IUrlHelper url)
         {
-            return new SiteNavigation
+            return new SiteNavigationViewModel
             {
                 ParentNavigations = {
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Current",
                         SubNavigations =
                         {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Weekly Standings",
                                 Href = url.Action("Index", "Home", null)
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Full Schedule"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Stats"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Leaderboards"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Awards"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Teams"
                             }
                         }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title="Activities and Events",
                         SubNavigations =
                         {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Memorial Tournament Bracket"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Memorial Tournament Info"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Mr. Trenton Bracket"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Mr. Trenton Rules"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "All Star Qualifying Info"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Winter Singles League"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Summer Singles Weekly"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Summer Singles Schedule"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "NJ State Cricket Championship"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Darts for Dreams Info"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "GTDL Player Results at Events"
                             }
                         }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title="League",
                         SubNavigations =
                         {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title="Where we Play"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title="Sponsors and Partners"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Darts in the Region"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Board Members"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title="Contact"
                             }
                         }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title="History",
                         SubNavigations =
                         {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title="2015 - 2016"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2014 - 2015"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2013 - 2014"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2012 - 2013"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2011 - 2012"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2010 - 2011"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "2009 - 2010"
                             }
                         }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title="Other",
                         SubNavigations =
                         {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "League Rules"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Sponsor Paperwork"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Player Registration"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Roster Sheet"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Scoresheet"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Chalker Guidelines"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "01 Strategy"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Cricket Strategy"
                             }
@@ -214,37 +223,37 @@ namespace DartLeague.Web
             };
         }
 
-        private static SiteNavigation ManagementNavigation(IUrlHelper url)
+        private static SiteNavigationViewModel ManagementNavigation(IUrlHelper url)
         {
-            return new SiteNavigation
+            return new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Home",
                         Href = "manage/1"
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Site",
                         Href = "#",
                         SubNavigations = {
-                            new Navigation{ Title = "Dart Events", Href = "manage.site.dartevent.index"},
-                            new Navigation{ Title = "Page Content", Href = "manage.site.pagepart.index"}
+                            new NavigationViewModel{ Title = "Dart Events", Href = "manage.site.dartevent.index"},
+                            new NavigationViewModel{ Title = "Page Content", Href = "manage.site.pagepart.index"}
                         }
                     },
-                    new Navigation {
+                    new NavigationViewModel {
                         Title = "League",
                         Href = "#",
                         SubNavigations = {
-                            new Navigation{ Title = "Players", Href = url.Action("Index", "Player", new {Area = "Manage" }) },
-                            new Navigation{ Title = "Teams", Href = "manage.team.index"},
-                            new Navigation{ Title = "Sponsors", Href = "manage.sponsor.index"},
-                            new Navigation{ Title = "Board Members", Href = "manage.boardmember.index"},
+                            new NavigationViewModel{ Title = "Players", Href = url.Action("Index", "Player", new {Area = "Manage" }) },
+                            new NavigationViewModel{ Title = "Teams", Href = "manage.team.index"},
+                            new NavigationViewModel{ Title = "Sponsors", Href = "manage.sponsor.index"},
+                            new NavigationViewModel{ Title = "Board Members", Href = "manage.boardmember.index"},
                         }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Seasons",
                         Href = "manage.season.index"
@@ -253,59 +262,59 @@ namespace DartLeague.Web
             };
         }
 
-        private static SiteNavigation DartsForDreamsNavigation(IUrlHelper url)
+        private static SiteNavigationViewModel DartsForDreamsNavigation(IUrlHelper url)
         {
-            return new SiteNavigation
+            return new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Darts for Dreams 12 -  April 29th, 2017",
                         SubNavigations = {
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title ="Event Flyer",
                               Href = "documents/events/2016-2017/flier17.pdf"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "GTDL Player letter",
                               Href = "documents/events/2016-2017/playerletter17.pdf"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Player Pledge Sheet",
                                 Href = "documents/events/2016-2017/pledge17.pdf"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Paperwork for Sponsors",
                                 Href = "documents/events/2016-2017/sponsorpackage17.pdf"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Current Donation List",
                                 Href = "documents/events/2016-2017/donationreport.pdf"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "Online Donation Form!!",
                                 Href = "http://site.wish.org/site/TR/FriendsandFamily/Make-A-WishNewJersey?px=3100639&pg=personal&fr_id=2340"
                             },
-                            new Navigation
+                            new NavigationViewModel
                             {
                                 Title = "What\"s a dart-a-thon",
                                 Href = "documents/events/static/whatisadartathon.pdf"
                             }
                          }
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "History of Events",
                         Href = "#"
                     },
-                    new Navigation
+                    new NavigationViewModel
                     {
                         Title = "Return to GTDL",
                         Href = "/"
@@ -313,19 +322,5 @@ namespace DartLeague.Web
                 }
             };
         }
-    }
-
-    public class SiteNavigation
-    {
-        public List<Navigation> ParentNavigations { get; set; } = new List<Navigation>();
-    }
-
-    public class Navigation
-    {
-        public string Title { get; set; }
-        public string Href { get; set; } = "#";
-        public bool IsHeader { get; set; }
-        public bool IsSeperator { get; set; }
-        public List<Navigation> SubNavigations { get; set; } = new List<Navigation>();
     }
 }

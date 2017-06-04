@@ -47,7 +47,7 @@
     </div>
 
     <div class="container-fluid">
-        @await Html.PartialAsync("_Navigation", HtmlLeagueHelper.NavBuilder(Url, "Default"))
+        @await Component.InvokeAsync("Navigation", new { template = "Default" })
     </div>
     <div class="container-fluid">
         <div id="body-content">
