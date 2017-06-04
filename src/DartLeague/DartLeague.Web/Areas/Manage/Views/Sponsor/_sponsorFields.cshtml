@@ -1,0 +1,101 @@
+﻿@model DartLeague.Web.Areas.Manage.Models.SponsorViewModel
+<div class="form-group">
+    <label asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="ContactName"></label>
+            <input class="form-control" asp-for="ContactName" />
+            <span asp-validation-for="ContactName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <select class="form-control" asp-for="Type" asp-items="ViewBag.SponsorTypes"></select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Phone"></label>
+            <input class="form-control" asp-for="Phone"/>
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="Address1"></label>
+    <input class="form-control" asp-for="Address1" />
+    <span asp-validation-for="Address1" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Address2"></label>
+    <input class="form-control" asp-for="Address2" />
+    <span asp-validation-for="Address2" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label asp-for="City"></label>
+            <input class="form-control" asp-for="City"/>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label asp-for="State"></label>
+            <input class="form-control" asp-for="State"/>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label asp-for="Zip"></label>
+            <input class="form-control" asp-for="Zip"/>
+            <span asp-validation-for="Zip" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="Url"></label>
+    <input class="form-control" asp-for="Url"/>
+    <span asp-validation-for="Url" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="FacebookUrl"></label>
+    <input class="form-control" asp-for="FacebookUrl"/>
+    <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Email"></label>
+    <input class="form-control" asp-for="Email"/>
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="MapUrl"></label>
+    <input class="form-control" asp-for="MapUrl"/>
+    <span asp-validation-for="MapUrl" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input class="form-control" asp-for="Description"/>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Comments"></label>
+            <input class="form-control" asp-for="Comments"/>
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </div>
+    </div>
+</div>
