@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
   <ItemGroup>
