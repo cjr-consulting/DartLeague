@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170604200747_DartEvent Removed some required fields")]
+    partial class DartEventRemovedsomerequiredfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -180,6 +181,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("HostUrl")
+                        .IsRequired()
                         .HasColumnName("hostUrl")
                         .HasColumnType("varchar(255)");
 

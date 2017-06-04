@@ -7,6 +7,6 @@ namespace DartLeague.Web.Areas.Site.Models
 {
     public class DartEventsListViewModel
     {
-        public List<DartEventViewModel> DartEvents { get; set; }
+        public List<DartEventListViewModel> DartEvents { get; set; } = new List<DartEventListViewModel>();
     }
 }

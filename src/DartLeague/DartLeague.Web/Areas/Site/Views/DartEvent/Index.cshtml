@@ -47,9 +47,9 @@
                                 </a>
                             </div>
                         </td>
-                        <td style="vertical-align: middle">@dartEvent.EventDate</td>
+                        <td style="vertical-align: middle">@dartEvent.EventDate.ToString("MM/dd/yyyy")</td>
                         <td style="vertical-align: middle">@dartEvent.Name</td>
-                        <td style="vertical-align: middle">@dartEvent.EventTypeId</td>
+                        <td style="vertical-align: middle">@dartEvent.EventType</td>
                         <td style="vertical-align: middle">@dartEvent.LocationName</td>
                         <td><a class="btn btn-link confirmation" asp-area="Site" asp-controller="DartEvent" asp-action="Delete" asp-route-id="@dartEvent.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                     </tr>

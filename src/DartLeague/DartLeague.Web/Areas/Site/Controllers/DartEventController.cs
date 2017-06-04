@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Site.Models;
@@ -37,17 +39,26 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var events = _leagueContext.DartEvents;
+            var model = new DartEventsListViewModel
+            {
+                DartEvents = events.Select(x =>
+                new DartEventListViewModel
+                {
+                    Id = x.Id,
+                    IsTitleEvent = x.IsTitleEvent,
+                    Name = x.Name,
+                    EventDate = x.EventDate,
+                    EventType = _dartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
+                    LocationName = x.LocationName
+                }).ToList()
+            };
+            return View(model);
         }
 
         public IActionResult Create()
         {
             ViewBag.dartEventTypes = _dartEventTypes;
-            return View();
-        }
-
-        public async Task<IActionResult> Edit(int? id)
-        {
             return View();
         }
 
@@ -98,6 +109,41 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                              "see your system administrator.");
             }
 
+            ViewBag.dartEventTypes = _dartEventTypes;
+            return View(dartEvent);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var e = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
+            var dartEvent = new DartEventViewModel
+            {
+                Address1 = e.Address1,
+                Address2 = e.Address2,
+                City = e.City,
+                DartStart = e.DartStart,
+                DartType = e.DartType,
+                Description = e.Description,
+                EventContact = e.EventContact,
+                EventContact2 = e.EventContact2,
+                EventDate = e.EventDate,
+                EventEndDate = e.EventEndDate,
+                EventTypeId = e.EventTypeId,
+                FacebookUrl = e.FacebookUrl,
+                HostName = e.HostName,
+                HostPhone = e.HostPhone,
+                HostUrl = e.HostUrl,
+                LocationName = e.LocationName,
+                MapUrl = e.MapUrl,
+                Name = e.Name,
+                RegistrationEndTime = e.RegistrationEndTime,
+                RegistrationStartTime = e.RegistrationStartTime,
+                State = e.State,
+                Url = e.Url,
+                Zip = e.Zip,
+            };
+
+            ViewBag.dartEventTypes = _dartEventTypes;
             return View(dartEvent);
         }
 
@@ -111,12 +157,34 @@ namespace DartLeague.Web.Areas.Site.Controllers
                 {
                     var de = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
                     de.Name = dartEvent.Name;
+                    de.Address1 = dartEvent.Address1;
+                    de.Address2 = dartEvent.Address2;
+                    de.City = dartEvent.City;
+                    de.DartStart = dartEvent.DartStart;
+                    de.DartType = dartEvent.DartType;
+                    de.Description = dartEvent.Description;
+                    de.EventContact = dartEvent.EventContact;
+                    de.EventContact2 = dartEvent.EventContact2;
+                    de.EventDate = dartEvent.EventDate;
+                    de.EventEndDate = dartEvent.EventEndDate;
+                    de.EventTypeId = dartEvent.EventTypeId;
+                    de.FacebookUrl = dartEvent.FacebookUrl;
+                    de.HostName = dartEvent.HostName;
+                    de.HostPhone = dartEvent.HostPhone;
+                    de.HostUrl = dartEvent.HostUrl;
+                    de.LocationName = dartEvent.LocationName;
+                    de.MapUrl = dartEvent.MapUrl;
+                    de.Name = dartEvent.Name;
+                    de.RegistrationEndTime = dartEvent.RegistrationEndTime;
+                    de.RegistrationStartTime = dartEvent.RegistrationStartTime;
+                    de.State = dartEvent.State;
+                    de.Url = dartEvent.Url;
+                    de.Zip = dartEvent.Zip;
 
                     await _leagueContext.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
             }
-
             catch (DbUpdateException)
             {
                 //Log the error (uncomment ex variable name and write a log.
@@ -125,11 +193,13 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                              "see your system administrator.");
             }
 
+            ViewBag.dartEventTypes = _dartEventTypes;
             return View(dartEvent);
         }
-        public async Task<IActionResult> Delete(int Id)
+
+        public async Task<IActionResult> Delete(int id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
+            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return RedirectToAction("Index");
 
@@ -138,5 +208,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Activate(int id) { }
     }
 }

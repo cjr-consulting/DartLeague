@@ -4,6 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DartLeague.Web.Areas.Site.Models
 {
+    public class DartEventListViewModel
+    {
+        public string Name { get; set; }
+        public string LocationName { get; set; }
+        public DateTime EventDate { get; set; }
+        public string EventType { get; set; }
+        public int Id { get; internal set; }
+        public bool IsTitleEvent { get; internal set; }
+    }
+
     public class DartEventViewModel
     {
         public int Id { get; set; }
@@ -21,9 +31,11 @@ namespace DartLeague.Web.Areas.Site.Models
 
         [DisplayName("Event Date")]
         [Required]
+        [DataType(DataType.Date)]
         public DateTime EventDate { get; set; }
 
         [DisplayName("Event End Date")]
+        [DataType(DataType.Date)]
         public DateTime? EventEndDate { get; set; }
 
         [DisplayName("Event Type")]
@@ -55,6 +67,7 @@ namespace DartLeague.Web.Areas.Site.Models
         public string HostUrl { get; set; }
 
         [DisplayName("Location Name")]
+        [Required]
         public string LocationName { get; set; }
 
         [DisplayName("Address")]
