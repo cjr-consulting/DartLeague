@@ -88,8 +88,10 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Manage\Views\Home\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
+    <Folder Include="Views\Shared\Components\EventList\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
   <ItemGroup>

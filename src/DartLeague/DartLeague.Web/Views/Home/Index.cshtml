@@ -39,8 +39,7 @@
                     </div>
                 </div>
             </div>
-            Event List
-                @*@include('shared.eventlist')*@
+            @await Component.InvokeAsync("EventList")
             </div>
             <div class="col-sm-5 col-md-4">
                 Winter Standings
