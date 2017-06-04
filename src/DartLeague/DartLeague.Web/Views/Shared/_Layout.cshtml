@@ -47,7 +47,7 @@
     </div>
 
     <div class="container-fluid">
-        @await Component.InvokeAsync("Navigation", new { template = "Default" })
+        @await Component.InvokeAsync("Navigation", new { template = ViewData["Navigation"] })
     </div>
     <div class="container-fluid">
         <div id="body-content">
