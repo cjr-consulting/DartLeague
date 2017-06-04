@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using DartLeague.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using DartLeague.Web.ViewComponents.Models.Navigation;
 
@@ -130,7 +129,8 @@ namespace DartLeague.Web.Controllers.Components
                             },
                             new NavigationViewModel
                             {
-                                Title="Sponsors and Partners"
+                                Title="Sponsors and Partners",
+                                Href = url.Action("Index", "Sponsor")
                             },
                             new NavigationViewModel
                             {

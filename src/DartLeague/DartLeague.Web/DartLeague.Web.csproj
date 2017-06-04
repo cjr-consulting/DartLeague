@@ -90,6 +90,7 @@
   <ItemGroup>
     <Folder Include="Areas\Manage\Views\Home\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="Views\Shared\Components\EventList\" />
     <Folder Include="wwwroot\css\" />

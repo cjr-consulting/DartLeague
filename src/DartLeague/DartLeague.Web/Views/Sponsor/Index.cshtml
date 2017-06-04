@@ -1,0 +1,94 @@
+@model DartLeague.Web.Models.SponsorListViewModels.SponsorListViewModel
+@{
+    ViewData["Title"] = "Sponsors";
+}
+<div class="page-header"><h2>GTDL Sponsors</h2></div>
+<ul class="nav nav-pills nav-justified">
+    @foreach (var sponsorType in (List<SelectListItem>)ViewData["SponsorTypes"])
+    {
+        <li role="presentation" class="@(sponsorType.Value == Model.SelectedSponsorType ? "active" : "")">
+            <a href="@Url.Action("Index", "Sponsor", new { Type = sponsorType.Value })">@sponsorType.Text</a>
+        </li>
+    }
+</ul>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th></th>
+            <th style="width: 30%;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Sponsors.Any())
+        {
+            <tr class="warning"><td colspan="5">Currently No Sponsors</td></tr>
+        }
+        else
+        {
+            @foreach (var sponsor in Model.Sponsors)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(sponsor.Url))
+                        {
+                            <a href="@sponsor.Url" target="_blank"><strong>@sponsor.Name</strong></a>
+                        }
+                        else
+                        {
+                            <strong>@sponsor.Name</strong>
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(sponsor.Address1))
+                        {
+                            @if (!string.IsNullOrEmpty(sponsor.MapUrl))
+                            {
+                                <a href="@sponsor.MapUrl" target="_blank">
+                                    @sponsor.Address1<br />
+                                    @if (!string.IsNullOrEmpty(sponsor.Address2))
+                                    {
+                                        @sponsor.Address2<br />
+                                    }
+
+                                    @($"{sponsor.City}, {@sponsor.State} {@sponsor.Zip}")
+                                </a>
+                            }
+                            else
+                            {
+                                @sponsor.Address1<br />
+                                @if (!string.IsNullOrEmpty(sponsor.Address2))
+                                {
+                                    @sponsor.Address2<br />
+                                }
+
+                                @($"{sponsor.City}, {@sponsor.State} {@sponsor.Zip}")
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div>@sponsor.Phone</div>
+                        <div>@sponsor.Email</div>
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(sponsor.FacebookUrl))
+                        {
+                            <a href="@sponsor.FacebookUrl" target="_blank"><i class="fa fa-facebook-official fa-2x"></i></a>
+                        }
+                    </td>
+                    <td>
+                        @*@if ($sponsor->teams()->count() > 0)
+                            @foreach ($sponsor->teams as $team)
+                            <div>{{ $team->name }}</div>
+                            @endforeach
+                            <div></div>
+                            @endif*@
+                        <div>@sponsor.Description</div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
