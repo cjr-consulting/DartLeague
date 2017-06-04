@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,27 +16,28 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         private readonly List<SelectListItem> _sponsorTypes = new List<SelectListItem>
         {
-            new SelectListItem() { Text = "League Sponsors and Partners",Value = "L"},
-            new SelectListItem() { Text = "Player Companies",Value = "P"},
-            new SelectListItem() { Text = "Charity Partners", Value = "C"},
-            new SelectListItem() { Text = "Team Sponsors", Value = "T"}
+            new SelectListItem {Text = "League Sponsors and Partners", Value = "L"},
+            new SelectListItem {Text = "Player Companies", Value = "P"},
+            new SelectListItem {Text = "Charity Partners", Value = "C"},
+            new SelectListItem {Text = "Team Sponsors", Value = "T"}
         };
 
-    public SponsorController(LeagueContext leagueContext)
+        public SponsorController(LeagueContext leagueContext)
         {
             _leagueContext = leagueContext;
         }
+
         public IActionResult Index()
         {
             var sponsorsList = new SponsorListViewModel
             {
                 Sponsors = _leagueContext.Sponsors.Select(x =>
-                        new SponsorViewModel()
+                        new SponsorViewModel
                         {
                             Id = x.Id,
                             Name = x.Name,
                             Type = x.Type,
-                            ContactName = x.ContactName,
+                            ContactName = x.ContactName
                         })
                     .ToList()
             };
@@ -46,7 +46,6 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         public IActionResult Create()
         {
-
             ViewBag.SponsorTypes = _sponsorTypes;
 
             return View();
@@ -57,7 +56,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             ViewBag.SponsorTypes = _sponsorTypes;
             var s = await _leagueContext.Sponsors.FirstOrDefaultAsync(x => x.Id == id);
             if (s == null) return NotFound();
-            var sponsor = new SponsorViewModel()
+            var sponsor = new SponsorViewModel
             {
                 Id = s.Id,
                 Name = s.Name,
@@ -103,7 +102,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         Email = sponsor.Email,
                         MapUrl = sponsor.MapUrl,
                         Description = sponsor.Description,
-                        Comments = sponsor.Comments,
+                        Comments = sponsor.Comments
                     };
                     _leagueContext.Sponsors.Add(newSponsor);
                     await _leagueContext.SaveChangesAsync();
