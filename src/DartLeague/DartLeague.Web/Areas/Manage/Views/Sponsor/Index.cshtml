@@ -30,13 +30,13 @@
                     foreach (var sponsor in Model.Sponsors)
                     {
                         <tr>
-                            <td><a class="btn btn-link" asp-area="Manage" asp-controller="Sponsor" asp-action="Edit" title="Edit @sponsor.Name">
+                            <td><a class="btn btn-link" asp-area="Manage" asp-controller="Sponsor" asp-action="Edit" asp-route-id="@sponsor.Id" title="Edit @sponsor.Name">
                                 <i class="fa fa-pencil-square-o fa-lg"></i>
                             </a></td>
                             <td>@sponsor.Name</td>
                             <td>@sponsor.Type</td>
                             <td>@sponsor.ContactName</td>
-                            <td><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="Sponsor" asp-action="Delete" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                            <td><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="Sponsor" asp-action="Delete" asp-route-id="@sponsor.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                         </tr>
                     }
                 }

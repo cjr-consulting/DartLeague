@@ -388,22 +388,18 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(e => e.Address1)
-                    .IsRequired()
                     .HasColumnName("address1")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Address2)
-                    .IsRequired()
                     .HasColumnName("address2")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.City)
-                    .IsRequired()
                     .HasColumnName("city")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Comments)
-                    .IsRequired()
                     .HasColumnName("comments")
                     .HasColumnType("text");
 
@@ -413,17 +409,14 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Description)
-                    .IsRequired()
                     .HasColumnName("description")
                     .HasColumnType("text");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnName("email")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.FacebookUrl)
-                    .IsRequired()
                     .HasColumnName("facebookUrl")
                     .HasColumnType("varchar(255)");
 
@@ -432,7 +425,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.MapUrl)
-                    .IsRequired()
                     .HasColumnName("mapUrl")
                     .HasColumnType("varchar(255)");
 
@@ -447,7 +439,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(25)");
 
                 entity.Property(e => e.State)
-                    .IsRequired()
                     .HasColumnName("state")
                     .HasColumnType("varchar(2)");
 
@@ -457,12 +448,10 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(1)");
 
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasColumnName("url")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Zip)
-                    .IsRequired()
                     .HasColumnName("zip")
                     .HasColumnType("varchar(10)");
             });
