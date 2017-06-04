@@ -2,7 +2,64 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Home</h1>
+<div class="page-header">
+    <h1 style="text-align: center;">Welcome to The Greater Trenton Dart League</h1>
+    <div class="important-message">
+        {!! $welcomeMessage !!}
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-7 col-md-8">
+            @*@if (isset($titleEvent))
+                <div class="well well-sm ">
+                    @include('titleevent')
+                </div>
+                @endif*@
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <!-- Activities-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 class="panel-title">Activities</h3></div>
+                        <ul class="list-group">
+                            <li class="list-group-item">Be on the lookout for playoff, picnic and all-star schedules coming soon.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <!-- Luck of the Draws-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 class="panel-title">Luck of the Draws</h3></div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="/documents/events/2015-2016/VFW_3525_LOD.pdf" target="_blank">VFW 3525, Sunday nights 7:30 PM registration, 8:00 PM start.</a></li>
+                            <li class="list-group-item"><a href="/documents/events/current/PennTavernLOD.pdf" target="_blank">Penn Tavern, Mondays 7:30 PM registration, 8:00 PM start.</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            Event List
+                @*@include('shared.eventlist')*@
+            </div>
+            <div class="col-sm-5 col-md-4">
+                Winter Standings
+                @*@include('season.winter.standings')*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="alert alert-success" style="text-align: center;">
+                    <h4>Interesting <a href="http://www.si.com/vault/1975/02/17/557875/eight-feet-away-from-glory" target="_blank"> Sports Illustrated article</a> on darts from 1975.  Our own Conrad Daniels is a key part!</h4>
+                    <p>
+                        <a href="/documents/static/conrad_outs.pdf" target="_blank">Conrad Daniels Out Shots </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @if (User.Identity.IsAuthenticated)
 {
     <h1>Welcome back @User.Identity.Name</h1>
