@@ -1,0 +1,23 @@
+@model dynamic
+
+@{
+    ViewBag.Title = "Edit Event";
+    Layout = "_Layout";
+}
+
+<h2>Edit This Event</h2>
+<form asp-controller="DartEvent" asp-action="Edit" method="post">
+    @Html.Partial("_dartEventFields")
+    <div>
+        <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
+        <a class="btn btn-danger" asp-controller="DartEvent" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        (function(d) {
+            d.getElementsByName('name')[0].focus();
+        })(document);
+    </script>
+}
