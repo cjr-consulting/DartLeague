@@ -113,6 +113,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(dartEvent);
         }
 
+        [Route("site/dartevent/{id}/edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             var e = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
@@ -147,7 +148,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(dartEvent);
         }
 
-        [HttpPost]
+        [HttpPost("site/dartevent/{id}/edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, DartEventViewModel dartEvent)
         {
@@ -197,18 +198,34 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(dartEvent);
         }
 
+        [Route("site/dartevent/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
-            if (p == null)
+            var e = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
+            if (e == null)
                 return RedirectToAction("Index");
 
-            _leagueContext.Players.Remove(p);
+            _leagueContext.DartEvents.Remove(e);
             _leagueContext.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Activate(int id) { }
+        [Route("site/dartevent/{id}/activate")]
+        public async Task<IActionResult> Activate(int id)
+        {
+            var dartEvent = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
+            if(dartEvent == null)
+                return RedirectToAction("Index");
+            dartEvent.IsTitleEvent = true;
+
+            foreach (var e in _leagueContext.DartEvents.Where(x => x.IsTitleEvent))
+            {
+                e.IsTitleEvent = false;
+            }
+
+            await _leagueContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }

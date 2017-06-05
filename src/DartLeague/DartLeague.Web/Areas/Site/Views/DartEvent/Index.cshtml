@@ -34,7 +34,7 @@
                             <div class="btn-group">
                                 <a class="btn btn-default" asp-area="Site" asp-controller="DartEvent" asp-action="Edit" asp-route-id="@dartEvent.Id" title="@($"Edit{dartEvent.Name}")"><i class="fa fa-pencil-square-o fa-lg"></i></a>
                                 <a class="btn btn-default" title="Event Results"> @*href="{{route('manage.site.dartevent.result.index', ['leagueId' => $leagueId, 'dartEventId' => $dartEvent->id]) }}" title="Event Results">*@<i class="fa fa-star"></i></a>
-                                <a class="btn btn-default" title="Change front page display of event">@*@href="{{route('manage.site.dartevent.activate', ['leagueId' => $leagueId, 'id' => $dartEvent->id]) }}" title="Change front page display of event">*@
+                                <a class="btn btn-default" title="Change front page display of event" href="@Url.Action("Activate", "DartEvent", new { Area = "Site", Id = dartEvent.Id })">
                                     @if (dartEvent.IsTitleEvent)
                                     {
                                         <i class="fa fa-circle"></i>

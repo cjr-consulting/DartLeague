@@ -83,10 +83,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(player);
         }
         
-        
-        public async Task<IActionResult> Edit(int? Id)
+        [Route("manage/player/{id}/edit")]
+        public async Task<IActionResult> Edit(int? id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
+            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return NotFound();
 
@@ -111,15 +111,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(player);
         }
         
-        [HttpPost]
+        [HttpPost("manage/player/{id}/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? Id, PlayerViewModel player)
+        public async Task<IActionResult> Edit(int? id, PlayerViewModel player)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
+                    var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
                     p.FirstName = player.FirstName;
                     p.LastName = player.LastName;
                     p.Email = player.Email;
@@ -152,9 +152,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(player);
         }
 
-        public async Task<IActionResult> Delete(int Id)
+        [Route("manage/player/{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == Id);
+            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return RedirectToAction("Index");
 

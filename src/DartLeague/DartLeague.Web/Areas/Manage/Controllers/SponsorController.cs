@@ -51,33 +51,6 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            ViewBag.SponsorTypes = _sponsorTypes;
-            var s = await _leagueContext.Sponsors.FirstOrDefaultAsync(x => x.Id == id);
-            if (s == null) return NotFound();
-            var sponsor = new SponsorViewModel
-            {
-                Id = s.Id,
-                Name = s.Name,
-                ContactName = s.ContactName,
-                Type = s.Type,
-                Phone = s.Phone,
-                Address1 = s.Address1,
-                Address2 = s.Address2,
-                City = s.City,
-                State = s.State,
-                Zip = s.Zip,
-                Url = s.Url,
-                FacebookUrl = s.FacebookUrl,
-                Email = s.Email,
-                MapUrl = s.MapUrl,
-                Description = s.Description,
-                Comments = s.Comments
-            };
-            return View(sponsor);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SponsorViewModel sponsor)
@@ -122,7 +95,35 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(sponsor);
         }
 
-        [HttpPost]
+        [Route("manage/sponsor/{id}/edit")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            ViewBag.SponsorTypes = _sponsorTypes;
+            var s = await _leagueContext.Sponsors.FirstOrDefaultAsync(x => x.Id == id);
+            if (s == null) return NotFound();
+            var sponsor = new SponsorViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                ContactName = s.ContactName,
+                Type = s.Type,
+                Phone = s.Phone,
+                Address1 = s.Address1,
+                Address2 = s.Address2,
+                City = s.City,
+                State = s.State,
+                Zip = s.Zip,
+                Url = s.Url,
+                FacebookUrl = s.FacebookUrl,
+                Email = s.Email,
+                MapUrl = s.MapUrl,
+                Description = s.Description,
+                Comments = s.Comments
+            };
+            return View(sponsor);
+        }
+
+        [HttpPost("manage/sponsor/{id}/edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, SponsorViewModel sponsor)
         {
@@ -158,13 +159,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                              "Try again, and if the problem persists " +
                                              "see your system administrator.");
             }
+
             ViewBag.SponsorTypes = _sponsorTypes;
             return View(sponsor);
         }
 
-        public async Task<IActionResult> Delete(int Id)
+        [Route("manage/sponsor/{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var p = await _leagueContext.Sponsors.FirstOrDefaultAsync(x => x.Id == Id);
+            var p = await _leagueContext.Sponsors.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return RedirectToAction("Index");
 
