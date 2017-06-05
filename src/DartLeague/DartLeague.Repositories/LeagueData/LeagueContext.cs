@@ -150,22 +150,18 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(e => e.Address1)
-                    .IsRequired()
                     .HasColumnName("address1")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Address2)
-                    .IsRequired()
                     .HasColumnName("address2")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.City)
-                    .IsRequired()
                     .HasColumnName("city")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.DartStart)
-                    .IsRequired()
                     .HasColumnName("dartStart")
                     .HasColumnType("varchar(255)");
 
@@ -174,8 +170,16 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("dartType")
                     .HasColumnType("varchar(255)");
 
-                entity.Property(e => e.Description)
+                entity.Property(e => e.EventDate)
                     .IsRequired()
+                    .HasColumnName("eventDate")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.EventEndDate)
+                    .HasColumnName("eventEndDate")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.Description)
                     .HasColumnName("description");
 
                 entity.Property(e => e.EventContact)
@@ -184,31 +188,27 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.EventContact2)
-                    .IsRequired()
                     .HasColumnName("eventContact2")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.EventTypeId)
+                    .IsRequired()
                     .HasColumnName("eventTypeId")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.FacebookUrl)
-                    .IsRequired()
                     .HasColumnName("facebookUrl")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.HostName)
-                    .IsRequired()
                     .HasColumnName("hostName")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.HostPhone)
-                    .IsRequired()
                     .HasColumnName("hostPhone")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.HostUrl)
-                    .IsRequired()
                     .HasColumnName("hostUrl")
                     .HasColumnType("varchar(255)");
 
@@ -226,7 +226,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.MapUrl)
-                    .IsRequired()
                     .HasColumnName("mapUrl")
                     .HasColumnType("varchar(255)");
 
@@ -236,7 +235,6 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.PosterFile)
-                    .IsRequired()
                     .HasColumnName("posterFile")
                     .HasColumnType("varchar(255)");
 
@@ -245,27 +243,22 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.RegistrationEndTime)
-                    .IsRequired()
                     .HasColumnName("registrationEndTime")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.RegistrationStartTime)
-                    .IsRequired()
                     .HasColumnName("registrationStartTime")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.State)
-                    .IsRequired()
                     .HasColumnName("state")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasColumnName("url")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.Zip)
-                    .IsRequired()
                     .HasColumnName("zip")
                     .HasColumnType("varchar(255)");
             });

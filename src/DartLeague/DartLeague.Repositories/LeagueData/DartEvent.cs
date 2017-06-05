@@ -14,6 +14,8 @@ namespace DartLeague.Repositories.LeagueData
         public string Description { get; set; }
         public string EventContact { get; set; }
         public string EventContact2 { get; set; }
+        public DateTime EventDate { get; set; }
+        public DateTime? EventEndDate { get; set; }
         public int EventTypeId { get; set; }
         public string FacebookUrl { get; set; }
         public string HostName { get; set; }

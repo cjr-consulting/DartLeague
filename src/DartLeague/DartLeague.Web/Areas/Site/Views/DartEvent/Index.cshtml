@@ -1,0 +1,73 @@
+@model DartLeague.Web.Areas.Site.Models.DartEventsListViewModel
+
+@{
+    ViewBag.Title = "Events";
+    Layout = "_Layout";
+}
+
+<h2>Dart Events</h2>
+<div class="panel panel-default">
+    <div class="panel-heading"><a class="btn btn-success btn-sm" asp-area="Site" asp-controller="DartEvent" asp-action="Create" title="Add Dart Event"><i class="fa fa-plus-square"></i></a> <strong>Dart Event</strong></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="width: 84px;"></th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th width="5px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.DartEvents.Any())
+            {
+                <tr class="warning"><td colspan="6">Currently No Dart Events</td></tr>
+            }
+            else
+            {
+                foreach (var dartEvent in Model.DartEvents)
+                {
+                    <tr class="@dartEvent.IsTitleEvent?'success':''">
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-default" asp-area="Site" asp-controller="DartEvent" asp-action="Edit" asp-route-id="@dartEvent.Id" title="@($"Edit{dartEvent.Name}")"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                                <a class="btn btn-default" title="Event Results"> @*href="{{route('manage.site.dartevent.result.index', ['leagueId' => $leagueId, 'dartEventId' => $dartEvent->id]) }}" title="Event Results">*@<i class="fa fa-star"></i></a>
+                                <a class="btn btn-default" title="Change front page display of event" href="@Url.Action("Activate", "DartEvent", new { Area = "Site", Id = dartEvent.Id })">
+                                    @if (dartEvent.IsTitleEvent)
+                                    {
+                                        <i class="fa fa-circle"></i>
+                                    }
+                                    else
+                                    {
+
+                                        <i class="fa fa-circle-o"></i>
+                                    }
+                                </a>
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle">@dartEvent.EventDate.ToString("MM/dd/yyyy")</td>
+                        <td style="vertical-align: middle">@dartEvent.Name</td>
+                        <td style="vertical-align: middle">@dartEvent.EventType</td>
+                        <td style="vertical-align: middle">@dartEvent.LocationName</td>
+                        <td><a class="btn btn-link confirmation" asp-area="Site" asp-controller="DartEvent" asp-action="Delete" asp-route-id="@dartEvent.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var elems = document.getElementsByClassName('confirmation');
+        var confirmIt = function(e) {
+            if (!confirm('Are you sure?')) e.preventDefault();
+        };
+        for (var i = 0, l = elems.length; i < l; i++) {
+            elems[i].addEventListener('click', confirmIt, false);
+        }
+    </script>
+}

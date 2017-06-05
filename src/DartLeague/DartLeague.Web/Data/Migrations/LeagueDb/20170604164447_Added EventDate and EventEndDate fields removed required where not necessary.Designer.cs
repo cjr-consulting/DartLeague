@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170604164447_Added EventDate and EventEndDate fields removed required where not necessary")]
+    partial class AddedEventDateandEventEndDatefieldsremovedrequiredwherenotnecessary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -119,6 +120,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("int(10) unsigned");
 
                     b.Property<string>("Address1")
+                        .IsRequired()
                         .HasColumnName("address1")
                         .HasColumnType("varchar(255)");
 
@@ -127,12 +129,14 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnName("city")
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("DartStart")
+                        .IsRequired()
                         .HasColumnName("dartStart")
                         .HasColumnType("varchar(255)");
 
@@ -180,6 +184,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("HostUrl")
+                        .IsRequired()
                         .HasColumnName("hostUrl")
                         .HasColumnType("varchar(255)");
 
@@ -206,6 +211,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("PosterFile")
+                        .IsRequired()
                         .HasColumnName("posterFile")
                         .HasColumnType("varchar(255)");
 
@@ -222,16 +228,19 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnName("state")
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnName("url")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Zip")
+                        .IsRequired()
                         .HasColumnName("zip")
                         .HasColumnType("varchar(255)");
 
