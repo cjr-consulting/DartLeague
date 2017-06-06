@@ -41,9 +41,9 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("fileName")
                     .HasColumnType("varchar(255)");
 
-                entity.Property(e => e.MimeType)
+                entity.Property(e => e.ContentType)
                     .IsRequired()
-                    .HasColumnName("mimeType")
+                    .HasColumnName("contentTypes")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.RelativePath)
