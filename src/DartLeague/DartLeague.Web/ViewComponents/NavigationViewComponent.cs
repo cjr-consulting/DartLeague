@@ -248,7 +248,7 @@ namespace DartLeague.Web.Controllers.Components
                         Title = "League",
                         Href = "#",
                         SubNavigations = {
-                            new NavigationViewModel{ Title = "Players", Href = url.Action("Index", "Player", new {Area = "Manage" }) },
+                            new NavigationViewModel{ Title = "Members", Href = url.Action("Index", "Member", new {Area = "Manage" }) },
                             new NavigationViewModel{ Title = "Teams", Href = "manage.team.index"},
                             new NavigationViewModel{ Title = "Sponsors", Href = url.Action("Index", "Sponsor", new {Area = "Manage" })},
                             new NavigationViewModel{ Title = "Board Members", Href = "manage.boardmember.index"},

@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
-    public class PlayerController : Controller
+    public class MemberController : Controller
     {
         private LeagueContext _leagueContext;
 
-        public PlayerController(LeagueContext leagueContext)
+        public MemberController(LeagueContext leagueContext)
         {
             _leagueContext = leagueContext;
         }
 
         public IActionResult Index()
         {
-            var playersList = new PlayersListViewModel();
-            playersList.Players = _leagueContext.Players.Select(x =>
-                new PlayerViewModel
+            var playersList = new MembersListViewModel();
+            playersList.Members = _leagueContext.Players.Select(x =>
+                new MemberViewModel
                 {
                     Id = x.Id,
                     FirstName = x.FirstName,
@@ -36,19 +36,19 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         public IActionResult Create()
         {
-            var model = new PlayerViewModel();
+            var model = new MemberViewModel();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PlayerViewModel player)
+        public async Task<IActionResult> Create(MemberViewModel player)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var p = new Player
+                    var p = new Member
                     {
                         FirstName = player.FirstName,
                         LastName = player.LastName,
@@ -90,7 +90,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             if (p == null)
                 return NotFound();
 
-            var player = new PlayerViewModel
+            var player = new MemberViewModel
             {
                 FirstName = p.FirstName,
                 LastName = p.LastName,
@@ -113,7 +113,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         
         [HttpPost("manage/player/{id}/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, PlayerViewModel player)
+        public async Task<IActionResult> Edit(int? id, MemberViewModel player)
         {
             try
             {

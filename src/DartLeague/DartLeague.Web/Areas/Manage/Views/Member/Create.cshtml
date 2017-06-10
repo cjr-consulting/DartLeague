@@ -1,23 +1,23 @@
 ﻿
 @{
-    ViewData["Title"] = "Create Player";
+    ViewData["Title"] = "Add Member";
 
 }
 
-<h2>Add Player</h2>
-<form asp-controller="Player" asp-action="Create" method="post">
+<h2>Add Member</h2>
+<form asp-controller="Member" asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.Partial("_playerFields")
+    @Html.Partial("_memberFields")
     <div>
         <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
-        <a class="btn btn-danger" asp-controller="Player" asp-action="Index">Cancel</a>
+        <a class="btn btn-danger" asp-controller="Member" asp-action="Index">Cancel</a>
     </div>
 </form>
 
 @section scripts{
         <script>
             (function(d) {
-                d.getElementsByName('firstName')[0].focus();
+                d.getElementsByName('FirstName')[0].focus();
             })(document);
         </script>
     }

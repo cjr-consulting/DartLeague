@@ -12,7 +12,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<DartEventResult> DartEventResults { get; set; }
         public virtual DbSet<DartEvent> DartEvents { get; set; }
         public virtual DbSet<PagePart> PageParts { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Member> Players { get; set; }
         public virtual DbSet<Sponsor> Sponsors { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
 
@@ -285,15 +285,15 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("name")
                     .HasColumnType("text");
             });
-            modelBuilder.Entity<Player>(entity =>
+            modelBuilder.Entity<Member>(entity =>
             {
-                entity.ToTable("players");
+                entity.ToTable("members");
 
                 entity.HasIndex(e => e.LeagueId)
-                    .HasName("players_leagueid_index");
+                    .HasName("members_leagueid_index");
 
                 entity.HasIndex(e => e.UserId)
-                    .HasName("players_userid_index");
+                    .HasName("members_userid_index");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")

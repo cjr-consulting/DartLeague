@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
-    public class PlayerViewModel
+    public class MemberViewModel
     {
         public int Id { get; set; }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DartLeague.Repositories.LeagueData
 {
-    public partial class Player
+    public partial class Member
     {
         public int Id { get; set; }
         public bool AcceptEmail { get; set; }
