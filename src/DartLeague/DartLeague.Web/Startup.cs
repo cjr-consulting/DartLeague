@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using DartLeague.Domain.BrowsableFiles;
+using DartLeague.Infrastructure.BrowsableFiles;
 using DartLeague.Web.Configurations;
 using DartLeague.Web.Data;
 using DartLeague.Web.Data.Initializers;
@@ -54,6 +56,7 @@ namespace DartLeague.Web
             // Add framework services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IBrowsableFileService, FileSystemBrowsableFileService>();
 
             services.AddMvc();
             
@@ -94,6 +97,7 @@ namespace DartLeague.Web
             InitializeAuthDb.Initialize(app).Wait();
             InitializeIdentityDb.Initialize(app);
             InitializeLeagueDb.Initialize(app).Wait();
+            FileSystemBrowsableFileService.RootPath = "/storage";
 
             app.UseStaticFiles();
 

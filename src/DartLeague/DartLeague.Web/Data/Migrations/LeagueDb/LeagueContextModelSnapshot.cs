@@ -91,14 +91,14 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("category")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contentType")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnName("fileName")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("MimeType")
-                        .IsRequired()
-                        .HasColumnName("mimeType")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("RelativePath")

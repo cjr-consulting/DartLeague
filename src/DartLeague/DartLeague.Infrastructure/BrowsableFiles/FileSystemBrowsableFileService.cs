@@ -20,33 +20,28 @@ namespace DartLeague.Infrastructure.BrowsableFiles
         {
             _leagueContext = leagueContext;
         }
-        public async Task Add(BrowsableFile file)
-        {
-            if (await _leagueContext.BrowsableFiles
-                .AnyAsync(x => x.FileName == file.FullName && x.Category == file.Category))
-                throw new BrowsableFileAlreadyExistsException($"The file {file.FullName} already exists.");
-            
+        public async Task<int> Add(BrowsableFile file)
+        {            
             var f = new EF.BrowsableFile
             {
-                FileName = file.FullName,
+                FileName = file.FileName,
                 Category = file.Category,
                 ContentType = file.ContentType,
-                RelativePath = ""
+                RelativePath = $"{Path.GetFileNameWithoutExtension(Path.GetRandomFileName())}{file.Extension}"
             };
 
             _leagueContext.BrowsableFiles.Add(f);
             _leagueContext.SaveChanges();
-
-            var relativePath = $"{f.Id}-{f.Category}-{f.FileName}";
-            var filePath = Path.Combine(RootPath, relativePath);
-            f.RelativePath = relativePath;
-            _leagueContext.SaveChanges();
+            
+            var filePath = Path.Combine(RootPath, f.RelativePath);
 
             using (var fileStream = File.Create(filePath))
             {
                 file.Stream.Seek(0, SeekOrigin.Begin);
                 await file.Stream.CopyToAsync(fileStream);
             }
+
+            return f.Id;
         }
 
         public async Task<BrowsableFile> Get(int id)
@@ -55,12 +50,11 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             var file = new BrowsableFile
             {
                 Id = f.Id,
-                FileName = Path.GetFileNameWithoutExtension(f.FileName),
+                FileName = f.FileName,
                 Stream = File.OpenRead(Path.Combine(RootPath, f.RelativePath)),
                 ContentType = f.ContentType,
                 Category = f.Category,
-                FullName = f.FileName,
-                Extension = Path.GetExtension(f.FileName)
+                Extension = Path.GetExtension(f.RelativePath)
             };
 
             return file;

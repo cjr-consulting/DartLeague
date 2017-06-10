@@ -43,7 +43,7 @@ namespace DartLeague.Repositories.LeagueData
 
                 entity.Property(e => e.ContentType)
                     .IsRequired()
-                    .HasColumnName("contentTypes")
+                    .HasColumnName("contentType")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.RelativePath)

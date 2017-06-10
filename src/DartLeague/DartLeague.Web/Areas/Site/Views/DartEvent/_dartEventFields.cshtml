@@ -140,7 +140,10 @@
 @*@if(isset($dartEvent) && $dartEvent->imageFileId != null && $dartEvent->imageFileId > 0)
 <img src="{{route('file.get', ['id' => \TrentonDarts\LeagueManagement\Services\BrowsableFileService::getHashedFileId($dartEvent->imageFileId)])}}"/>
 @endif*@
-
+@if (!string.IsNullOrEmpty(Model.ImageFileId))
+{
+    <img src="@Url.Action("Index", "File", new { Area = "", Id = Model.ImageFileId })"/>
+}
 <div class="form-group">
     <label for="eventImage">Event Image <small>(image of 750w x 110h)</small></label>
     <input type="file" id="eventImage" name="eventImage" class="form-control" />
@@ -150,6 +153,10 @@
 <a href="{{route('file.get', ['id' => \TrentonDarts\LeagueManagement\Services\BrowsableFileService::getHashedFileId($dartEvent->posterFileId)])}}">Poster document exists</a>
 @endif*@
 
+@if (!string.IsNullOrEmpty(Model.PosterFileId))
+{
+    <a href="@Url.Action("Index", "File", new { Area = "", Id = Model.PosterFileId })">Poster Document Exists</a>
+}
 <div class="form-group">
     <label for="posterDocument">Poster Document <small>(PDF document recommended)</small></label>
     <input type="file" id="posterDocument" name="posterDocument" class="form-control" />
@@ -176,6 +183,9 @@
 
 <div class="form-group">
     <label asp-for="Description"></label>
-    <input class="form-control" asp-for="Description" />
+    <textarea class="form-control" asp-for="Description"></textarea>
 </div>
 
+<script>
+    CKEDITOR.replace('Description');
+</script>

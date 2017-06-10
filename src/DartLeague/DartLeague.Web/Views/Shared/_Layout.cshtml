@@ -75,6 +75,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/ckeditor/ckeditor.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -86,6 +87,10 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://cdn.ckeditor.com/4.7.0/standard/ckeditor.js"
+                asp-fallback-src="~/lib/ckeditor/ckeditor.js"
+                asp-fallback-test="window.CKEDITOR">
+        </script>
         <script type="text/javascript" src="//cdn.raygun.io/raygun4js/raygun.min.js"></script>
         <script>
             Raygun.init('ceYSG2SJCchoiSbs1+/kzw==', {

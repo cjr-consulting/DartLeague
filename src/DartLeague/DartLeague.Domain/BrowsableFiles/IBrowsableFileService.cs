@@ -7,7 +7,7 @@ namespace DartLeague.Domain.BrowsableFiles
 {
     public interface IBrowsableFileService
     {
-        Task Add(BrowsableFile file);
+        Task<int> Add(BrowsableFile file);
         Task<BrowsableFile> Get(int id);
     }
 }
