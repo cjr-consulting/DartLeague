@@ -62,6 +62,7 @@
     <Content Include="wwwroot\robots.txt" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Hashids.net" Version="1.2.2" />
     <PackageReference Include="IdentityServer4" Version="1.5.0" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="1.0.1" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="1.0.1" />
@@ -97,6 +98,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DartLeague.Core\DartLeague.Core.csproj" />
+    <ProjectReference Include="..\DartLeague.Domain\DartLeague.Domain.csproj" />
+    <ProjectReference Include="..\DartLeague.Infrastructure\DartLeague.Infrastructure.csproj" />
     <ProjectReference Include="..\DartLeague.Repositories\DartLeague.Repositories.csproj" />
   </ItemGroup>
 

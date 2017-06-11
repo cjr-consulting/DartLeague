@@ -92,5 +92,8 @@ namespace DartLeague.Web.Areas.Site.Models
 
         public string Description { get; set; }
 
+        public string PosterFileId { get; set; }
+        public string ImageFileId { get; set; }
+
     }
 }

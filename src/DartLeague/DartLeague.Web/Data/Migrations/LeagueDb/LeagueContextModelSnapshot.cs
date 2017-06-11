@@ -91,14 +91,14 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("category")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contentType")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnName("fileName")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("MimeType")
-                        .IsRequired()
-                        .HasColumnName("mimeType")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("RelativePath")
@@ -274,34 +274,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                     b.ToTable("dart_event_results");
                 });
 
-            modelBuilder.Entity("DartLeague.Repositories.LeagueData.PagePart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnName("description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Html")
-                        .IsRequired()
-                        .HasColumnName("html")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("page_parts");
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.LeagueData.Player", b =>
+            modelBuilder.Entity("DartLeague.Repositories.LeagueData.Member", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,12 +354,39 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                     b.HasKey("Id");
 
                     b.HasIndex("LeagueId")
-                        .HasName("players_leagueid_index");
+                        .HasName("members_leagueid_index");
 
                     b.HasIndex("UserId")
-                        .HasName("players_userid_index");
+                        .HasName("members_userid_index");
 
-                    b.ToTable("players");
+                    b.ToTable("members");
+                });
+
+            modelBuilder.Entity("DartLeague.Repositories.LeagueData.PagePart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int(10) unsigned");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnName("description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Html")
+                        .IsRequired()
+                        .HasColumnName("html")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("page_parts");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Sponsor", b =>

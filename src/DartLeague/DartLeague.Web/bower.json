@@ -6,7 +6,8 @@
     "jquery": "3.2.1",
     "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "font-awesome": "fontawesome#v4.7.0"
+    "font-awesome": "fontawesome#v4.7.0",
+    "ckeditor": "#standard/4.7.0"
   },
   "resolutions": {
     "jquery": "3.2.1",
