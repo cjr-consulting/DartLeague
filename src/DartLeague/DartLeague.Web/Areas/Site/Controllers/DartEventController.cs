@@ -84,7 +84,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         var file = eventImage[0];
                         imageFileId = await _browsableFileService.Add(new BrowsableFile
                         {
-                            FileName = $"ImageFile{Path.GetExtension(file.FileName)}",
+                            FileName = $"ImageFile-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventImages",
@@ -96,7 +96,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         var file = posterDocument[0];
                         posterFileId = await _browsableFileService.Add(new BrowsableFile
                         {
-                            FileName = $"PosterDoc{Path.GetExtension(file.FileName)}",
+                            FileName = $"PosterDoc-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventPosters",
@@ -189,75 +189,76 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, DartEventViewModel dartEvent, List<IFormFile> eventImage, List<IFormFile> posterDocument)
         {
-            //try
-            //{
-            if (ModelState.IsValid)
+            try
             {
-                var de = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
-                de.Name = dartEvent.Name;
-                de.Address1 = dartEvent.Address1;
-                de.Address2 = dartEvent.Address2;
-                de.City = dartEvent.City;
-                de.DartStart = dartEvent.DartStart;
-                de.DartType = dartEvent.DartType;
-                de.Description = dartEvent.Description;
-                de.EventContact = dartEvent.EventContact;
-                de.EventContact2 = dartEvent.EventContact2;
-                de.EventDate = dartEvent.EventDate;
-                de.EventEndDate = dartEvent.EventEndDate;
-                de.EventTypeId = dartEvent.EventTypeId;
-                de.FacebookUrl = dartEvent.FacebookUrl;
-                de.HostName = dartEvent.HostName;
-                de.HostPhone = dartEvent.HostPhone;
-                de.HostUrl = dartEvent.HostUrl;
-                de.LocationName = dartEvent.LocationName;
-                de.MapUrl = dartEvent.MapUrl;
-                de.Name = dartEvent.Name;
-                de.RegistrationEndTime = dartEvent.RegistrationEndTime;
-                de.RegistrationStartTime = dartEvent.RegistrationStartTime;
-                de.State = dartEvent.State;
-                de.Url = dartEvent.Url;
-                de.Zip = dartEvent.Zip;
-
-                if (eventImage.Any())
+                if (ModelState.IsValid)
                 {
-                    var file = eventImage[0];
-                    var imageFileId = await _browsableFileService.Add(new BrowsableFile
+                    var de = await _leagueContext.DartEvents.FirstOrDefaultAsync(x => x.Id == id);
+                    de.Name = dartEvent.Name;
+                    de.Address1 = dartEvent.Address1;
+                    de.Address2 = dartEvent.Address2;
+                    de.City = dartEvent.City;
+                    de.DartStart = dartEvent.DartStart;
+                    de.DartType = dartEvent.DartType;
+                    de.Description = dartEvent.Description;
+                    de.EventContact = dartEvent.EventContact;
+                    de.EventContact2 = dartEvent.EventContact2;
+                    de.EventDate = dartEvent.EventDate;
+                    de.EventEndDate = dartEvent.EventEndDate;
+                    de.EventTypeId = dartEvent.EventTypeId;
+                    de.FacebookUrl = dartEvent.FacebookUrl;
+                    de.HostName = dartEvent.HostName;
+                    de.HostPhone = dartEvent.HostPhone;
+                    de.HostUrl = dartEvent.HostUrl;
+                    de.LocationName = dartEvent.LocationName;
+                    de.MapUrl = dartEvent.MapUrl;
+                    de.Name = dartEvent.Name;
+                    de.RegistrationEndTime = dartEvent.RegistrationEndTime;
+                    de.RegistrationStartTime = dartEvent.RegistrationStartTime;
+                    de.State = dartEvent.State;
+                    de.Url = dartEvent.Url;
+                    de.Zip = dartEvent.Zip;
+
+                    if (eventImage.Any())
                     {
-                        FileName = $"ImageFile{Path.GetExtension(file.FileName)}",
-                        Extension = Path.GetExtension(file.FileName),
-                        ContentType = file.ContentType,
-                        Category = "DartEventImages",
-                        Stream = file.OpenReadStream()
-                    });
-                    de.ImageFileId = imageFileId;
-                }
-                if (posterDocument.Any())
-                {
-                    var file = posterDocument[0];
-                    var posterFileId = await _browsableFileService.Add(new BrowsableFile
+                        var file = eventImage[0];
+                        var imageFileId = await _browsableFileService.Add(new BrowsableFile
+                        {
+                            FileName = $"ImageFile-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = "DartEventImages",
+                            Stream = file.OpenReadStream()
+                        });
+                        de.ImageFileId = imageFileId;
+                    }
+
+                    if (posterDocument.Any())
                     {
-                        FileName = $"PosterDoc{Path.GetExtension(file.FileName)}",
-                        Extension = Path.GetExtension(file.FileName),
-                        ContentType = file.ContentType,
-                        Category = "DartEventPosters",
-                        Stream = file.OpenReadStream()
-                    });
-                    de.PosterFileId = posterFileId;
-                }
+                        var file = posterDocument[0];
+                        var posterFileId = await _browsableFileService.Add(new BrowsableFile
+                        {
+                            FileName = $"PosterDoc-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = "DartEventPosters",
+                            Stream = file.OpenReadStream()
+                        });
+                        de.PosterFileId = posterFileId;
+                    }
 
 
-                await _leagueContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                    await _leagueContext.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    //Log the error (uncomment ex variable name and write a log.
-            //    ModelState.AddModelError("", "Unable to save changes. " +
-            //                                 "Try again, and if the problem persists " +
-            //                                 "see your system administrator.");
-            //}
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
 
             ViewBag.dartEventTypes = _dartEventTypes;
             return View(dartEvent);
@@ -291,6 +292,11 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
             await _leagueContext.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        private string CleanName(string name)
+        {
+            return string.Join("", name.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

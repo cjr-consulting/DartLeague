@@ -21,7 +21,10 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             _leagueContext = leagueContext;
         }
         public async Task<int> Add(BrowsableFile file)
-        {            
+        {
+            if (_leagueContext.BrowsableFiles.Any(x => x.Category == file.Category && x.FileName == file.FileName))
+                throw new BrowsableFileAlreadyExistsException($"{file.FileName} already exists in the category {file.Category}");
+
             var f = new EF.BrowsableFile
             {
                 FileName = file.FileName,
@@ -47,6 +50,28 @@ namespace DartLeague.Infrastructure.BrowsableFiles
         public async Task<BrowsableFile> Get(int id)
         {
             var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Id == id);
+            if (f == null)
+                throw new BrowsableFileNotFoundException($"{id} doesn't exists");
+
+            var file = new BrowsableFile
+            {
+                Id = f.Id,
+                FileName = f.FileName,
+                Stream = File.OpenRead(Path.Combine(RootPath, f.RelativePath)),
+                ContentType = f.ContentType,
+                Category = f.Category,
+                Extension = Path.GetExtension(f.RelativePath)
+            };
+
+            return file;
+        }
+
+        public async Task<BrowsableFile> GetByCategoryAndName(string category, string fileName)
+        {
+            var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Category == category && x.FileName == fileName);
+            if (f == null)
+                throw new BrowsableFileNotFoundException($"{fileName} wasn't found in the category {category}");
+
             var file = new BrowsableFile
             {
                 Id = f.Id,

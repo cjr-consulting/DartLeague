@@ -14,12 +14,33 @@ namespace DartLeague.Web.Controllers
 
         }
 
-        [Route("file/{Id}")]
+        [Route("file/{id}")]
         public async Task<IActionResult> Index(string id)
         {
-            var numberId = NumberObfuscation.Decode(id);
-            var file = await _browsableFileService.Get(numberId);
-            return new FileStreamResult(file.Stream, file.ContentType);
+            try
+            {
+                var numberId = NumberObfuscation.Decode(id);
+                var file = await _browsableFileService.Get(numberId);
+                return new FileStreamResult(file.Stream, file.ContentType);
+            }
+            catch (BrowsableFileNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("file/{category}/{fileName}")]
+        public async Task<IActionResult> Index(string category, string fileName)
+        {
+            try
+            {
+                var file = await _browsableFileService.GetByCategoryAndName(category, fileName);
+                return new FileStreamResult(file.Stream, file.ContentType);
+            }
+            catch (BrowsableFileNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

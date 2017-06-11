@@ -9,5 +9,6 @@ namespace DartLeague.Domain.BrowsableFiles
     {
         Task<int> Add(BrowsableFile file);
         Task<BrowsableFile> Get(int id);
+        Task<BrowsableFile> GetByCategoryAndName(string category, string fileName);
     }
 }
