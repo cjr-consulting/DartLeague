@@ -6,7 +6,37 @@
 
 <h2>Manage League</h2>
 
-Future league management controls
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Other Links and Files</h3>
+                </div>
+                <div class="panel-body">
+                    <p>These links and files will be available from the public <b>Other</b> menu.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="LeagueLink" asp-action="Create" title="Add League Link"><i class="fa fa-plus-square"></i></a> <strong>League Link</strong></p>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Url</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>O1 Strategy</td>
+                            <td>Link</td>
+                            <td>http://dartconnect.com/test</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
 }

@@ -91,6 +91,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                             Stream = file.OpenReadStream()
                         });
                     }
+
                     if (posterDocument.Any())
                     {
                         var file = posterDocument[0];
@@ -103,6 +104,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                             Stream = file.OpenReadStream()
                         });
                     }
+
                     var de = new EF.DartEvent
                     {
                         Address1 = dartEvent.Address1,
@@ -131,6 +133,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         ImageFileId= imageFileId,
                         PosterFileId = posterFileId
                     };
+
                     _leagueContext.DartEvents.Add(de);
                     await _leagueContext.SaveChangesAsync();
                     return Redirect("Index");
@@ -246,7 +249,6 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         });
                         de.PosterFileId = posterFileId;
                     }
-
 
                     await _leagueContext.SaveChangesAsync();
                     return RedirectToAction("Index");

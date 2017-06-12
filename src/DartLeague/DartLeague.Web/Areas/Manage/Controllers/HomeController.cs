@@ -11,6 +11,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
     {
         public IActionResult Index()
         {
+
             return View();
         }
     }
