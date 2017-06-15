@@ -135,7 +135,7 @@ namespace DartLeague.Repositories.LeagueData
 
                 entity.Property(e => e.MemberId)
                     .HasColumnName("memberId")
-                    .HasColumnType("int(10) unsigned");
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.SpecificEventName)
                     .IsRequired()
