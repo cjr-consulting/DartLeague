@@ -12,7 +12,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<DartEventResult> DartEventResults { get; set; }
         public virtual DbSet<DartEvent> DartEvents { get; set; }
         public virtual DbSet<PagePart> PageParts { get; set; }
-        public virtual DbSet<Member> Players { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Sponsor> Sponsors { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
@@ -133,8 +133,8 @@ namespace DartLeague.Repositories.LeagueData
                     .HasColumnName("orderId")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.PlayerId)
-                    .HasColumnName("playerId")
+                entity.Property(e => e.MemberId)
+                    .HasColumnName("memberId")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.SpecificEventName)

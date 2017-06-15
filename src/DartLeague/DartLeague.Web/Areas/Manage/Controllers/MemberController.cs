@@ -20,7 +20,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public IActionResult Index()
         {
             var playersList = new MembersListViewModel();
-            playersList.Members = _leagueContext.Players.Select(x =>
+            playersList.Members = _leagueContext.Members.Select(x =>
                 new MemberViewModel
                 {
                     Id = x.Id,
@@ -67,7 +67,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         Zip = player.Zip,
                         ShirtSize = player.ShirtSize
                     };
-                    _leagueContext.Players.Add(p);
+                    _leagueContext.Members.Add(p);
                     await _leagueContext.SaveChangesAsync();
                     return Redirect("Index");
                 }
@@ -86,7 +86,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("manage/player/{id}/edit")]
         public async Task<IActionResult> Edit(int? id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
+            var p = await _leagueContext.Members.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return NotFound();
 
@@ -119,7 +119,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
+                    var p = await _leagueContext.Members.FirstOrDefaultAsync(x => x.Id == id);
                     p.FirstName = player.FirstName;
                     p.LastName = player.LastName;
                     p.Email = player.Email;
@@ -155,11 +155,11 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("manage/player/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var p = await _leagueContext.Players.FirstOrDefaultAsync(x => x.Id == id);
+            var p = await _leagueContext.Members.FirstOrDefaultAsync(x => x.Id == id);
             if (p == null)
                 return RedirectToAction("Index");
 
-            _leagueContext.Players.Remove(p);
+            _leagueContext.Members.Remove(p);
             _leagueContext.SaveChanges();
 
             return RedirectToAction("Index");

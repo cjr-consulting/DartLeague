@@ -9,7 +9,7 @@ namespace DartLeague.Repositories.LeagueData
         public int EventId { get; set; }
         public string Finished { get; set; }
         public int OrderId { get; set; }
-        public int PlayerId { get; set; }
+        public int MemberId { get; set; }
         public string SpecificEventName { get; set; }
     }
 }
