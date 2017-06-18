@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using DartLeague.Web.Helpers;
 
 namespace DartLeague.Web.Areas.Site.Controllers
 {
@@ -43,12 +44,12 @@ namespace DartLeague.Web.Areas.Site.Controllers
             _browsableFileService = browsableFileService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var events = _leagueContext.DartEvents;
             var model = new DartEventsListViewModel
             {
-                DartEvents = events.Select(x =>
+                DartEvents = await events.Select(x =>
                 new DartEventListViewModel
                 {
                     Id = x.Id,
@@ -57,7 +58,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     EventDate = x.EventDate,
                     EventType = _dartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
                     LocationName = x.LocationName
-                }).ToList()
+                }).ToListAsync()
             };
             return View(model);
         }
@@ -82,9 +83,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     if (eventImage.Any())
                     {
                         var file = eventImage[0];
-                        imageFileId = await _browsableFileService.Add(new BrowsableFile
+                        imageFileId = await _browsableFileService.AddAsync(new BrowsableFile
                         {
-                            FileName = $"ImageFile-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            FileName = $"ImageFile-{FileHelper.CleanString(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventImages",
@@ -95,9 +96,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     if (posterDocument.Any())
                     {
                         var file = posterDocument[0];
-                        posterFileId = await _browsableFileService.Add(new BrowsableFile
+                        posterFileId = await _browsableFileService.AddAsync(new BrowsableFile
                         {
-                            FileName = $"PosterDoc-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            FileName = $"PosterDoc-{FileHelper.CleanString(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventPosters",
@@ -225,9 +226,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     if (eventImage.Any())
                     {
                         var file = eventImage[0];
-                        var imageFileId = await _browsableFileService.Add(new BrowsableFile
+                        var imageFileId = await _browsableFileService.AddAsync(new BrowsableFile
                         {
-                            FileName = $"ImageFile-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            FileName = $"ImageFile-{FileHelper.CleanString(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventImages",
@@ -239,9 +240,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     if (posterDocument.Any())
                     {
                         var file = posterDocument[0];
-                        var posterFileId = await _browsableFileService.Add(new BrowsableFile
+                        var posterFileId = await _browsableFileService.AddAsync(new BrowsableFile
                         {
-                            FileName = $"PosterDoc-{CleanName(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
+                            FileName = $"PosterDoc-{FileHelper.CleanString(dartEvent.Name)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = "DartEventPosters",
@@ -294,11 +295,6 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
             await _leagueContext.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-        private string CleanName(string name)
-        {
-            return string.Join("", name.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
         {
             _leagueContext = leagueContext;
         }
-        public async Task<int> Add(BrowsableFile file)
+        public async Task<int> AddAsync(BrowsableFile file)
         {
             if (_leagueContext.BrowsableFiles.Any(x => x.Category == file.Category && x.FileName == file.FileName))
                 throw new BrowsableFileAlreadyExistsException($"{file.FileName} already exists in the category {file.Category}");
@@ -31,7 +31,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             };
 
             _leagueContext.BrowsableFiles.Add(f);
-            _leagueContext.SaveChanges();
+            await _leagueContext.SaveChangesAsync();
             
             var filePath = Path.Combine(RootPath, f.RelativePath);
 
@@ -44,7 +44,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             return f.Id;
         }
 
-        public async Task<BrowsableFile> Get(int id)
+        public async Task<BrowsableFile> GetAsync(int id)
         {
             var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Id == id);
             if (f == null)
@@ -63,7 +63,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             return file;
         }
 
-        public async Task<BrowsableFile> GetByCategoryAndName(string category, string fileName)
+        public async Task<BrowsableFile> GetByCategoryAndNameAsync(string category, string fileName)
         {
             var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Category == category && x.FileName == fileName);
             if (f == null)
@@ -80,6 +80,17 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             };
 
             return file;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var file = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Id == id);
+            if (file == null)
+                return;
+
+            File.Delete(file.RelativePath);
+            _leagueContext.BrowsableFiles.Remove(file);
+            await _leagueContext.SaveChangesAsync();
         }
     }
 }

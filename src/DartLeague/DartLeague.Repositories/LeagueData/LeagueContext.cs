@@ -15,6 +15,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<Member> Players { get; set; }
         public virtual DbSet<Sponsor> Sponsors { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
 
         public LeagueContext(DbContextOptions<LeagueContext> options)
             : base(options)
@@ -479,6 +480,48 @@ namespace DartLeague.Repositories.LeagueData
                 entity.Property(e => e.SponsorId)
                     .HasColumnName("sponsorId")
                     .HasColumnType("int(10) unsigned");
+            });
+            modelBuilder.Entity<LeagueLink>(entity =>
+            {
+                entity.ToTable("league_links");
+                
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasColumnName("title")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.LinkType)
+                    .IsRequired()
+                    .HasColumnName("linkType")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Url)
+                    .HasColumnName("url")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.FileId)
+                    .IsRequired()
+                    .HasColumnName("fileId")
+                    .HasColumnType("int(11)");
+                
+                entity.Property(e => e.Order)
+                    .IsRequired()
+                    .HasColumnName("order")
+                    .HasColumnType("int(11)");
+
+                entity.Property(x => x.CreatedAt)
+                    .IsRequired()
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
+
+                entity.Property(x => x.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime(6)");
             });
         }
     }

@@ -5,7 +5,7 @@
 
 <h2>Create League Link</h2>
 
-<form asp-controller="LeagueLink" asp-action="Create" method="post">
+<form enctype="multipart/form-data" asp-controller="LeagueLink" asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.Partial("_leagueLinkFields")
     <div>
@@ -18,7 +18,6 @@
     <script>
             (function(d) {
                 d.getElementsByName('Title')[0].focus();
-                var radios = $('input[name="LinkType"]');
                 $('input[name="LinkType"]').on('click change', function (e) {
                     if ($('input[name="LinkType"]')[0].checked) {
                         $('#fileUploadPanel').hide();
@@ -29,11 +28,16 @@
                         $('#urlPanel').hide();
                     }
                 });
-                var item = d.getElementsByName('LinkType')[0];
-                console.log(item.checked);
-                console.log(item.value);
                 $('#fileUploadPanel').hide();
                 $('#urlPanel').hide();
+                if ($('input[name="LinkType"]')[0].checked) {
+                    $('#fileUploadPanel').hide();
+                    $('#urlPanel').show();
+                }
+                if ($('input[name="LinkType"]')[1].checked) {
+                    $('#fileUploadPanel').show();
+                    $('#urlPanel').hide();
+                }
             })(document);
     </script>
 }

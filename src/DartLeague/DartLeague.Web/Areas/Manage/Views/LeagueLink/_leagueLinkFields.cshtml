@@ -8,6 +8,13 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
     </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group">
+            <label asp-for="Order"></label>
+            <input class="form-control input-lg" asp-for="Order" />
+            <span asp-validation-for="Order" class="text-danger"></span>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="form-group">
             <div class="radio-inline">
@@ -16,12 +23,17 @@
             <div class="radio-inline">
                 <label><input type="radio" value="2" asp-for="LinkType" /> File (upload)</label>
             </div>
+            <span asp-validation-for="LinkType" class="text-danger"></span>
         </div>
     </div>
     <div class="col-md-12" id="fileUploadPanel">
         <div class="form-group">
             <label for="linkFile">File <small>PDF</small></label>
             <input type="file" id="linkFile" name="linkFile" class="form-control" />
+            @if(!string.IsNullOrEmpty(Model.FileLink))
+            {
+                <a href="@Model.FileLink">Current File</a>
+            }
         </div>
     </div>
     <div class="col-md-12" id="urlPanel">

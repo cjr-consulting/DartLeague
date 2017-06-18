@@ -1,36 +1,41 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DartLeague.Web.ViewComponents.Models.Navigation;
+using EF = DartLeague.Repositories.LeagueData;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DartLeague.Web.Controllers.Components
 {
     public class NavigationViewComponent : ViewComponent
     {
-        public NavigationViewComponent()
+        private EF.LeagueContext _leagueContext;
+
+        public NavigationViewComponent(EF.LeagueContext leagueContext)
         {
+            _leagueContext = leagueContext;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string template)
         {
-            var model = NavBuilder(Url, template);
+            var model = await NavBuilder(Url, template);
             return View(model);
         }
-
-
-        public static SiteNavigationViewModel NavBuilder(IUrlHelper url, string name = "Default")
+        
+        public async Task<SiteNavigationViewModel> NavBuilder(IUrlHelper url, string name = "Default")
         {
             switch (name)
             {
                 case "DartsForDreams":
-                    return DartsForDreamsNavigation(url);
+                    return await DartsForDreamsNavigation(url);
                 case "Manage":
-                    return ManagementNavigation(url);
+                    return await ManagementNavigation(url);
                 default:
-                    return DefaultNavigation(url);
+                    return await DefaultNavigation(url);
             }
         }
 
-        private static SiteNavigationViewModel DefaultNavigation(IUrlHelper url)
+        private async Task<SiteNavigationViewModel> DefaultNavigation(IUrlHelper url)
         {
             return new SiteNavigationViewModel
             {
@@ -181,50 +186,31 @@ namespace DartLeague.Web.Controllers.Components
                             }
                         }
                     },
-                    new NavigationViewModel
-                    {
-                        Title="Other",
-                        SubNavigations =
-                        {
-                            new NavigationViewModel
-                            {
-                                Title = "League Rules"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Sponsor Paperwork"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Player Registration"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Roster Sheet"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Scoresheet"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Chalker Guidelines"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "01 Strategy"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Cricket Strategy"
-                            }
-                        }
-                    }
+                    await BuildOtherMenu()
                 }
             };
         }
 
-        private static SiteNavigationViewModel ManagementNavigation(IUrlHelper url)
+        private async Task<NavigationViewModel> BuildOtherMenu()
+        {
+            var nav = new NavigationViewModel
+            {
+                Title = "Other"
+            };
+
+            foreach (var link in await _leagueContext.LeagueLinks.OrderBy(x => x.Order).ToListAsync())
+            {
+                nav.SubNavigations.Add(new NavigationViewModel
+                {
+                    Title = link.Title,
+                    Href = link.Url
+                });
+            }
+
+            return nav;
+        }
+
+        private async Task<SiteNavigationViewModel> ManagementNavigation(IUrlHelper url)
         {
             return new SiteNavigationViewModel
             {
@@ -263,7 +249,7 @@ namespace DartLeague.Web.Controllers.Components
             };
         }
 
-        private static SiteNavigationViewModel DartsForDreamsNavigation(IUrlHelper url)
+        private async Task<SiteNavigationViewModel> DartsForDreamsNavigation(IUrlHelper url)
         {
             return new SiteNavigationViewModel
             {

@@ -20,7 +20,7 @@ namespace DartLeague.Web.Controllers
             try
             {
                 var numberId = NumberObfuscation.Decode(id);
-                var file = await _browsableFileService.Get(numberId);
+                var file = await _browsableFileService.GetAsync(numberId);
                 return new FileStreamResult(file.Stream, file.ContentType);
             }
             catch (BrowsableFileNotFoundException)
@@ -34,7 +34,7 @@ namespace DartLeague.Web.Controllers
         {
             try
             {
-                var file = await _browsableFileService.GetByCategoryAndName(category, fileName);
+                var file = await _browsableFileService.GetByCategoryAndNameAsync(category, fileName);
                 return new FileStreamResult(file.Stream, file.ContentType);
             }
             catch (BrowsableFileNotFoundException)
