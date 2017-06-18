@@ -113,6 +113,9 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 int linkFileId = leagueLink.FileId;
                 if (linkFile.Any() && model.LinkType == 2)
                 {
+                    if (linkFileId > 0)
+                        await _browsableFileService.DeleteAsync(linkFileId);
+
                     var file = linkFile[0];
                     var f = new BrowsableFile
                     {
