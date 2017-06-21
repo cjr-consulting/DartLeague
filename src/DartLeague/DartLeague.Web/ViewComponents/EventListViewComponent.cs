@@ -4,85 +4,56 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DartLeague.Web.ViewComponents.Models.EventList;
+using DartLeague.Repositories.LeagueData;
+using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.ViewComponents
 {
     public class EventListViewComponent : ViewComponent
     {
-        public EventListViewComponent()
-        {
+        private LeagueContext _leagueContext;
 
+        public EventListViewComponent(LeagueContext leagueContext)
+        {
+            _leagueContext = leagueContext;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            var events = await GetEvents();
             var model = new EventListViewModel
             {
-                Events =
-                {
-                    new EventViewModel
-                    {
-                        Id = 1,
-                        Name = "My Event",
-                        EventDate = new DateTime(2017, 7, 1),
-                        DartType = "Steel",
-                        EventType = "Charity",
-                        RegistrationStartTime = "7:00 PM",
-                        RegistrationEndTime = "7:30 PM",
-                        DartStart = "8:00 PM",
-                        HostName = "Host Name",
-                        HostUrl = "hosturl",
-                        LocationName = "Location Name",
-                        MapUrl = "mapUrl",
-                        Address1 = "Address 1",
-                        Address2 = "Address 2",
-                        City = "City",
-                        State = "ST",
-                        Zip = "00000"
-                    },
-                    new EventViewModel
-                    {
-                        Id = 2,
-                        Name = "My Event 2",
-                        EventDate = new DateTime(2017, 7, 1),
-                        DartType = "Steel",
-                        EventType = "GTDL Event",
-                        DartStart = "8:00 PM",
-                        FacebookUrl = "facebook",
-                        HostName = "Host Name",
-                        LocationName = "Location Name",
-                        MapUrl = "mapUrl",
-                        Address1 = "Address 1",
-                        Address2 = "Address 2",
-                        City = "City",
-                        State = "ST",
-                        Zip = "00000"
-                    },
-                    new EventViewModel
-                    {
-                        Id = 3,
-                        Name = "My Event 3",
-                        EventDate = new DateTime(2017, 7, 1),
-                        DartType = "Steel",
-                        EventType = "Charity",
-                        RegistrationStartTime = "7:00 PM",
-                        RegistrationEndTime = "8:30 PM",
-                        DartStart = "8:00 PM",
-                        PosterFileId = 1,
-                        HostName = "Host Name",
-                        HostUrl = "hosturl",
-                        LocationName = "Location Name",
-                        MapUrl = "mapUrl",
-                        Address1 = "Address 1",
-                        Address2 = "Address 2",
-                        City = "City",
-                        State = "ST",
-                        Zip = "00000",
-                        Description = "My Sample Description"
-                    }
-                }
+                Events = events
             };
             return View(model);
+        }
+
+        private async Task<List<EventViewModel>> GetEvents()
+        {
+            return await _leagueContext.DartEvents.Select(e => new EventViewModel
+            {
+                Id = e.Id,
+                Name = e.Name,
+                EventDate = e.EventDate,
+                DartType = e.DartType,
+                EventType = e.EventTypeId.ToString(),
+                RegistrationStartTime = e.RegistrationStartTime,
+                RegistrationEndTime = e.RegistrationEndTime,
+                DartStart = e.DartStart,
+                PosterFileId = e.PosterFileId,
+                HostName = e.HostName,
+                HostUrl = e.HostUrl,
+                LocationName = e.LocationName,
+                MapUrl = e.MapUrl,
+                Address1 = e.Address1,
+                Address2 = e.Address2,
+                City = e.City,
+                State = e.State,
+                Zip = e.Zip,
+                Description = e.Description,
+                FacebookUrl = e.FacebookUrl,
+                Url = e.Url,
+            }).ToListAsync();
         }
     }
 }

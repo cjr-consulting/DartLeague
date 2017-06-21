@@ -36,39 +36,49 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                int linkFileId = 0;
-                string url = model.Url;
-                if (linkFile.Any() && model.LinkType == 2)
+                if (ModelState.IsValid)
                 {
-                    var file = linkFile[0];
-                    var f = new BrowsableFile
+                    int linkFileId = 0;
+                    string url = model.Url;
+                    if (linkFile.Any() && model.LinkType == 2)
                     {
-                        FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
-                        Extension = Path.GetExtension(file.FileName),
-                        ContentType = file.ContentType,
-                        Category = "League",
-                        Stream = file.OpenReadStream()
+                        var file = linkFile[0];
+                        var f = new BrowsableFile
+                        {
+                            FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = "League",
+                            Stream = file.OpenReadStream()
+                        };
+                        linkFileId = await _browsableFileService.AddAsync(f);
+                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                    }
+
+                    var l = new EF.LeagueLink
+                    {
+                        Title = model.Title,
+                        LinkType = model.LinkType,
+                        Url = url,
+                        FileId = linkFileId,
+                        Order = model.Order,
+                        CreatedAt = DateTime.UtcNow
                     };
-                    linkFileId = await _browsableFileService.AddAsync(f);
-                    url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+
+                    _leagueContext.LeagueLinks.Add(l);
+                    await _leagueContext.SaveChangesAsync();
+
+                    return RedirectToAction("Index", "Home");
                 }
-
-                var l = new EF.LeagueLink
-                {
-                    Title = model.Title,
-                    LinkType = model.LinkType,
-                    Url = url,
-                    FileId = linkFileId,
-                    Order = model.Order,
-                    CreatedAt = DateTime.UtcNow
-                };
-
-                _leagueContext.LeagueLinks.Add(l);
-                await _leagueContext.SaveChangesAsync();
-
-                return RedirectToAction("Index", "Home");
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
             }
 
             return View(model);
@@ -103,41 +113,52 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost("manage/leaguelink/{id}/edit")]
         public async Task<IActionResult> Edit(int id, LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var leagueLink = await _leagueContext.LeagueLinks.FirstOrDefaultAsync(x => x.Id == id);
-                if (leagueLink == null)
-                    return NotFound();
-
-                string url = model.Url;
-                int linkFileId = leagueLink.FileId;
-                if (linkFile.Any() && model.LinkType == 2)
+                if (ModelState.IsValid)
                 {
-                    if (linkFileId > 0)
-                        await _browsableFileService.DeleteAsync(linkFileId);
+                    var leagueLink = await _leagueContext.LeagueLinks.FirstOrDefaultAsync(x => x.Id == id);
+                    if (leagueLink == null)
+                        return NotFound();
 
-                    var file = linkFile[0];
-                    var f = new BrowsableFile
+                    string url = model.Url;
+                    int linkFileId = leagueLink.FileId;
+                    if (linkFile.Any() && model.LinkType == 2)
                     {
-                        FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
-                        Extension = Path.GetExtension(file.FileName),
-                        ContentType = file.ContentType,
-                        Category = "League",
-                        Stream = file.OpenReadStream()
-                    };
-                    linkFileId = await _browsableFileService.AddAsync(f);
-                    url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                        if (linkFileId > 0)
+                            await _browsableFileService.DeleteAsync(linkFileId);
+
+                        var file = linkFile[0];
+                        var f = new BrowsableFile
+                        {
+                            FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = "League",
+                            Stream = file.OpenReadStream()
+                        };
+                        linkFileId = await _browsableFileService.AddAsync(f);
+                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                    }
+
+                    leagueLink.Title = model.Title;
+                    leagueLink.LinkType = model.LinkType;
+                    leagueLink.Url = url;
+                    leagueLink.FileId = linkFileId;
+                    leagueLink.Order = model.Order;
+                    leagueLink.UpdatedAt = DateTime.UtcNow;
+
+                    _leagueContext.SaveChanges();
+                    return RedirectToAction("Index", "Home");
                 }
 
-                leagueLink.Title = model.Title;
-                leagueLink.LinkType = model.LinkType;
-                leagueLink.Url = url;
-                leagueLink.FileId = linkFileId;
-                leagueLink.Order = model.Order;
-                leagueLink.UpdatedAt = DateTime.UtcNow;
-
-                _leagueContext.SaveChanges();
-                return RedirectToAction("Index", "Home");
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
             }
 
             return View(model);
