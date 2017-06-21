@@ -19,23 +19,6 @@ namespace DartLeague.Web.Areas.Site.Controllers
     public class DartEventController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;
-
-        private readonly List<SelectListItem> _dartEventTypes = new List<SelectListItem>
-        {
-            new SelectListItem {Text = "GTDL Event", Value = "1"},
-            new SelectListItem {Text = "Charity Dart Event", Value = "2"},
-            new SelectListItem {Text = "Regional Event", Value = "3"},
-            new SelectListItem {Text = "GTDL Sponsored Event", Value = "4"},
-            new SelectListItem {Text = "GTDL All Stars", Value = "5"},
-            new SelectListItem {Text = "GTDL Player Event", Value = "6"},
-            new SelectListItem {Text = "Charity Event", Value = "7"},
-            new SelectListItem {Text = "DPNY Series", Value = "8"},
-            new SelectListItem {Text = "CDC Series", Value = "9"},
-            new SelectListItem {Text = "DPNJ Series", Value = "10"},
-            new SelectListItem {Text = "Qualifier", Value = "11"}
-
-        };
-
         private IBrowsableFileService _browsableFileService;
 
         public DartEventController(EF.LeagueContext leagueContext, IBrowsableFileService browsableFileService)
@@ -49,24 +32,25 @@ namespace DartLeague.Web.Areas.Site.Controllers
             var events = _leagueContext.DartEvents;
             var model = new DartEventsListViewModel
             {
-                DartEvents = await events.Select(x =>
-                new DartEventListViewModel
-                {
-                    Id = x.Id,
-                    IsTitleEvent = x.IsTitleEvent,
-                    Name = x.Name,
-                    EventDate = x.EventDate,
-                    EventType = _dartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
-                    LocationName = x.LocationName
-                }).ToListAsync()
+                DartEvents = await events.OrderByDescending(x => x.EventDate)
+                    .Select(x =>
+                    new DartEventListViewModel
+                    {
+                        Id = x.Id,
+                        IsTitleEvent = x.IsTitleEvent,
+                        Name = x.Name,
+                        EventDate = x.EventDate,
+                        EventType = StaticLists.DartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
+                        LocationName = x.LocationName
+                    }).ToListAsync()
             };
             return View(model);
         }
 
         public IActionResult Create()
         {
-            ViewBag.dartEventTypes = _dartEventTypes;
-            return View();
+            ViewBag.dartEventTypes = StaticLists.DartEventTypes;
+            return View(new DartEventViewModel());
         }
 
         [HttpPost]
@@ -148,7 +132,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                              "see your system administrator.");
             }
 
-            ViewBag.dartEventTypes = _dartEventTypes;
+            ViewBag.dartEventTypes = StaticLists.DartEventTypes;
             return View(dartEvent);
         }
 
@@ -185,7 +169,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                 PosterFileId = e.PosterFileId > 0 ? NumberObfuscation.Encode(e.PosterFileId) : string.Empty,
             };
 
-            ViewBag.dartEventTypes = _dartEventTypes;
+            ViewBag.dartEventTypes = StaticLists.DartEventTypes;
             return View(dartEvent);
         }
 
@@ -263,7 +247,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                              "see your system administrator.");
             }
 
-            ViewBag.dartEventTypes = _dartEventTypes;
+            ViewBag.dartEventTypes = StaticLists.DartEventTypes;
             return View(dartEvent);
         }
 
