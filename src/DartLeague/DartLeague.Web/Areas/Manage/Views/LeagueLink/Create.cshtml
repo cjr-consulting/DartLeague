@@ -1,0 +1,43 @@
+
+@{
+    ViewData["Title"] = "Create League Link";
+}
+
+<h2>Create League Link</h2>
+
+<form enctype="multipart/form-data" asp-controller="LeagueLink" asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.Partial("_leagueLinkFields")
+    <div>
+        <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+            (function(d) {
+                d.getElementsByName('Title')[0].focus();
+                $('input[name="LinkType"]').on('click change', function (e) {
+                    if ($('input[name="LinkType"]')[0].checked) {
+                        $('#fileUploadPanel').hide();
+                        $('#urlPanel').show();
+                    }
+                    if ($('input[name="LinkType"]')[1].checked) {
+                        $('#fileUploadPanel').show();
+                        $('#urlPanel').hide();
+                    }
+                });
+                $('#fileUploadPanel').hide();
+                $('#urlPanel').hide();
+                if ($('input[name="LinkType"]')[0].checked) {
+                    $('#fileUploadPanel').hide();
+                    $('#urlPanel').show();
+                }
+                if ($('input[name="LinkType"]')[1].checked) {
+                    $('#fileUploadPanel').show();
+                    $('#urlPanel').hide();
+                }
+            })(document);
+    </script>
+}

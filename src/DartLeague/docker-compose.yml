@@ -6,6 +6,8 @@ services:
     build:
       context: ./DartLeague.Web
       dockerfile: Dockerfile
+#    volumes:
+#      - "C:/SQLData/storage:/storage"
     links:
     - mysqlserver
   mysqlserver:

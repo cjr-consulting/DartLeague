@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Web", "DartLeague.Web\DartLeague.Web.csproj", "{5B3B99D9-16FC-4E58-BDC4-475CFE930947}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.Infrastructure", "DartLeague.Infrastructure\DartLeague.Infrastructure.csproj", "{6CDDB759-1F4D-4B26-89D6-36A12E845C44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.Domain", "DartLeague.Domain\DartLeague.Domain.csproj", "{383402CB-32C6-4444-80F8-118A49C46D9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Common", "DartLeague.Common\DartLeague.Common.csproj", "{69741128-B3F1-44B0-A628-430AEFB8B04B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{383402CB-32C6-4444-80F8-118A49C46D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{383402CB-32C6-4444-80F8-118A49C46D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{383402CB-32C6-4444-80F8-118A49C46D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

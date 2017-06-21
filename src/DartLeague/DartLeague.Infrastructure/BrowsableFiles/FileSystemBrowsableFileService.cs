@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DartLeague.Domain.BrowsableFiles;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +17,11 @@ namespace DartLeague.Infrastructure.BrowsableFiles
         {
             _leagueContext = leagueContext;
         }
-        public async Task<int> Add(BrowsableFile file)
-        {            
+        public async Task<int> AddAsync(BrowsableFile file)
+        {
+            if (_leagueContext.BrowsableFiles.Any(x => x.Category == file.Category && x.FileName == file.FileName))
+                throw new BrowsableFileAlreadyExistsException($"{file.FileName} already exists in the category {file.Category}");
+
             var f = new EF.BrowsableFile
             {
                 FileName = file.FileName,
@@ -31,7 +31,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             };
 
             _leagueContext.BrowsableFiles.Add(f);
-            _leagueContext.SaveChanges();
+            await _leagueContext.SaveChangesAsync();
             
             var filePath = Path.Combine(RootPath, f.RelativePath);
 
@@ -44,9 +44,12 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             return f.Id;
         }
 
-        public async Task<BrowsableFile> Get(int id)
+        public async Task<BrowsableFile> GetAsync(int id)
         {
             var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Id == id);
+            if (f == null)
+                throw new BrowsableFileNotFoundException($"{id} doesn't exists");
+
             var file = new BrowsableFile
             {
                 Id = f.Id,
@@ -58,6 +61,36 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             };
 
             return file;
+        }
+
+        public async Task<BrowsableFile> GetByCategoryAndNameAsync(string category, string fileName)
+        {
+            var f = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Category == category && x.FileName == fileName);
+            if (f == null)
+                throw new BrowsableFileNotFoundException($"{fileName} wasn't found in the category {category}");
+
+            var file = new BrowsableFile
+            {
+                Id = f.Id,
+                FileName = f.FileName,
+                Stream = File.OpenRead(Path.Combine(RootPath, f.RelativePath)),
+                ContentType = f.ContentType,
+                Category = f.Category,
+                Extension = Path.GetExtension(f.RelativePath)
+            };
+
+            return file;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var file = await _leagueContext.BrowsableFiles.FirstOrDefaultAsync(x => x.Id == id);
+            if (file == null)
+                return;
+
+            File.Delete(file.RelativePath);
+            _leagueContext.BrowsableFiles.Remove(file);
+            await _leagueContext.SaveChangesAsync();
         }
     }
 }
