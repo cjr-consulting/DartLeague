@@ -8,6 +8,6 @@
 
         public string MemberName { get; set; }
 
-        public int Finished { get; set; }
+        public string Finished { get; set; }
     }
 }
