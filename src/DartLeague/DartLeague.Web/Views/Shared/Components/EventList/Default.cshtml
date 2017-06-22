@@ -13,7 +13,7 @@
             {
                 <div class="dart-event clearfix">
                     <div class="event-date pull-left">
-                        <div class="event-date-dayofweek">@e.EventDate.DayOfWeek</div>
+                        <div class="event-date-dayofweek">@e.EventDate.ToString("ddd")</div>
                         <div class="event-date-day">@e.EventDate.Day</div>
                         <div class="event-date-month">@e.EventDate.ToString("MMM")</div>
                         <div class="event-date-year">@e.EventDate.Year</div>
@@ -35,9 +35,9 @@
                                 @e.Name
                             }
 
-                            @if (e.PosterFileId > 0)
+                            @if (!string.IsNullOrEmpty(e.PosterFileId))
                             {
-                                <a href="posterfileroute" target="_blank"><i class="fa fa-file"></i></a>
+                                <a asp-action="Index" asp-controller="File" asp-route-id="@e.PosterFileId" target="_blank"><i class="fa fa-file"></i></a>
                             }
 
                             @if (!string.IsNullOrEmpty(e.FacebookUrl))
@@ -116,7 +116,7 @@
                     {
                         <div class="event-description">
                             <div id="@($"event{e.Id}")" class="collapse">
-                                <div class="well well-sm">@e.Description</div>
+                                <div class="well well-sm">@Html.Raw(e.Description)</div>
                              </div>
                         </div>
                     }

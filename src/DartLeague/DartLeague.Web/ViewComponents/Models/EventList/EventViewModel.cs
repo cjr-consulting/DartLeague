@@ -9,7 +9,8 @@ namespace DartLeague.Web.ViewComponents.Models.EventList
         public string Url { get; set; }
         public string DartType { get; set; }
         public string EventType { get; set; }
-        public int PosterFileId { get; set; }
+        public string ImageFileId { get; set; }
+        public string PosterFileId { get; set; }
         public DateTime EventDate { get; set; }
         public string RegistrationStartTime { get; set; }
         public string RegistrationEndTime { get; set; }
