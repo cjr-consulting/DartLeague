@@ -3,9 +3,8 @@
     ViewData["Title"] = "Create League Link";
 }
 
-<h2>Create League Link</h2>
-
-<form enctype="multipart/form-data" asp-controller="LeagueLink" asp-action="Create" method="post">
+<form enctype="multipart/form-data" class="single-form" asp-controller="LeagueLink" asp-action="Create" method="post">
+    <h2>Create League Link</h2>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.Partial("_leagueLinkFields")
     <div>

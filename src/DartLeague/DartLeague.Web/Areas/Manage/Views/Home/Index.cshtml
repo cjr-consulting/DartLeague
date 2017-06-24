@@ -42,7 +42,7 @@
                                 <td style="text-align:center;">@leagueLink.LinkType</td>
                                 <td><a href="@leagueLink.Url">@leagueLink.Url</a></td>
                                 <td style="text-align:center;">@leagueLink.Order</td>
-                                <td style="text-align:center;"><a asp-controller="LeagueLink" asp-action="Delete" asp-area="Manage" asp-route-id="@leagueLink.Id">Delete</a></td>
+                                <td style="text-align:center;"><a asp-controller="LeagueLink" asp-action="Delete" asp-area="Manage" asp-route-id="@leagueLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
                     </tbody>
@@ -53,4 +53,13 @@
 </div>
 
 @section scripts{
+    <script type="text/javascript">
+        var elems = document.getElementsByClassName('confirmation');
+        var confirmIt = function(e) {
+            if (!confirm('Are you sure?')) e.preventDefault();
+        };
+        for (var i = 0, l = elems.length; i < l; i++) {
+            elems[i].addEventListener('click', confirmIt, false);
+        }
+    </script>
 }

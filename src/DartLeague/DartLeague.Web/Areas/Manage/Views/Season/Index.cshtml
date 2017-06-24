@@ -1,0 +1,66 @@
+
+@{
+    ViewData["Title"] = "Season";
+}
+
+<div class="container">
+    <div class="header">
+        <h2>Season 2016 - 2017</h2>
+    </div>
+</div>
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@(ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Links" asp-route-id="1">Links</a></li>
+        <li role="presentation" class="@(ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Messages" asp-route-id="1">Messages</a></li>
+        <li role="presentation" class="@(ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Competitions" asp-route-id="1">Competitions</a></li>
+    </ul>
+</div>
+
+<div class="container" style="margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Activity and Event Links and Files</h3>
+                </div>
+                <div class="panel-body">
+                    <p>These links and files will be available from the public <b>Other</b> menu.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="LeagueLink" asp-action="Create" title="Add League Link"><i class="fa fa-plus-square"></i></a> <strong>League Link</strong></p>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th style="text-align:center;">Type</th>
+                            <th>Url</th>
+                            <th style="text-align:center;">Order</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a asp-controller="LeagueLink" asp-action="Edit" asp-area="Manage" asp-route-id="1" title="Edit Link">The Dart Stuff</a></td>
+                            <td style="text-align:center;">URL</td>
+                            <td><a href="http://www.ohya.com">http://www.ohya.com</a></td>
+                            <td style="text-align:center;">1</td>
+                            <td style="text-align:center;"><a asp-controller="LeagueLink" asp-action="Delete" asp-area="Manage" asp-route-id="1" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var elems = document.getElementsByClassName('confirmation');
+        var confirmIt = function(e) {
+            if (!confirm('Are you sure?')) e.preventDefault();
+        };
+        for (var i = 0, l = elems.length; i < l; i++) {
+            elems[i].addEventListener('click', confirmIt, false);
+        }
+    </script>
+}

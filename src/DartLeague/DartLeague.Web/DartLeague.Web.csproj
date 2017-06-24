@@ -92,6 +92,7 @@
     <Folder Include="Areas\Manage\Views\Home\" />
     <Folder Include="Areas\Manage\Views\LeagueLink\" />
     <Folder Include="Areas\Site\Views\EventResult\" />
+    <Folder Include="Areas\Manage\Views\Season\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
