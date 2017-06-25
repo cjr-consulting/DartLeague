@@ -33,7 +33,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public IActionResult Links(int id)
         {
             ViewData["SeasonNavPage"] = "Links";
-            return View();
+            return View(new List<SeasonListViewModel>());
         }
 
         [Route("manage/season/{id}/messages")]
