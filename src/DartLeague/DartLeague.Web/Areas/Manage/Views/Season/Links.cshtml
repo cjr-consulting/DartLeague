@@ -1,19 +1,5 @@
 @model List<DartLeague.Web.Areas.Manage.Models.SeasonListViewModel> 
-
-<div class="container">
-    <div class="header">
-        <h2>Season 2016 - 2017</h2>
-    </div>
-</div>
-
-<div class="container">
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Board" asp-route-id="1">Board</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Links" asp-route-id="1">Links</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Messages" asp-route-id="1">Messages</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Competitions" asp-route-id="1">Competitions</a></li>
-    </ul>
-</div>
+@await  Html.PartialAsync("_SeasonHeader")
 
 <div class="container">
     <div class="row">

@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="header">
+        <h2>Season Name</h2>
+    </div>
+</div>
+
+<div class="container" style="margin-bottom: 10px;">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Board" asp-route-id="1">Board</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Links" asp-route-id="1">Links</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Messages" asp-route-id="1">Messages</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Competitions" asp-route-id="1">Competitions</a></li>
+    </ul>
+</div>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -9,11 +10,16 @@ namespace DartLeague.Web.Areas.Manage.Controllers
     [Area("Manage")]
     public class SeasonController : Controller
     {
+        public  IActionResult Index()
+        {
+            ViewData["LeagueNavPage"] = "Seasons";
+            return View(new List<SeasonListViewModel>());
+         }
+
         [Route("manage/season/{id}")]
         public IActionResult Index(int id)
         {
-            ViewData["SeasonNavPage"] = "Links";
-            return View();
+            return RedirectToAction("Links");
         }
 
         [Route("manage/season/{id}/board")]
