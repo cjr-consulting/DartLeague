@@ -8,5 +8,6 @@ namespace DartLeague.Web.Areas.Manage.Models
     public class HomeManagementViewModel
     {
         public List<LeagueLinksListViewModel> LeagueLinks { get; set; } = new List<LeagueLinksListViewModel>();
+        public List<SeasonListViewModel> Seasons { get; set; } = new List<SeasonListViewModel>(); 
     }
 }

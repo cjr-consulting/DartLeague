@@ -1,7 +1,6 @@
-@model DartLeague.Web.Areas.Manage.Models.HomeManagementViewModel
+@model List<DartLeague.Web.Areas.Manage.Models.LeagueLinksListViewModel>
 @{
-    ViewData["Title"] = "Manage League";
-
+    ViewData["Title"] = "Manage Links";
 }
 
 @await  Html.PartialAsync("_ManagementHeader")
@@ -28,14 +27,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!Model.LeagueLinks.Any())
+                        @if (!Model.Any())
                         {
                             <tr>
                                 <td colspan="5">Currently No Links</td>
                             </tr>
                         }
 
-                        @foreach(var leagueLink in Model.LeagueLinks)
+                        @foreach (var leagueLink in Model)
                         {
                             <tr>
                                 <td><a asp-controller="LeagueLink" asp-action="Edit" asp-area="Manage" asp-route-id="@leagueLink.Id" title="Edit Link">@leagueLink.Title</a></td>

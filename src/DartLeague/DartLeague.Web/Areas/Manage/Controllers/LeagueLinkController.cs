@@ -25,6 +25,32 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _browsableFileService = browsableFileService;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            ViewData["LeagueNavPage"] = "Links";
+            var links = await GetLeagueLinks();
+            return View(links);
+        }
+
+        private async Task<List<LeagueLinksListViewModel>> GetLeagueLinks()
+        {
+            var list = new List<LeagueLinksListViewModel>();
+            foreach (var link in await _leagueContext.LeagueLinks.OrderBy(x => x.Order).ToListAsync())
+            {
+                var linkView = new LeagueLinksListViewModel
+                {
+                    Id = link.Id,
+                    Title = link.Title,
+                    LinkType = link.LinkType == 1 ? "Url" : "File",
+                    Url = link.Url,
+                    Order = link.Order
+                };
+                list.Add(linkView);
+            }
+
+            return list;
+        }
+
         public async Task<IActionResult> Create()
         {
             var maxOrder = await _leagueContext.LeagueLinks.MaxAsync(x => x.Order);

@@ -2,17 +2,17 @@
 @{
     ViewData["Title"] = "Create League Link";
 }
-
-<form enctype="multipart/form-data" class="single-form" asp-controller="LeagueLink" asp-action="Create" method="post">
+<div class="container">
     <h2>Create League Link</h2>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.Partial("_leagueLinkFields")
-    <div>
-        <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
-        <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
-    </div>
-</form>
-
+    <form enctype="multipart/form-data" asp-controller="LeagueLink" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.Partial("_leagueLinkFields")
+        <div>
+            <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>
 @section scripts{
     <script>
             (function(d) {

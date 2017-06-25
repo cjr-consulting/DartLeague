@@ -19,6 +19,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         public IActionResult Index()
         {
+            ViewData["LeagueNavPage"] = "Members";
             var playersList = new MembersListViewModel();
             playersList.Members = _leagueContext.Members.Select(x =>
                 new MemberViewModel

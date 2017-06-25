@@ -27,11 +27,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _leagueContext = leagueContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewData["LeagueNavPage"] = "Sponsors";
             var sponsorsList = new SponsorListViewModel
             {
-                Sponsors = _leagueContext.Sponsors.Select(x =>
+                Sponsors = await _leagueContext.Sponsors.Select(x =>
                         new SponsorViewModel
                         {
                             Id = x.Id,
@@ -39,7 +40,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Type = x.Type,
                             ContactName = x.ContactName
                         })
-                    .ToList()
+                    .ToListAsync()
             };
             return View(sponsorsList);
         }

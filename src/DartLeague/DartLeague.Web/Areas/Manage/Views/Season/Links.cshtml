@@ -1,0 +1,54 @@
+@model List<DartLeague.Web.Areas.Manage.Models.SeasonListViewModel> 
+
+<div class="container">
+    <div class="header">
+        <h2>Season 2016 - 2017</h2>
+    </div>
+</div>
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Board" asp-route-id="1">Board</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Links" asp-route-id="1">Links</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Messages" asp-route-id="1">Messages</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Competitions" asp-route-id="1">Competitions</a></li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Seasons</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Only one season can be active at a time.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="LeagueLink" asp-action="Create" title="Add Season"><i class="fa fa-plus-square"></i></a> <strong>Add Season</strong></p>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="1">Currently No Seasons</td>
+                            </tr>
+                        }
+
+                        @foreach (var season in Model)
+                        {
+                            <tr class="@(season.Active ? "success" : "warning")">
+                                <td><a asp-controller="Season" asp-action="Index" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Name</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

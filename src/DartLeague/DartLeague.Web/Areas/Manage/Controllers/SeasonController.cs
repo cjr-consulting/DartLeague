@@ -16,6 +16,13 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View();
         }
 
+        [Route("manage/season/{id}/board")]
+        public IActionResult Board(int id)
+        {
+            ViewData["SeasonNavPage"] = "Competitions";
+            return View();
+        }
+
         [Route("manage/season/{id}/links")]
         public IActionResult Links(int id)
         {

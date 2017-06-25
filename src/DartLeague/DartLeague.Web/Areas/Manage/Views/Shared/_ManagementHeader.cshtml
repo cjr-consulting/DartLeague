@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="header">
+        <h2>Manage League</h2>
+    </div>
+</div>
+
+<div class="container" style="margin-bottom: 10px;">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@((string)ViewData["LeagueNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="LeagueLink" asp-action="Index">Links</a></li>
+        <li role="presentation" class="@((string)ViewData["LeagueNavPage"] == "Members" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Member" asp-action="Index">Members</a></li>
+        <li role="presentation" class="@((string)ViewData["LeagueNavPage"] == "Seasons" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Season" asp-action="Index">Seasons</a></li>
+        <li role="presentation" class="@((string)ViewData["LeagueNavPage"] == "Sponsors" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="Sponsor" asp-action="Index">Sponsors</a></li>
+    </ul>
+</div>

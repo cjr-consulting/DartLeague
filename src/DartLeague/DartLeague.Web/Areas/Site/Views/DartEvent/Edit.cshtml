@@ -4,16 +4,16 @@
     ViewBag.Title = "Edit Event";
     Layout = "_Layout";
 }
-
-<h2>Edit This Event</h2>
-<form asp-controller="DartEvent" enctype="multipart/form-data" asp-action="Edit" method="post">
-    @Html.Partial("_dartEventFields")
-    <div>
-        <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
-        <a class="btn btn-danger" asp-controller="DartEvent" asp-action="Index">Cancel</a>
-    </div>
-</form>
-
+<div class="container">
+    <h2>Edit This Event</h2>
+    <form asp-controller="DartEvent" enctype="multipart/form-data" asp-action="Edit" method="post">
+        @Html.Partial("_dartEventFields")
+        <div>
+            <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
+            <a class="btn btn-danger" asp-controller="DartEvent" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>
 @section scripts{
     <script>
         (function(d) {
