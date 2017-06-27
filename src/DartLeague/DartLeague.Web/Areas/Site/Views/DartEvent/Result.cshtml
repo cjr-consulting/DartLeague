@@ -32,7 +32,7 @@
                             <td style="vertical-align: middle">@result.SpecificEventName</td>
                             <td style="vertical-align: middle">@result.MemberName</td>
                             <td style="vertical-align: middle">@result.Finished</td>
-                            <td><a class="btn btn-link confirmation" asp-area="Site" asp-controller="DartEvent" asp-action="DeleteResult" asp-route-id="@result.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                            <td><a class="btn btn-link confirmation" asp-area="Site" asp-controller="DartEvent" asp-action="DeleteResult" asp-route-eventId="@Model.DartEventId" asp-route-id="@result.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                         </tr>
                     }
                 }

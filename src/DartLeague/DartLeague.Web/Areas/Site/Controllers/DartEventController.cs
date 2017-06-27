@@ -290,7 +290,8 @@ namespace DartLeague.Web.Areas.Site.Controllers
             {
                 DartEventName = dartEvent.Name,
                 DartEventDate = dartEvent.EventDate,
-                IsTitleEvent = dartEvent.IsTitleEvent
+                IsTitleEvent = dartEvent.IsTitleEvent,
+                DartEventId = dartEvent.Id
             };
 
             var results =
@@ -362,9 +363,16 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(resultData);
         }
 
-        public IActionResult DeleteResult()
+        //[HttpPost("site/dartevent/{eventId}/results/{id}/delete")]
+        [ValidateAntiForgeryToken]
+        [Route("site/dartevent/{eventId}/results/{id}/delete")]
+        public async Task<IActionResult> DeleteResult(int eventId, int id)
         {
-            throw new NotImplementedException();
+            var r = await _leagueContext.DartEventResults.FirstOrDefaultAsync(x => x.Id == id);
+            if (r == null) return RedirectToAction("Result", "DartEvent", eventId);
+            _leagueContext.DartEventResults.Remove(r);
+            await _leagueContext.SaveChangesAsync();
+            return RedirectToAction("Result", "DartEvent", new{id=eventId});
         }
     }
 }
