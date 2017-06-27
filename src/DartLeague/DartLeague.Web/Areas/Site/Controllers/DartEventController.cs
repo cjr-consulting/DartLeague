@@ -363,8 +363,6 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(resultData);
         }
 
-        //[HttpPost("site/dartevent/{eventId}/results/{id}/delete")]
-        [ValidateAntiForgeryToken]
         [Route("site/dartevent/{eventId}/results/{id}/delete")]
         public async Task<IActionResult> DeleteResult(int eventId, int id)
         {
