@@ -280,5 +280,97 @@ namespace DartLeague.Web.Areas.Site.Controllers
             await _leagueContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [Route("Site/DartEvent/{id}/Results")]
+        public IActionResult Result(int id)
+        {
+            var dartEvent = _leagueContext.DartEvents.FirstOrDefault(x => x.Id == id);
+            if (dartEvent == null) return View(new EventResultsListViewModel());
+            var model = new EventResultsListViewModel
+            {
+                DartEventName = dartEvent.Name,
+                DartEventDate = dartEvent.EventDate,
+                IsTitleEvent = dartEvent.IsTitleEvent,
+                DartEventId = dartEvent.Id
+            };
+
+            var results =
+                from result in _leagueContext.DartEventResults
+                where result.EventId == id
+                select new DartEventResultViewModel
+                {
+                    Id = result.Id,
+                    SpecificEventName = result.SpecificEventName,
+                    MemberName = result.Member != null
+                        ? $"{result.Member.FirstName} {result.Member.LastName}"
+                        : string.Empty,
+                    Finished = result.Finished
+                };
+
+            model.Results = results.ToList();
+
+            var membersList = from member in _leagueContext.Members
+                select new SelectListItem
+                {
+                    Text = $"{member.FirstName} {member.LastName}",
+                    Value = member.Id.ToString()
+                };
+
+            ViewBag.Members = membersList.ToList();
+            return View(model);
+        }
+
+        [HttpPost("Site/DartEvent/{id}/Results")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Result(int id, EventResultsListViewModel resultData)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var r = new EF.DartEventResult
+                    {
+                        EventId = id,
+                        MemberId = resultData.MemberId,
+                        SpecificEventName = resultData.SpecificEventName,
+                        Finished = resultData.Finished,
+                        OrderId = resultData.OrderId
+                    };
+                    _leagueContext.DartEventResults.Add(r);
+                    await _leagueContext.SaveChangesAsync();
+                    return RedirectToAction("Result", "DartEvent", new {id});
+                }
+
+                var membersList = from member in _leagueContext.Members
+                    select new SelectListItem
+                    {
+                        Text = $"{member.FirstName} {member.LastName}",
+                        Value = member.Id.ToString()
+                    };
+
+                ViewBag.Members = membersList.ToList();
+            }
+
+            catch
+            {
+
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrato.");
+            }
+
+            return View(resultData);
+        }
+
+        [Route("site/dartevent/{eventId}/results/{id}/delete")]
+        public async Task<IActionResult> DeleteResult(int eventId, int id)
+        {
+            var r = await _leagueContext.DartEventResults.FirstOrDefaultAsync(x => x.Id == id);
+            if (r == null) return RedirectToAction("Result", "DartEvent", eventId);
+            _leagueContext.DartEventResults.Remove(r);
+            await _leagueContext.SaveChangesAsync();
+            return RedirectToAction("Result", "DartEvent", new{id=eventId});
+        }
     }
 }
