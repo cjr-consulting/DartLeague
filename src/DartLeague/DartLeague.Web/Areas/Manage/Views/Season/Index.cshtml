@@ -1,3 +1,4 @@
+@using DartLeague.Web.Areas.Manage.Controllers
 @model List<DartLeague.Web.Areas.Manage.Models.SeasonListViewModel>
 @{
     ViewData["Title"] = "Manage Seasons";
@@ -12,10 +13,12 @@
                 <div class="panel-body">
                     <p>Only a single season can be active at a time.</p>
                     <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="Season" asp-action="Create" title="Add Season"><i class="fa fa-plus-square"></i></a> <strong>Season</strong></p>
+                    <p><i class="fa fa-asterisk" style="color: orangered;"></i> Demo Sample.</p>
                 </div>
                 <table class="table table-condensed">
                     <thead>
                         <tr>
+                            <th style="width: 150px;"></th>
                             <th>Name</th>
                         </tr>
                     </thead>
@@ -23,13 +26,31 @@
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="5">Currently No Seasons</td>
+                                <td colspan="2">Currently No Seasons</td>
                             </tr>
                         }
 
                         @foreach (var season in Model)
                         {
                             <tr>
+                                <td nowwrap="nowrap">
+                                    <div class="btn-group">
+                                        @switch (season.State)
+                                        {
+                                            case SeasonStates.Started:
+                                                <a href="#" class="btn btn-success disabled">Started</a>
+                                                break;
+                                            case SeasonStates.Created:
+                                                <a href="#" class="btn btn-warning">Start</a>
+                                                break;
+                                            case SeasonStates.Ended:
+                                                <a href="#" class="btn btn-danger disabled">Done</a>
+                                                break;
+
+                                        }
+                                        <a class="btn btn-default" asp-area="Manage" asp-controller="Season" asp-action="Index" asp-route-id="@season.Id">Edit</a>
+                                    </div>
+                                </td>
                                 <td><a asp-controller="LeagueLink" asp-action="Edit" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Name</a></td>
                             </tr>
                         }
@@ -44,11 +65,11 @@
 @section scripts{
     <script type="text/javascript">
         var elems = document.getElementsByClassName('confirmation');
-        var confirmIt = function (e) {
-            if (!confirm('Are you sure?')) e.preventDefault();
-        };
+                                            var confirmIt = function (e) {
+                                                if (!confirm('Are you sure?')) e.preventDefault();
+                                            };
         for (var i = 0, l = elems.length; i < l; i++) {
-            elems[i].addEventListener('click', confirmIt, false);
-        }
+                                                elems[i].addEventListener('click', confirmIt, false);
+                                            }
     </script>
 }

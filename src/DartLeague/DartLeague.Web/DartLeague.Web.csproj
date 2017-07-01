@@ -93,6 +93,10 @@
     <Folder Include="Areas\Manage\Views\LeagueLink\" />
     <Folder Include="Areas\Site\Views\EventResult\" />
     <Folder Include="Areas\Manage\Views\Season\" />
+    <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
+    <Folder Include="Areas\Manage\Views\SeasonMessage\" />
+    <Folder Include="Areas\Manage\Views\SeasonBoard\" />
+    <Folder Include="Areas\Manage\Views\SeasonLink\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />

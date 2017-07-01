@@ -137,9 +137,6 @@
     </div>
 </div>
 
-@*@if(isset($dartEvent) && $dartEvent->imageFileId != null && $dartEvent->imageFileId > 0)
-<img src="{{route('file.get', ['id' => \TrentonDarts\LeagueManagement\Services\BrowsableFileService::getHashedFileId($dartEvent->imageFileId)])}}"/>
-@endif*@
 @if (!string.IsNullOrEmpty(Model.ImageFileId))
 {
     <img src="@Url.Action("Index", "File", new { Area = "", Id = Model.ImageFileId })"/>
@@ -148,10 +145,6 @@
     <label for="eventImage">Event Image <small>(image of 750w x 110h)</small></label>
     <input type="file" id="eventImage" name="eventImage" class="form-control" />
 </div>
-
-@*@if(isset($dartEvent) && $dartEvent->posterFileId != null && $dartEvent->posterFileId > 0)
-<a href="{{route('file.get', ['id' => \TrentonDarts\LeagueManagement\Services\BrowsableFileService::getHashedFileId($dartEvent->posterFileId)])}}">Poster document exists</a>
-@endif*@
 
 @if (!string.IsNullOrEmpty(Model.PosterFileId))
 {

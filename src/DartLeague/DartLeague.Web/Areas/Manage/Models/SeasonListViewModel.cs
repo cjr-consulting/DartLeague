@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DartLeague.Web.Areas.Manage.Controllers;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
@@ -9,7 +10,8 @@ namespace DartLeague.Web.Areas.Manage.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Active { get; set; }
-
+        public DateTime StartDate { get; internal set; }
+        public DateTime EndDate { get; internal set; }
+        public SeasonStates State { get; internal set; }
     }
 }
