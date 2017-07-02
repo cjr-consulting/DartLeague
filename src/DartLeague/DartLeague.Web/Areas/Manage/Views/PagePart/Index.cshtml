@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Page Parts List";
+}
+@model DartLeague.Web.Areas.Manage.Models.PagePartsListViewModel
+<h2>Page Part Contents</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a class="btn btn-success btn-sm" asp-area="Site" asp-controller="PagePart" asp-action="Create" Title="Add a page part">
+            <i class="fa fa-plus-square"></i>
+        </a> <strong>Page Part</strong>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="width: 84px;"></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Edited</th>
+                <th width="5px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.PageParts == null || !Model.PageParts.Any())
+            {
+                <tr class="warning">
+                    <td colspan="6">Currently No Page Parts</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var part in Model.PageParts)
+                {
+                    <tr>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-default" asp-area="Manage" asp-controller="PagePart" asp-action="Edit" asp-route-id="@part.Id" title="Edit @part.Name">
+                                    <i class="fa fa-pencil-square-o fa-lg"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle">part.Name</td>
+                        <td style="vertical-align: middle">part.Description</td>
+                        <td style="">part.Updated_At</td>
+                        <td><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="PagePart" asp-action="Delete" asp-route-id="part.Id" title="Delete">
+                            <i class="fa fa-trash-o fa-lg"></i>
+                        </a>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
