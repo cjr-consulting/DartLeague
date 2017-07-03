@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170703003450_Added UpdatedAt column to PageParts table")]
+    partial class AddedUpdatedAtcolumntoPagePartstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -256,12 +257,12 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("finished")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("MemberId")
-                        .HasColumnName("memberId")
-                        .HasColumnType("int(10) unsigned");
-
                     b.Property<int>("OrderId")
                         .HasColumnName("orderId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnName("playerId")
                         .HasColumnType("int(11)");
 
                     b.Property<string>("SpecificEventName")
@@ -271,51 +272,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
-
                     b.ToTable("dart_event_results");
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.LeagueData.LeagueLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("created_at")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("FileId")
-                        .HasColumnName("fileId")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("LinkType")
-                        .HasColumnName("linkType")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("Order")
-                        .HasColumnName("order")
-                        .HasColumnType("int(11)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("title")
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnName("updated_at")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Url")
-                        .HasColumnName("url")
-                        .HasColumnType("varchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("league_links");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Member", b =>
@@ -554,14 +511,6 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasName("teams_sponsorid_index");
 
                     b.ToTable("teams");
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEventResult", b =>
-                {
-                    b.HasOne("DartLeague.Repositories.LeagueData.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

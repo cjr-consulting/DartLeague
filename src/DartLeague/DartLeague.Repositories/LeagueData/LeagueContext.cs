@@ -287,6 +287,11 @@ namespace DartLeague.Repositories.LeagueData
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("text");
+
+                entity.Property(e => e.UpdatedAt)
+                    .IsRequired()
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime(6)");
             });
             modelBuilder.Entity<Member>(entity =>
             {

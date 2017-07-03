@@ -16,11 +16,11 @@
 
 <div class="form-group">
     <label asp-for="Html"></label>
-    <textarea class="form-control" asp-for="Html"></textarea>
+    <textarea id="html" class="form-control" asp-for="Html"></textarea>
 </div>
 
-<CKEditor:CKEditorControl ID="CKEditor1" runat="server">
-</CKEditor:CKEditorControl>
+
+<script src="/lib/ckeditor/ckeditor.js"></script>
 <script>
     CKEDITOR.stylesSet.add('my_style', [
         { name: 'Center Block',  element: 'div', attributes: { class: 'important-message' } },
