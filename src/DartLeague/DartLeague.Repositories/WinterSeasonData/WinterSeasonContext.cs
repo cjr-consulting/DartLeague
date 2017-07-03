@@ -8,7 +8,6 @@ namespace DartLeague.Repositories.WinterSeasonData
     {
         public virtual DbSet<MatchTypeGameRules> MatchTypeGameRules { get; set; }
         public virtual DbSet<MatchTypes> MatchTypes { get; set; }
-        public virtual DbSet<Seasons> Seasons { get; set; }
         public virtual DbSet<WinterGameAwards> WinterGameAwards { get; set; }
         public virtual DbSet<WinterGameResults> WinterGameResults { get; set; }
         public virtual DbSet<WinterMatchResults> WinterMatchResults { get; set; }
@@ -107,32 +106,7 @@ namespace DartLeague.Repositories.WinterSeasonData
                     .HasColumnName("name")
                     .HasColumnType("varchar(255)");
             });
-            modelBuilder.Entity<Seasons>(entity =>
-            {
-                entity.ToTable("seasons");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.IsCurrent)
-                    .HasColumnName("isCurrent")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.LeagueId)
-                    .HasColumnName("leagueId")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.LinkName)
-                    .IsRequired()
-                    .HasColumnName("linkName")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(255)");
-            });
             modelBuilder.Entity<WinterGameAwards>(entity =>
             {
                 entity.ToTable("winter_game_awards");
