@@ -5,7 +5,7 @@ namespace DartLeague.Web.Areas.Manage.Models
 {
     public class PagePartsListViewModel
     {
-        public List<PagePart> PageParts { get; set; }       
+        public List<PagePartViewModel> PageParts { get; set; }       
 
     }
 }

@@ -5,7 +5,7 @@
 <h2>Page Part Contents</h2>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a class="btn btn-success btn-sm" asp-area="Site" asp-controller="PagePart" asp-action="Create" Title="Add a page part">
+        <a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="PagePart" asp-action="Create" Title="Add a page part">
             <i class="fa fa-plus-square"></i>
         </a> <strong>Page Part</strong>
     </div>
@@ -39,9 +39,9 @@
                                 </a>
                             </div>
                         </td>
-                        <td style="vertical-align: middle">part.Name</td>
-                        <td style="vertical-align: middle">part.Description</td>
-                        <td style="">part.Updated_At</td>
+                        <td style="vertical-align: middle">@part.Name</td>
+                        <td style="vertical-align: middle">@part.Description</td>
+                        <td style="">@part.UpdatedAt</td>
                         <td><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="PagePart" asp-action="Delete" asp-route-id="part.Id" title="Delete">
                             <i class="fa fa-trash-o fa-lg"></i>
                         </a>
