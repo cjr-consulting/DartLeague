@@ -11,6 +11,7 @@ namespace DartLeague.Repositories.LeagueData
         public string Html { get; set; }
 
         public string Name { get; set; }
+
         public DateTime UpdatedAt { get; set; }
     }
 }
