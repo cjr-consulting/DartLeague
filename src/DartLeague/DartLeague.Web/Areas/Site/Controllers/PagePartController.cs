@@ -2,14 +2,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
-using DartLeague.Web.Areas.Manage.Models;
+using DartLeague.Web.Areas.Site.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace DartLeague.Web.Areas.Manage.Controllers
+namespace DartLeague.Web.Areas.Site.Controllers
 {
-    [Area("Manage")]
+    [Area("Site")]
     public class PagePartController : Controller
     {
         private readonly LeagueContext _leagueContext;
@@ -18,6 +17,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             _leagueContext = leagueContext;
         }
+
         public IActionResult Index()
         {
             var pagePartsList = new PagePartsListViewModel();
@@ -46,7 +46,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var newPagePart = new PagePart()
+                    var newPagePart = new PagePart
                     {
                         Name = pagePart.Name,
                         Description = pagePart.Description,
@@ -68,7 +68,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(pagePart);
         }
 
-        [Route("manage/pagepart/{id}/edit")]
+        [Route("site/pagepart/{id}/edit")]
         public async Task<IActionResult> Edit(int id)
         {
             var pagePart = await _leagueContext.PageParts.FirstOrDefaultAsync(x => x.Id == id);
@@ -85,9 +85,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(pagePartModel);
         }
 
-        public IActionResult Delete()
+        [Route("site/pagepart/{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            var pagePart = await _leagueContext.PageParts.FirstOrDefaultAsync(x => x.Id == id);
+            if (pagePart == null) return RedirectToAction("Index");
+
+            _leagueContext.PageParts.Remove(pagePart);
+            _leagueContext.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

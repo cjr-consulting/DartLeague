@@ -96,6 +96,7 @@
     <Folder Include="Areas\Manage\Views\SeasonMessage\" />
     <Folder Include="Areas\Manage\Views\SeasonBoard\" />
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
+    <Folder Include="Areas\Manage\Views\PagePart\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />

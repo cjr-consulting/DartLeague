@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DartLeague.Web.Areas.Manage.Models
+namespace DartLeague.Web.Areas.Site.Models
 {
     public class PagePartViewModel
     {

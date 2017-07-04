@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using DartLeague.Repositories.LeagueData;
 
-namespace DartLeague.Web.Areas.Manage.Models
+namespace DartLeague.Web.Areas.Site.Models
 {
     public class PagePartsListViewModel
     {
