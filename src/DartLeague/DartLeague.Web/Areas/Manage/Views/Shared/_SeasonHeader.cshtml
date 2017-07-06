@@ -3,8 +3,11 @@
         <li><a asp-area="Manage" asp-controller="Home" asp-action="Index">Manage League</a></li>
         <li class="active">@ViewData["SeasonName"]</li>
     </ol>
-    <div class="header">
-        <h2>@ViewData["SeasonName"]</h2>
+    <div class="row">
+        <div class="col-lg-11">
+            <span class="header">@ViewData["SeasonName"]</span>
+        </div>
+        <div class="col-lg-1"><button class="btn btn-default">Edit</button></div>
     </div>
 </div>
 

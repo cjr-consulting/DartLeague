@@ -18,7 +18,7 @@ namespace DartLeague.Repositories.SeasonData
         {
             modelBuilder.Entity<Season>(entity =>
             {
-                entity.ToTable("browsable_files");
+                entity.ToTable("seasons");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -31,28 +31,27 @@ namespace DartLeague.Repositories.SeasonData
 
                 entity.Property(e => e.StartDate)
                     .IsRequired()
-                    .HasColumnName("eventDate")
+                    .HasColumnName("startDate")
                     .HasColumnType("datetime(6)");
 
                 entity.Property(e => e.EndDate)
                     .IsRequired()
-                    .HasColumnName("eventDate")
+                    .HasColumnName("endDate")
                     .HasColumnType("datetime(6)");
 
                 entity.Property(e => e.CreatedAt)
                     .IsRequired()
                     .HasColumnName("createdAt")
-                    .HasColumnType("datetime(6)");
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
 
                 entity.Property(e => e.CreatedBy)
                     .HasColumnName("createdBy")
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(e => e.UpdatedAt)
-                    .IsRequired()
                     .HasColumnName("updatedAt")
-                    .HasColumnType("datetime(6)")
-                    .HasDefaultValue(null);
+                    .HasColumnType("datetime(6)");
                 
                 entity.Property(e => e.UpdatedBy)
                     .HasColumnName("updatedBy")

@@ -25,11 +25,17 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 new SeasonListViewModel
                 {
+                    Id = 4,
+                    Name = "2017 - 2018",
+                    StartDate = new DateTime(2017, 9, 1),
+                    EndDate = new DateTime(2018, 8, 31),
+                },
+                new SeasonListViewModel
+                {
                     Id = 3,
                     Name = "2016 - 2017",
                     StartDate = new DateTime(2016, 9, 1),
                     EndDate = new DateTime(2017, 8, 31),
-                    State = SeasonStates.Created,
                 },
                 new SeasonListViewModel
                 {
@@ -37,7 +43,6 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     Name = "2015 - 2016",
                     StartDate = new DateTime(2015, 9, 1),
                     EndDate = new DateTime(2016, 8, 31),
-                    State = SeasonStates.Started,
                 },
                 new SeasonListViewModel
                 {
@@ -45,7 +50,6 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     Name = "2014 - 2015",
                     StartDate = new DateTime(2014, 9, 1),
                     EndDate = new DateTime(2015, 8, 31),
-                    State = SeasonStates.Ended,
                 }
             });
         }

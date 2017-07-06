@@ -8,9 +8,10 @@ using DartLeague.Repositories.WinterSeasonData;
 namespace DartLeague.Web.Data.Migrations.WinterSeasonDb
 {
     [DbContext(typeof(WinterSeasonContext))]
-    partial class WinterSeasonContextModelSnapshot : ModelSnapshot
+    [Migration("20170706130525_RemovedSeasonTableFromThisContext")]
+    partial class RemovedSeasonTableFromThisContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

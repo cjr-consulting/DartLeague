@@ -11,7 +11,7 @@
         <div class="col-lg-12">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <p>Only a single season can be active at a time.</p>
+                    <p>Only one season can be active at a time.</p>
                     <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="Season" asp-action="Create" title="Add Season"><i class="fa fa-plus-square"></i></a> <strong>Season</strong></p>
                     <p><i class="fa fa-asterisk" style="color: orangered;"></i> Demo Sample.</p>
                 </div>
@@ -20,13 +20,16 @@
                         <tr>
                             <th style="width: 150px;"></th>
                             <th>Name</th>
+                            <th></th>
+                            <th style="text-align: center;">Start</th>
+                            <th style="text-align: center;">End</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="2">Currently No Seasons</td>
+                                <td colspan="4">Currently No Seasons</td>
                             </tr>
                         }
 
@@ -35,23 +38,25 @@
                             <tr>
                                 <td nowwrap="nowrap">
                                     <div class="btn-group">
-                                        @switch (season.State)
-                                        {
-                                            case SeasonStates.Started:
-                                                <a href="#" class="btn btn-success disabled">Started</a>
-                                                break;
-                                            case SeasonStates.Created:
-                                                <a href="#" class="btn btn-warning">Start</a>
-                                                break;
-                                            case SeasonStates.Ended:
-                                                <a href="#" class="btn btn-danger disabled">Done</a>
-                                                break;
-
-                                        }
                                         <a class="btn btn-default" asp-area="Manage" asp-controller="Season" asp-action="Index" asp-route-id="@season.Id">Edit</a>
                                     </div>
                                 </td>
-                                <td><a asp-controller="LeagueLink" asp-action="Edit" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Name</a></td>
+                                <td><a asp-controller="LeagueLink" asp-action="Index" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Name</a></td>
+                                <td style="text-align: center;">
+                                    @if (season.EndDate < DateTime.Now.Date)
+                                    {
+                                        <span class="label label-danger">Done</span>
+                                    } else if (season.StartDate < DateTime.Now.Date && season.EndDate > DateTime.Now.Date)
+                                    {
+                                        <span class="label label-success">Started</span>
+                                    } else if (season.StartDate > DateTime.Now.Date)
+                                    {
+                                        <span class="label label-warning">Waiting</span>
+                                    }
+
+                                </td>
+                                <td style="text-align: center;">@season.StartDate.ToString("d")</td>
+                                <td style="text-align: center;">@season.EndDate.ToString("d")</td>
                             </tr>
                         }
                     </tbody>

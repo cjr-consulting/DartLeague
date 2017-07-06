@@ -1,4 +1,5 @@
 ﻿using DartLeague.Repositories.LeagueData;
+using DartLeague.Repositories.SeasonData;
 using DartLeague.Repositories.WinterSeasonData;
 using DartLeague.Web.Data;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,16 @@ namespace DartLeague.Web.Configurations
             );
         }
 
+        public static void AddSeasonDbContext(this IServiceCollection services, string connectionString, string migrationsAssembly)
+        {
+            services.AddDbContext<SeasonContext>(options =>
+                options.UseMySql(
+                    connectionString,
+                    b => b.MigrationsAssembly(migrationsAssembly)
+                )
+            );
+        }
+
         public static void UseLeagueDbMigrations(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
@@ -41,6 +52,9 @@ namespace DartLeague.Web.Configurations
 
                 var winterSeasonContext = serviceScope.ServiceProvider.GetService<WinterSeasonContext>();
                 winterSeasonContext.Database.Migrate();
+
+                var seasonContext = serviceScope.ServiceProvider.GetService<SeasonContext>();
+                seasonContext.Database.Migrate();
             }
         }
     }

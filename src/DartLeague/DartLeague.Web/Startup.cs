@@ -49,6 +49,10 @@ namespace DartLeague.Web
                 Configuration.GetConnectionString("WinterSeasonMySqlProvider"),
                 migrationsAssembly);
 
+            services.AddSeasonDbContext(
+                Configuration.GetConnectionString("SeasonMySqlProvider"),
+                migrationsAssembly);
+
             services.AddIdentity<UserIdentity, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
