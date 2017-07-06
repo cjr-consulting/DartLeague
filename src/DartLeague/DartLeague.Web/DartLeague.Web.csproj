@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Manage\Views\PagePart\**" />
+    <Content Remove="Areas\Manage\Views\PagePart\**" />
+    <EmbeddedResource Remove="Areas\Manage\Views\PagePart\**" />
+    <None Remove="Areas\Manage\Views\PagePart\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\android-icon-144x144.png" />
     <Content Include="wwwroot\android-icon-192x192.png" />
     <Content Include="wwwroot\android-icon-36x36.png" />
