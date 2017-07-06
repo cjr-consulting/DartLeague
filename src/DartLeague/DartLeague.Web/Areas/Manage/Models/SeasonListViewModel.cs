@@ -9,7 +9,7 @@ namespace DartLeague.Web.Areas.Manage.Models
     public class SeasonListViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public DateTime StartDate { get; internal set; }
         public DateTime EndDate { get; internal set; }
         public SeasonStates State { get; internal set; }

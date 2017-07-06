@@ -41,7 +41,7 @@
                                         <a class="btn btn-default" asp-area="Manage" asp-controller="Season" asp-action="Index" asp-route-id="@season.Id">Edit</a>
                                     </div>
                                 </td>
-                                <td><a asp-controller="LeagueLink" asp-action="Index" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Name</a></td>
+                                <td><a asp-controller="Season" asp-action="Index" asp-area="Manage" asp-route-id="@season.Id" title="Edit Link">@season.Title</a></td>
                                 <td style="text-align: center;">
                                     @if (season.EndDate < DateTime.Now.Date)
                                     {

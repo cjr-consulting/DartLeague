@@ -70,7 +70,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     };
                     _leagueContext.Members.Add(p);
                     await _leagueContext.SaveChangesAsync();
-                    return Redirect("Index");
+                    return RedirectToAction("Index");
                 }
             }
             catch(DbUpdateException)

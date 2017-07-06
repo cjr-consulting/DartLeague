@@ -80,7 +80,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     };
                     _leagueContext.Sponsors.Add(newSponsor);
                     await _leagueContext.SaveChangesAsync();
-                    return Redirect("Index");
+                    return RedirectToAction("Index");
                 }
             }
 

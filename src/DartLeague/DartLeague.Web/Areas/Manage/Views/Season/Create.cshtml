@@ -3,5 +3,26 @@
     ViewData["Title"] = "Create Season";
 }
 
-<h2>Create</h2>
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a asp-area="Manage" asp-controller="Home" asp-action="Index">Manage League</a></li>
+        <li class="active">Add Season</li>
+    </ol>
+    <h2>Create Season</h2>
+    <form asp-area="Manage" asp-controller="Season" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.Partial("_seasonFields")
+        <div>
+            <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
+            <a class="btn btn-danger" asp-area="Manage" asp-controller="Season" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>
 
+@section scripts{
+    <script>
+        (function(d) {
+            d.getElementsByName('Title')[0].focus();
+        })(document);
+    </script>
+}
