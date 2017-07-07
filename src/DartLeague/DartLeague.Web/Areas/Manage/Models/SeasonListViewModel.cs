@@ -12,6 +12,5 @@ namespace DartLeague.Web.Areas.Manage.Models
         public string Title { get; set; }
         public DateTime StartDate { get; internal set; }
         public DateTime EndDate { get; internal set; }
-        public SeasonStates State { get; internal set; }
     }
 }

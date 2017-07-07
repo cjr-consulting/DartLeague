@@ -45,8 +45,8 @@
                                 <td style="text-align:center;"><a asp-controller="SeasonLink" asp-action="Delete" asp-area="Manage" asp-route-id="@seasonLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
-                    </tbody>*@
-                </table>
+                    </tbody>
+                </table>*@
             </div>
         </div>
     </div>
@@ -54,12 +54,30 @@
 
 @section scripts {
     <script type="text/javascript">
-        var elems = document.getElementsByClassName('confirmation');
-        var confirmIt = function (e) {
-            if (!confirm('Are you sure?')) e.preventDefault();
-        };
-        for (var i = 0, l = elems.length; i < l; i++) {
-            elems[i].addEventListener('click', confirmIt, false);
-        }
+        (function (d, $) {
+            var elems = d.getElementsByClassName('confirmation');
+            var confirmIt = function (e) {
+                if (!confirm('Are you sure?')) e.preventDefault();
+            };
+
+            for (var i = 0, l = elems.length; i < l; i++) {
+                elems[i].addEventListener('click', confirmIt, false);
+            }
+
+            $(d).ready(function () {
+                function toggleEdit() {
+                    if ($("#seasonTitle").hasClass("hidden")) {
+                        $("#seasonTitle").removeClass("hidden");
+                        $("#seasonEdit").addClass("hidden");
+                    } else {
+                        $("#seasonTitle").addClass("hidden");
+                        $("#seasonEdit").removeClass("hidden");
+                    }
+                }
+
+                $("#btnCancelEdit").on("click", toggleEdit);
+                $("#btnEditSeason").on("click", toggleEdit);
+            });
+        })(document, jQuery);
     </script>
 }

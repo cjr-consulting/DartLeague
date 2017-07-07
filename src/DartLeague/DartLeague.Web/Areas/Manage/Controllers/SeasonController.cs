@@ -8,13 +8,6 @@ using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
-    public enum SeasonStates
-    {
-        Created = 1,
-        Started = 2,
-        Ended = 3
-    }
-
     [Area("Manage")]
     public class SeasonController : Controller
     {
@@ -42,37 +35,6 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 .ToListAsync();
 
             return View(seasons);
-            //return View(new List<SeasonListViewModel>()
-            //{
-            //    new SeasonListViewModel
-            //    {
-            //        Id = 4,
-            //        Title = "2017 - 2018",
-            //        StartDate = new DateTime(2017, 9, 1),
-            //        EndDate = new DateTime(2018, 8, 31),
-            //    },
-            //    new SeasonListViewModel
-            //    {
-            //        Id = 3,
-            //        Title = "2016 - 2017",
-            //        StartDate = new DateTime(2016, 9, 1),
-            //        EndDate = new DateTime(2017, 8, 31),
-            //    },
-            //    new SeasonListViewModel
-            //    {
-            //        Id = 2,
-            //        Title = "2015 - 2016",
-            //        StartDate = new DateTime(2015, 9, 1),
-            //        EndDate = new DateTime(2016, 8, 31),
-            //    },
-            //    new SeasonListViewModel
-            //    {
-            //        Id = 1,
-            //        Title = "2014 - 2015",
-            //        StartDate = new DateTime(2014, 9, 1),
-            //        EndDate = new DateTime(2015, 8, 31),
-            //    }
-            //});
         }
 
         [Route("manage/season/create")]
@@ -84,8 +46,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost("manage/season/create")]
         public async Task<IActionResult> Create(SeasonEditViewModel model)
         {
-            //try
-            //{
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     var season = new Season
@@ -100,14 +62,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     await _seasonContext.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    //Log the error (uncomment ex variable name and write a log.
-            //    ModelState.AddModelError("", "Unable to save changes. " +
-            //                                 "Try again, and if the problem persists " +
-            //                                 "see your system administrator.");
-            //}
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+
             return View(model);
         }
 
@@ -115,6 +78,32 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public IActionResult Index(int id)
         {
             return RedirectToAction("Index", "SeasonLink", new { Area = "Manage" });
+        }
+
+        [HttpPost("manage/season/{id}/edit")]
+        public async Task<IActionResult> Edit(int id, SeasonEditViewModel SeasonEdit)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var season = await _seasonContext.Seasons.FirstOrDefaultAsync(x => x.Id == id);
+                    season.Title = SeasonEdit.Title;
+                    season.StartDate = SeasonEdit.StartDate.Value;
+                    season.EndDate = SeasonEdit.EndDate.Value;
+                    await _seasonContext.SaveChangesAsync();
+                    return Redirect(Request.Headers["Referer"].ToString());
+                }
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+
+            return View();
         }
     }
 }
