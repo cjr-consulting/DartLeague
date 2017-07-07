@@ -226,18 +226,18 @@ namespace DartLeague.Web.Controllers.Components
                         Title = "Site",
                         Href = "#",
                         SubNavigations = {
-                            new NavigationViewModel{ Title = "Dart Events", Href = url.Action("Index", "DartEvent", new {Area = "Site" })},
-                            new NavigationViewModel{ Title = "Page Content", Href = url.Action("Index", "PageContent", new {Area = "Site" })}
+                            new NavigationViewModel{ Title = "Dart Events", Href = url.Action("Index", "DartEvent", new { Area = "Site" }) },
+                            new NavigationViewModel{ Title = "Page Content", Href =url.Action("Index", "PagePart", new { Area = "Site" }) }
                         }
                     },
                     new NavigationViewModel {
                         Title = "League",
                         Href = "#",
                         SubNavigations = {
-                            new NavigationViewModel{ Title = "Links", Href = url.Action("Index", "LeagueLink", new {Area = "Manage" })},
-                            new NavigationViewModel{ Title = "Members", Href = url.Action("Index", "Member", new {Area = "Manage" })},
-                            new NavigationViewModel{ Title = "Seasons", Href = url.Action("Index", "Season", new {Area = "Manage" })},
-                            new NavigationViewModel{ Title = "Sponsors", Href = url.Action("Index", "Sponsor", new {Area = "Manage" })},
+                            new NavigationViewModel{ Title = "Members", Href = url.Action("Index", "Member", new { Area = "Manage" }) },
+                            new NavigationViewModel{ Title = "Teams", Href = "manage.team.index"},
+                            new NavigationViewModel{ Title = "Sponsors", Href = url.Action("Index", "Sponsor", new { Area = "Manage" })},
+                            new NavigationViewModel{ Title = "Board Members", Href = "manage.boardmember.index"},
                         }
                     }
                 }

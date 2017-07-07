@@ -11,9 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Manage\Views\PagePart\**" />
+    <Compile Remove="Areas\Site\Views\EventResult\**" />
     <Content Remove="Areas\Manage\Views\PagePart\**" />
+    <Content Remove="Areas\Site\Views\EventResult\**" />
     <EmbeddedResource Remove="Areas\Manage\Views\PagePart\**" />
+    <EmbeddedResource Remove="Areas\Site\Views\EventResult\**" />
     <None Remove="Areas\Manage\Views\PagePart\**" />
+    <None Remove="Areas\Site\Views\EventResult\**" />
   </ItemGroup>
 
   <ItemGroup>
