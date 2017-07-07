@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Domain.BrowsableFiles;
 using DartLeague.Repositories.LeagueData;
-using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {

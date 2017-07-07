@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
