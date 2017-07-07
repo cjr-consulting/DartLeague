@@ -5,7 +5,7 @@
 <div class="page-header">
     <h1 style="text-align: center;">Welcome to The Greater Trenton Dart League</h1>
     <div class="important-message">
-        {!! $welcomeMessage !!}
+        @await Component.InvokeAsync("ImportantMessage")
     </div>
 </div>
 

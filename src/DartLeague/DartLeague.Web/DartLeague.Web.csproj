@@ -105,6 +105,7 @@
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
     <Folder Include="Areas\Manage\Views\PagePart\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Views\Shared\Components\ImportantMessage\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="Views\Shared\Components\EventList\" />

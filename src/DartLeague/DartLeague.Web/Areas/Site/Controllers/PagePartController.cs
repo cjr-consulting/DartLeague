@@ -85,6 +85,32 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(pagePartModel);
         }
 
+        [HttpPost("site/pagepart/{id}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, PagePartViewModel pagePart)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingPagePart = await _leagueContext.PageParts.FirstOrDefaultAsync(x => x.Id == id);
+                    existingPagePart.Name = pagePart.Name;
+                    existingPagePart.Description = pagePart.Description;
+                    existingPagePart.Html = pagePart.Html;
+                    existingPagePart.UpdatedAt = DateTime.Now;
+                };
+                    await _leagueContext.SaveChangesAsync();
+                    return RedirectToAction("Index");
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+            return View(pagePart);
+        }
         [Route("site/pagepart/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
