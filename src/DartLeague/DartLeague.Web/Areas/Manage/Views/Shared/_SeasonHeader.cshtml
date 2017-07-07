@@ -1,11 +1,13 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model SeasonManagementRootViewModelBase
 <div class="container">
     <ol class="breadcrumb">
         <li><a asp-area="Manage" asp-controller="Home" asp-action="Index">Manage League</a></li>
-        <li class="active">@ViewData["SeasonName"]</li>
+        <li class="active">Season @Model.SeasonEdit.Title</li>
     </ol>
     <div class="row">
         <div class="col-lg-11">
-            <span class="header">@ViewData["SeasonName"]</span>
+            <span class="header">Season @Model.SeasonEdit.Title</span>
         </div>
         <div class="col-lg-1"><button class="btn btn-default">Edit</button></div>
     </div>

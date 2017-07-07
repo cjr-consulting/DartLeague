@@ -4,18 +4,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
+using DartLeague.Repositories.SeasonData;
+using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
     public class SeasonLinkController : Controller
     {
-        [Route("manage/season/{id}/link")]
-        public IActionResult Index(int id)
+        private readonly SeasonContext _seasonContext;
+
+        public SeasonLinkController(SeasonContext seasonContext)
         {
-            ViewData["SeasonName"] = "Season 2016-2017";
+            _seasonContext = seasonContext;
+        }
+
+        [Route("manage/season/{id}/link")]
+        public async Task<IActionResult> Index(int id)
+        {
             ViewData["SeasonNavPage"] = "Links";
-            return View(new List<SeasonLinkViewModel>());
+            var season = await _seasonContext.Seasons
+                .Select(x =>
+                    new SeasonEditViewModel
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate
+                    })
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return View(new SeasonManagementRootViewModel<List<SeasonLinkViewModel>>
+            {
+                SeasonEdit = season,
+                Data = new List<SeasonLinkViewModel>()
+            });
         }
     }
 }
