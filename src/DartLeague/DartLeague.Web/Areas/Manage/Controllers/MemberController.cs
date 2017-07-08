@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
@@ -19,6 +19,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         public IActionResult Index()
         {
+            ViewData["LeagueNavPage"] = "Members";
             var playersList = new MembersListViewModel();
             playersList.Members = _leagueContext.Members.Select(x =>
                 new MemberViewModel
@@ -69,7 +70,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     };
                     _leagueContext.Members.Add(p);
                     await _leagueContext.SaveChangesAsync();
-                    return Redirect("Index");
+                    return RedirectToAction("Index");
                 }
             }
             catch(DbUpdateException)

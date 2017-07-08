@@ -99,36 +99,6 @@ namespace DartLeague.Web.Data.Migrations.WinterSeasonDb
                     b.ToTable("match_types");
                 });
 
-            modelBuilder.Entity("DartLeague.Repositories.WinterSeasonData.Seasons", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<bool>("IsCurrent")
-                        .HasColumnName("isCurrent")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("LeagueId")
-                        .HasColumnName("leagueId")
-                        .HasColumnType("int(11)");
-
-                    b.Property<string>("LinkName")
-                        .IsRequired()
-                        .HasColumnName("linkName")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("seasons");
-                });
-
             modelBuilder.Entity("DartLeague.Repositories.WinterSeasonData.WinterGameAwards", b =>
                 {
                     b.Property<int>("Id")

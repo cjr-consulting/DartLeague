@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
@@ -27,11 +27,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _leagueContext = leagueContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewData["LeagueNavPage"] = "Sponsors";
             var sponsorsList = new SponsorListViewModel
             {
-                Sponsors = _leagueContext.Sponsors.Select(x =>
+                Sponsors = await _leagueContext.Sponsors.Select(x =>
                         new SponsorViewModel
                         {
                             Id = x.Id,
@@ -39,7 +40,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Type = x.Type,
                             ContactName = x.ContactName
                         })
-                    .ToList()
+                    .ToListAsync()
             };
             return View(sponsorsList);
         }
@@ -79,7 +80,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     };
                     _leagueContext.Sponsors.Add(newSponsor);
                     await _leagueContext.SaveChangesAsync();
-                    return Redirect("Index");
+                    return RedirectToAction("Index");
                 }
             }
 

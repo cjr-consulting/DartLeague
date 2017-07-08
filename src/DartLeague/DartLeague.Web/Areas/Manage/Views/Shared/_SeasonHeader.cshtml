@@ -1,0 +1,66 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model SeasonManagementRootViewModelBase
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a asp-area="Manage" asp-controller="Home" asp-action="Index">Manage League</a></li>
+        <li class="active">Season @Model.SeasonEdit.Title</li>
+    </ol>
+    <div id="seasonTitle">
+        <div class="row">
+            <div class="col-sm-11">
+                <div style="font-size: 30px; font-weight: 500; line-height: 1.1; margin-top: 5px; margin-bottom: 2px;">Season @Model.SeasonEdit.Title</div>
+            </div>
+            <div class="col-sm-1"><button class="btn btn-default" id="btnEditSeason">Edit</button></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="text-right text-info">@($"{Model.SeasonEdit.StartDate.Value.ToString("d")} - {Model.SeasonEdit.EndDate.Value.ToString("d")}")</div>
+            </div>
+        </div>
+    </div>
+    <div id="seasonEdit" class="well well-sm hidden">
+        <form asp-area="Manage" asp-controller="Season" asp-action="Edit" asp-route-id="@Model.SeasonEdit.Id" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <label asp-for="SeasonEdit.Title"></label>
+                        <input class="form-control input-lg" asp-for="SeasonEdit.Title" />
+                        <span asp-validation-for="SeasonEdit.Title" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SeasonEdit.StartDate"></label>
+                        <input class="form-control" asp-for="SeasonEdit.StartDate" />
+                        <span asp-validation-for="SeasonEdit.StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SeasonEdit.EndDate"></label>
+                        <input class="form-control" asp-for="SeasonEdit.EndDate" />
+                        <span asp-validation-for="SeasonEdit.EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Update</button>
+                <button id="btnCancelEdit" class="btn btn-danger">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container" style="margin-bottom: 10px;">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonBoard" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Board</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonLink" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Links</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonMessage" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Messages</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Teams" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonTeam" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Teams</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Players" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonPlayer" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Players <span class="badge warning">1</span></a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonCompetition" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Competitions</a></li>
+    </ul>
+</div>

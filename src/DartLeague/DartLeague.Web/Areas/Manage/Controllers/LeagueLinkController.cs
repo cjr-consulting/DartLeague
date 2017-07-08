@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Domain.BrowsableFiles;
 using DartLeague.Web.Areas.Manage.Models;
 using DartLeague.Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using EF = DartLeague.Repositories.LeagueData;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -23,6 +23,32 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             _leagueContext = leagueContext;
             _browsableFileService = browsableFileService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            ViewData["LeagueNavPage"] = "Links";
+            var links = await GetLeagueLinks();
+            return View(links);
+        }
+
+        private async Task<List<LeagueLinksListViewModel>> GetLeagueLinks()
+        {
+            var list = new List<LeagueLinksListViewModel>();
+            foreach (var link in await _leagueContext.LeagueLinks.OrderBy(x => x.Order).ToListAsync())
+            {
+                var linkView = new LeagueLinksListViewModel
+                {
+                    Id = link.Id,
+                    Title = link.Title,
+                    LinkType = link.LinkType == 1 ? "Url" : "File",
+                    Url = link.Url,
+                    Order = link.Order
+                };
+                list.Add(linkView);
+            }
+
+            return list;
         }
 
         public async Task<IActionResult> Create()
