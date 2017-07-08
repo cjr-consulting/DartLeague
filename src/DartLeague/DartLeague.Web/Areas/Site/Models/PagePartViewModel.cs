@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace DartLeague.Repositories.LeagueData
+namespace DartLeague.Web.Areas.Site.Models
 {
-    public class PagePart
+    public class PagePartViewModel
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
         public string Html { get; set; }
-
-        public string Name { get; set; }
 
         public DateTime UpdatedAt { get; set; }
     }

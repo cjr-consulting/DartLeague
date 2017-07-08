@@ -3,9 +3,9 @@
 }
 
 <div class="page-header">
-    <h1 style="text-align: center;">Welcome to The Greater Trenton Dart League</h1>
+    <h1 class="text-center">Welcome to The Greater Trenton Dart League</h1>
     <div class="important-message">
-        {!! $welcomeMessage !!}
+        @await Component.InvokeAsync("ImportantMessage")
     </div>
 </div>
 
@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <div class="alert alert-success" style="text-align: center;">
+                <div class="alert alert-success text-center">
                     <h4>Interesting <a href="http://www.si.com/vault/1975/02/17/557875/eight-feet-away-from-glory" target="_blank"> Sports Illustrated article</a> on darts from 1975.  Our own Conrad Daniels is a key part!</h4>
                     <p>
                         <a href="/documents/static/conrad_outs.pdf" target="_blank">Conrad Daniels Out Shots </a>

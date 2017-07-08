@@ -10,6 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Manage\Views\PagePart\**" />
+    <Compile Remove="Areas\Site\Views\EventResult\**" />
+    <Content Remove="Areas\Manage\Views\PagePart\**" />
+    <Content Remove="Areas\Site\Views\EventResult\**" />
+    <EmbeddedResource Remove="Areas\Manage\Views\PagePart\**" />
+    <EmbeddedResource Remove="Areas\Site\Views\EventResult\**" />
+    <None Remove="Areas\Manage\Views\PagePart\**" />
+    <None Remove="Areas\Site\Views\EventResult\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\android-icon-144x144.png" />
     <Content Include="wwwroot\android-icon-192x192.png" />
     <Content Include="wwwroot\android-icon-36x36.png" />
@@ -91,12 +102,13 @@
   <ItemGroup>
     <Folder Include="Areas\Manage\Views\Home\" />
     <Folder Include="Areas\Manage\Views\LeagueLink\" />
-    <Folder Include="Areas\Site\Views\EventResult\" />
     <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
     <Folder Include="Areas\Manage\Views\SeasonMessage\" />
     <Folder Include="Areas\Manage\Views\SeasonBoard\" />
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
+    <Folder Include="Areas\Manage\Views\PagePart\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Views\Shared\Components\ImportantMessage\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="Views\Shared\Components\EventList\" />
