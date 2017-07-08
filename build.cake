@@ -34,7 +34,7 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    DotNetCoreBuild("./src/DartLeague/DartLeague.sln");
+    MSBuild("./src/DartLeague/DartLeague.sln");
     /*
     if(IsRunningOnWindows())
     {
@@ -67,12 +67,12 @@ Task("Run-Unit-Tests")
 Task("Default")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() => {
-    DotNetCorePublish("./src/dartleague/dartleague.web/dartleague.web.csproj", new DotNetCorePublishSettings
-     {
-         Framework = "netcoreapp1.1",
-         Configuration = "Release",
-         OutputDirectory = "./obj/Docker/publish/"
-     });
+//    DotNetCorePublish("./src/dartleague/dartleague.web/dartleague.web.csproj", new DotNetCorePublishSettings
+//     {
+//         Framework = "netcoreapp1.1",
+//         Configuration = "Release",
+//         OutputDirectory = "./obj/Docker/publish/"
+//     });
     });
 
 //////////////////////////////////////////////////////////////////////
