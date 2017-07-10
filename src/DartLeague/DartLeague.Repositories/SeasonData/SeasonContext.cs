@@ -8,6 +8,7 @@ namespace DartLeague.Repositories.SeasonData
     public class SeasonContext : DbContext
     {
         public DbSet<Season> Seasons { get; set; }
+        public DbSet<SeasonLink> SeasonLinks { get; set; }
 
         public SeasonContext(DbContextOptions<SeasonContext> options)
             : base(options)
@@ -55,6 +56,62 @@ namespace DartLeague.Repositories.SeasonData
                 
                 entity.Property(e => e.UpdatedBy)
                     .HasColumnName("updatedBy")
+                    .HasColumnType("int(10) unsigned");
+            });
+            modelBuilder.Entity<SeasonLink>(entity =>
+            {
+                entity.ToTable("season_links");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.SeasonId)
+                    .HasColumnName("seasonId")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasColumnName("title")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.LinkType)
+                    .IsRequired()
+                    .HasColumnName("linkType")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Url)
+                    .HasColumnName("url")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.FileId)
+                    .IsRequired()
+                    .HasColumnName("fileId")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Order)
+                    .IsRequired()
+                    .HasColumnName("order")
+                    .HasColumnType("int(11)");
+
+                entity.Property(x => x.CreatedAt)
+                    .IsRequired()
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
+
+                entity.Property(x => x.CreatedBy)
+                    .IsRequired()
+                    .HasColumnName("created_by")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(x => x.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(x => x.UpdatedBy)
+                    .IsRequired()
+                    .HasColumnName("updated_by")
                     .HasColumnType("int(10) unsigned");
             });
         }

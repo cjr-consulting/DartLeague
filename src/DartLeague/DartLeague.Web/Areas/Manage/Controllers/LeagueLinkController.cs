@@ -60,6 +60,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
             try
@@ -137,6 +138,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [HttpPost("manage/leaguelink/{id}/edit")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
             try

@@ -1,6 +1,11 @@
-﻿namespace DartLeague.Web.Areas.Manage.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DartLeague.Web.Areas.Manage.Models
 {
-    public class LeagueLinksListViewModel
+    public class SeasonLinkListViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
