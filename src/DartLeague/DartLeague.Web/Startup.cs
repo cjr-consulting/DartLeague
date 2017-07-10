@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mindscape.Raygun4Net;
+using DartLeague.Web.Helpers;
 
 namespace DartLeague.Web
 {
@@ -73,6 +75,11 @@ namespace DartLeague.Web
                     builder.UseMySql(authSqlConnectionString, options =>
                         options.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<UserIdentity>();
+            
+            services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
+            {
+                ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,18 +93,19 @@ namespace DartLeague.Web
                 AutomaticAuthenticate = false,
                 AutomaticChallenge = false
             });
-
+            
             if (env.IsDevelopment())
             {
+                app.UseLeagueDbMigrations();
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                app.UseLeagueDbMigrations();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseRaygun();
             }
-            
+
             InitializeAuthDb.Initialize(app).Wait();
             InitializeIdentityDb.Initialize(app);
             InitializeLeagueDb.Initialize(app).Wait();
