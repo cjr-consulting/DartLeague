@@ -26,59 +26,69 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _browsableFileService = browsableFileService;
         }
 
-        [Route("manage/season/{id}/link")]
-        public async Task<IActionResult> Index(int id)
+        [Route("manage/season/{seasonId}/link")]
+        public async Task<IActionResult> Index(int seasonId)
         {
             ViewData["SeasonNavPage"] = "Links";
-            var season = await _seasonContext.Seasons
-                .Select(x =>
-                    new SeasonEditViewModel
-                    {
-                        Id = x.Id,
-                        Title = x.Title,
-                        StartDate = x.StartDate,
-                        EndDate = x.EndDate
-                    })
-                .FirstOrDefaultAsync(x => x.Id == id);
 
             return View(new SeasonManagementRootViewModel<List<SeasonLinkListViewModel>>
             {
-                SeasonEdit = season,
-                Data = new List<SeasonLinkListViewModel>()
+                SeasonEdit = await GetSeason(seasonId),
+                Data = await GetLinks(seasonId)
             });
         }
 
-        private async Task<List<SeasonLinkListViewModel>> GetLinks()
+        private async Task<SeasonEditViewModel> GetSeason(int seasonId)
         {
-            var list = new List<SeasonLinkListViewModel>();
-            foreach (var link in await _seasonContext.SeasonLinks.OrderBy(x => x.Order).ToListAsync())
-            {
-                var linkView = new SeasonLinkListViewModel
-                {
-                    Id = link.Id,
-                    Title = link.Title,
-                    LinkType = link.LinkType == 1 ? "Url" : "File",
-                    Url = link.Url,
-                    Order = link.Order
-                };
-                list.Add(linkView);
-            }
-
-            return list;
+            return await _seasonContext.Seasons
+                            .Select(x =>
+                                new SeasonEditViewModel
+                                {
+                                    Id = x.Id,
+                                    Title = x.Title,
+                                    StartDate = x.StartDate,
+                                    EndDate = x.EndDate
+                                })
+                            .FirstOrDefaultAsync(x => x.Id == seasonId);
         }
-        
-        [Route("manage/season/{id}/link/create")]
-        public async Task<IActionResult> Create()
+
+        private async Task<List<SeasonLinkListViewModel>> GetLinks(int seasonId)
         {
-            var maxOrder = await _seasonContext.SeasonLinks.MaxAsync(x => x.Order);
-            var model = new SeasonLinkViewModel();
-            model.Order = maxOrder + 1;
+            return await _seasonContext.SeasonLinks
+                .Where(x => x.SeasonId == seasonId)
+                .OrderBy(x => x.Order)
+                .Select(x => new SeasonLinkListViewModel
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        LinkType = x.LinkType == 1 ? "Url" : "File",
+                        Url = x.Url,
+                        Order = x.Order
+                    })
+                .ToListAsync();
+        }
+
+        [Route("manage/season/{seasonId}/link/create")]
+        public async Task<IActionResult> Create(int seasonId)
+        {
+            var maxOrder = await _seasonContext.SeasonLinks
+                .Where(x => x.SeasonId == seasonId)
+                .MaxAsync(x => x.Order);
+            var model = new SeasonManagementRootViewModel<SeasonLinkViewModel>
+            {
+                SeasonEdit = await GetSeason(seasonId),
+                Data = new SeasonLinkViewModel
+                {
+                    Order = maxOrder + 1
+                }
+            };
+            
             return View(model);
         }
 
-        [HttpPost("manage/season/{id}/link/create")]
+        [HttpPost("manage/season/{seasonId}/link/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SeasonLinkViewModel model, List<IFormFile> linkFile)
+        public async Task<IActionResult> Create(int seasonId, SeasonLinkViewModel model, List<IFormFile> linkFile)
         {
             try
             {
@@ -94,15 +104,16 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
-                            Category = SEASON_LINK_CATEGORY,
+                            Category = CategoryForSeason(seasonId),
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), FileName = f.FileName });
                     }
 
                     var l = new SeasonLink
                     {
+                        SeasonId = seasonId,
                         Title = model.Title,
                         LinkType = model.LinkType,
                         Url = url,
@@ -114,7 +125,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     _seasonContext.SeasonLinks.Add(l);
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "SeasonLink");
                 }
             }
             catch (DbUpdateException)
@@ -125,49 +136,58 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                              "see your system administrator.");
             }
 
-            return View(model);
+            return View(new SeasonManagementRootViewModel<SeasonLinkViewModel>
+            {
+                SeasonEdit = await GetSeason(seasonId),
+                Data = model
+            });
         }
 
-        [Route("manage/season/{id}/link/{linkId}/edit")]
-        public async Task<IActionResult> Edit(int id, int linkId)
+        [Route("manage/season/{seasonId}/link/{id}/edit")]
+        public async Task<IActionResult> Edit(int seasonId, int id)
         {
-            var leagueLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == linkId);
-            if (leagueLink == null)
+            var seasonLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == id);
+            if (seasonLink == null)
                 return NotFound();
 
             string fileLink = "";
-            if (leagueLink.LinkType == 2)
+            if (seasonLink.LinkType == 2)
             {
-                fileLink = leagueLink.Url;
+                fileLink = seasonLink.Url;
             }
 
-            var model = new SeasonLinkViewModel
+            var model = new SeasonManagementRootViewModel<SeasonLinkViewModel>
             {
-                Id = id,
-                Title = leagueLink.Title,
-                LinkType = leagueLink.LinkType,
-                Url = leagueLink.Url,
-                Order = leagueLink.Order,
-                FileLink = fileLink
+                SeasonEdit = await GetSeason(seasonId),
+                Data = new SeasonLinkViewModel
+                {
+                    Id = id,
+                    SeasonId = seasonId,
+                    Title = seasonLink.Title,
+                    LinkType = seasonLink.LinkType,
+                    Url = seasonLink.Url,
+                    Order = seasonLink.Order,
+                    FileLink = fileLink
+                }
             };
 
             return View(model);
         }
 
-        [HttpPost("manage/season/{id}/link/{linkId}/edit")]
+        [HttpPost("manage/season/{seasonId}/link/{id}/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int linkId, SeasonLinkViewModel model, List<IFormFile> linkFile)
+        public async Task<IActionResult> Edit(int seasonId, int id, SeasonLinkViewModel model, List<IFormFile> linkFile)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var leagueLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == id);
-                    if (leagueLink == null)
+                    var seasonLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == seasonId);
+                    if (seasonLink == null)
                         return NotFound();
 
                     string url = model.Url;
-                    int linkFileId = leagueLink.FileId;
+                    int linkFileId = seasonLink.FileId;
                     if (linkFile.Any() && model.LinkType == 2)
                     {
                         if (linkFileId > 0)
@@ -179,22 +199,22 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             FileName = $"{FileHelper.CleanString(model.Title)}{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
-                            Category = SEASON_LINK_CATEGORY,
+                            Category = CategoryForSeason(seasonId),
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), FileName = f.FileName });
                     }
 
-                    leagueLink.Title = model.Title;
-                    leagueLink.LinkType = model.LinkType;
-                    leagueLink.Url = url;
-                    leagueLink.FileId = linkFileId;
-                    leagueLink.Order = model.Order;
-                    leagueLink.UpdatedAt = DateTime.UtcNow;
+                    seasonLink.Title = model.Title;
+                    seasonLink.LinkType = model.LinkType;
+                    seasonLink.Url = url;
+                    seasonLink.FileId = linkFileId;
+                    seasonLink.Order = model.Order;
+                    seasonLink.UpdatedAt = DateTime.UtcNow;
 
                     _seasonContext.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "SeasonLink");
                 }
 
             }
@@ -205,22 +225,31 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                              "Try again, and if the problem persists " +
                                              "see your system administrator.");
             }
-
-            return View(model);
+            
+            return View(new SeasonManagementRootViewModel<SeasonLinkViewModel>
+            {
+                SeasonEdit = await GetSeason(seasonId),
+                Data = model
+            });
         }
 
-        [Route("manage/leaguelink/{id}/delete")]
-        public async Task<IActionResult> Delete(int id)
+        private static string CategoryForSeason(int seasonId)
         {
-            var leagueLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == id);
-            if (leagueLink != null)
+            return $"{SEASON_LINK_CATEGORY}-{seasonId}";
+        }
+
+        [Route("manage/season/{seasonId}/link/{id}/delete")]
+        public async Task<IActionResult> Delete(int seasonId, int id)
+        {
+            var seasonLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.Id == id);
+            if (seasonLink != null)
             {
-                _seasonContext.SeasonLinks.Remove(leagueLink);
-                await _browsableFileService.DeleteAsync(leagueLink.FileId);
+                _seasonContext.SeasonLinks.Remove(seasonLink);
+                await _browsableFileService.DeleteAsync(seasonLink.FileId);
                 await _seasonContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "SeasonLink");
         }
     }
 }

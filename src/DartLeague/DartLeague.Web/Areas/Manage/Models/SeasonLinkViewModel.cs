@@ -17,5 +17,6 @@ namespace DartLeague.Web.Areas.Manage.Models
         public int Order { get; set; }
         public string Url { get; set; }
         public string FileLink { get; internal set; }
+        public int SeasonId { get; internal set; }
     }
 }

@@ -77,7 +77,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("manage/season/{id}")]
         public IActionResult Index(int id)
         {
-            return RedirectToAction("Index", "SeasonLink", new { Area = "Manage" });
+            return RedirectToAction("Index", "SeasonLink", new { Area = "Manage", seasonId = id });
         }
 
         [HttpPost("manage/season/{id}/edit")]

@@ -25,6 +25,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _browsableFileService = browsableFileService;
         }
 
+        [Route("/manage/link")]
         public async Task<IActionResult> Index()
         {
             ViewData["LeagueNavPage"] = "Links";
@@ -51,6 +52,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return list;
         }
 
+        [Route("/manage/link/create")]
         public async Task<IActionResult> Create()
         {
             var maxOrder = await _leagueContext.LeagueLinks.MaxAsync(x => x.Order);
@@ -59,7 +61,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("/manage/link/create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
@@ -111,7 +113,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(model);
         }
 
-        [Route("manage/leaguelink/{id}/edit")]
+        [Route("manage/link/{id}/edit")]
         public async Task<IActionResult> Edit(int id)
         {
             var leagueLink = await _leagueContext.LeagueLinks.FirstOrDefaultAsync(x => x.Id == id);
@@ -137,7 +139,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(model);
         }
 
-        [HttpPost("manage/leaguelink/{id}/edit")]
+        [HttpPost("manage/link/{id}/edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
@@ -192,7 +194,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(model);
         }
 
-        [Route("manage/leaguelink/{id}/delete")]
+        [Route("manage/link/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
             var leagueLink = await _leagueContext.LeagueLinks.FirstOrDefaultAsync(x => x.Id == id);

@@ -113,6 +113,10 @@ namespace DartLeague.Repositories.SeasonData
                     .IsRequired()
                     .HasColumnName("updated_by")
                     .HasColumnType("int(10) unsigned");
+
+                entity.HasOne(x => x.Season)
+                    .WithMany(e => e.SeasonLinks)
+                    .HasForeignKey(e => e.SeasonId);
             });
         }
     }
