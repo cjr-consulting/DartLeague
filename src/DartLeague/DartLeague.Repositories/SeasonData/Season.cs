@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DartLeague.Repositories.SeasonData
 {
-    public  class Season
+    public class Season
     {
         public int Id { get; set; }
         public string Title { get; set; }
