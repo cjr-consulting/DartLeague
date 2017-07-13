@@ -1,5 +1,5 @@
 @using DartLeague.Web.Areas.Manage.Models
-@model SeasonManagementRootViewModel<List<SeasonLinkViewModel>>
+@model SeasonManagementRootViewModel<List<SeasonLinkListViewModel>>
 @{
     ViewData["Title"] = "Season Links";
 }
@@ -14,10 +14,9 @@
                     <h3 class="panel-title">Season Links</h3>
                 </div>
                 <div class="panel-body">
-                    @*<p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonLink" asp-action="Create" title="Add Season Link"><i class="fa fa-plus-square"></i></a> <strong>Season Link</strong></p>*@
-                    <p><i class="fa fa-asterisk" style="color: orangered;"></i> Nothing just yet.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonLink" asp-action="Create" title="Add Season Link"><i class="fa fa-plus-square"></i></a> <strong>Season Link</strong></p>
                 </div>
-                @*<table class="table table-condensed">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -28,25 +27,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!Model.Any())
+                        @if (!Model.Data.Any())
                         {
                             <tr class="warning">
-                                <td colspan="5">Currently No Season Links</td>
+                                <td style="vertical-align:middle;" colspan="5">Currently No Season Links</td>
                             </tr>
                         }
 
-                        @foreach (var seasonLink in Model)
+                        @foreach (var seasonLink in Model.Data)
                         {
                             <tr>
-                                <td><a asp-controller="SeasonLink" asp-action="Edit" asp-area="Manage" asp-route-id="@seasonLink.Id" title="Edit Season Link">@seasonLink.Title</a></td>
-                                <td style="text-align:center;">@seasonLink.LinkType</td>
-                                <td><a href="@seasonLink.Url">@seasonLink.Url</a></td>
-                                <td style="text-align:center;">@seasonLink.Order</td>
-                                <td style="text-align:center;"><a asp-controller="SeasonLink" asp-action="Delete" asp-area="Manage" asp-route-id="@seasonLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                                <td style="vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Edit" asp-area="Manage" asp-route-id="@seasonLink.Id" title="Edit Season Link">@seasonLink.Title</a></td>
+                                <td style="text-align:center; vertical-align:middle;">@seasonLink.LinkType</td>
+                                <td style="vertical-align:middle;"><a href="@seasonLink.Url">@seasonLink.Url</a></td>
+                                <td style="text-align:center;vertical-align:middle;">@seasonLink.Order</td>
+                                <td style="text-align:center;vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Delete" asp-area="Manage" asp-route-id="@seasonLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
                     </tbody>
-                </table>*@
+                </table>
             </div>
         </div>
     </div>

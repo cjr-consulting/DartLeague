@@ -10,17 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Manage\Views\PagePart\**" />
-    <Compile Remove="Areas\Site\Views\EventResult\**" />
-    <Content Remove="Areas\Manage\Views\PagePart\**" />
-    <Content Remove="Areas\Site\Views\EventResult\**" />
-    <EmbeddedResource Remove="Areas\Manage\Views\PagePart\**" />
-    <EmbeddedResource Remove="Areas\Site\Views\EventResult\**" />
-    <None Remove="Areas\Manage\Views\PagePart\**" />
-    <None Remove="Areas\Site\Views\EventResult\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="wwwroot\android-icon-144x144.png" />
     <Content Include="wwwroot\android-icon-192x192.png" />
     <Content Include="wwwroot\android-icon-36x36.png" />
@@ -90,6 +79,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
+    <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" Version="5.5.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
   </ItemGroup>
@@ -101,21 +91,22 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Manage\Views\Home\" />
+    <Folder Include="Areas\Manage\Views\Member\" />
     <Folder Include="Areas\Manage\Views\LeagueLink\" />
+    <Folder Include="Areas\Manage\Views\SeasonAchievement\" />
+    <Folder Include="Areas\Manage\Views\Season\" />
     <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
     <Folder Include="Areas\Manage\Views\SeasonMessage\" />
     <Folder Include="Areas\Manage\Views\SeasonBoard\" />
+    <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
-    <Folder Include="Areas\Manage\Views\PagePart\" />
+    <Folder Include="Areas\Manage\Views\SeasonTeam\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Views\Shared\Components\ImportantMessage\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="Views\Shared\Components\EventList\" />
     <Folder Include="wwwroot\css\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Areas\Manage\Views\SeasonTeam\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DartLeague.Core\DartLeague.Core.csproj" />

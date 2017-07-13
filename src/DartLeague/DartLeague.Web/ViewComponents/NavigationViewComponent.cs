@@ -1,19 +1,23 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DartLeague.Web.ViewComponents.Models.Navigation;
-using EF = DartLeague.Repositories.LeagueData;
+using EFLeagueData = DartLeague.Repositories.LeagueData;
+using EFSeasonData = DartLeague.Repositories.SeasonData;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
 
 namespace DartLeague.Web.Controllers.Components
 {
     public class NavigationViewComponent : ViewComponent
     {
-        private EF.LeagueContext _leagueContext;
+        private EFLeagueData.LeagueContext _leagueContext;
+        private EFSeasonData.SeasonContext _seasonContext;
 
-        public NavigationViewComponent(EF.LeagueContext leagueContext)
+        public NavigationViewComponent(EFLeagueData.LeagueContext leagueContext, EFSeasonData.SeasonContext seasonContext)
         {
             _leagueContext = leagueContext;
+            _seasonContext = seasonContext;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string template)
@@ -72,57 +76,7 @@ namespace DartLeague.Web.Controllers.Components
                             }
                         }
                     },
-                    new NavigationViewModel
-                    {
-                        Title="Activities and Events",
-                        SubNavigations =
-                        {
-                            new NavigationViewModel
-                            {
-                                Title = "Memorial Tournament Bracket"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Memorial Tournament Info"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Mr. Trenton Bracket"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Mr. Trenton Rules"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "All Star Qualifying Info"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Winter Singles League"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Summer Singles Weekly"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Summer Singles Schedule"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "NJ State Cricket Championship"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "Darts for Dreams Info"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "GTDL Player Results at Events"
-                            }
-                        }
-                    },
+                    await BuildSeasonActivitiesMenu(),
                     new NavigationViewModel
                     {
                         Title="League",
@@ -189,6 +143,32 @@ namespace DartLeague.Web.Controllers.Components
                     await BuildOtherMenu()
                 }
             };
+        }
+
+        private async Task<NavigationViewModel> BuildSeasonActivitiesMenu()
+        {
+            var nav = new NavigationViewModel
+            {
+                Title = "Activities and Events"
+            };
+
+            var season = await CurrentSeason();
+            foreach (var link in season.SeasonLinks.OrderBy(x => x.Order).ToList())
+            {
+                nav.SubNavigations.Add(new NavigationViewModel
+                {
+                    Title = link.Title,
+                    Href = link.Url
+                });
+            }
+
+            return nav;
+        }
+
+        private async Task<EFSeasonData.Season> CurrentSeason()
+        {
+            var today = DateTime.Now.Date;
+            return await _seasonContext.Seasons.Include("SeasonLinks").FirstOrDefaultAsync(x => x.StartDate <= today && today <= x.EndDate);
         }
 
         private async Task<NavigationViewModel> BuildOtherMenu()
