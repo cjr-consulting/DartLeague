@@ -8,9 +8,10 @@ using DartLeague.Repositories.SeasonData;
 namespace DartLeague.Web.Data.Migrations.SeasonDb
 {
     [DbContext(typeof(SeasonContext))]
-    partial class SeasonContextModelSnapshot : ModelSnapshot
+    [Migration("20170713040045_Add Season BoardMember Tables")]
+    partial class AddSeasonBoardMemberTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -141,70 +142,6 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
                     b.HasOne("DartLeague.Repositories.SeasonData.BoardPosition", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.SeasonData.SeasonLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("created_at")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnName("created_by")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<int>("FileId")
-                        .HasColumnName("fileId")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("LinkType")
-                        .HasColumnName("linkType")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("Order")
-                        .HasColumnName("order")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("SeasonId")
-                        .HasColumnName("seasonId")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("title")
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnName("updated_at")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnName("updated_by")
-                        .HasColumnType("int(10) unsigned");
-
-                    b.Property<string>("Url")
-                        .HasColumnName("url")
-                        .HasColumnType("varchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeasonId");
-
-                    b.ToTable("season_links");
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.SeasonData.SeasonLink", b =>
-                {
-                    b.HasOne("DartLeague.Repositories.SeasonData.Season")
-                        .WithMany("SeasonLinks")
-                        .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

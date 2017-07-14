@@ -4,17 +4,19 @@ using System.Text;
 
 namespace DartLeague.Repositories.SeasonData
 {
-    public class Season
+    public class BoardMember
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public int PositionId { get; set; }
+        public int MemberId { get; set; }
+
+        public BoardPosition Position { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public int? DeletedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy { get; set; }
-
-        public List<SeasonLink> SeasonLinks { get; set; }
     }
 }
