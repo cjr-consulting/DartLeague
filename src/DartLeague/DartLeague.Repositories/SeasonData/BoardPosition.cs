@@ -6,6 +6,7 @@ namespace DartLeague.Repositories.SeasonData
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Order { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }

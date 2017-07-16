@@ -7,6 +7,7 @@ namespace DartLeague.Repositories.SeasonData
     public class BoardMember
     {
         public int Id { get; set; }
+        public int SeasonId { get; set; }
         public int PositionId { get; set; }
         public int MemberId { get; set; }
 
@@ -18,5 +19,7 @@ namespace DartLeague.Repositories.SeasonData
         public int? DeletedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy { get; set; }
+
+        public Season Season { get; set; }
     }
 }

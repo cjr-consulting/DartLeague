@@ -98,22 +98,22 @@ namespace DartLeague.Repositories.SeasonData
 
                 entity.Property(x => x.CreatedAt)
                     .IsRequired()
-                    .HasColumnName("created_at")
+                    .HasColumnName("createdAt")
                     .HasColumnType("datetime(6)")
                     .HasDefaultValue(null);
 
                 entity.Property(x => x.CreatedBy)
                     .IsRequired()
-                    .HasColumnName("created_by")
+                    .HasColumnName("createdBy")
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(x => x.UpdatedAt)
-                    .HasColumnName("updated_at")
+                    .HasColumnName("updatedAt")
                     .HasColumnType("datetime(6)");
 
                 entity.Property(x => x.UpdatedBy)
                     .IsRequired()
-                    .HasColumnName("updated_by")
+                    .HasColumnName("updatedBy")
                     .HasColumnType("int(10) unsigned");
 
                 entity.HasOne(x => x.Season)
@@ -132,7 +132,11 @@ namespace DartLeague.Repositories.SeasonData
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(255)");
-                
+
+                entity.Property(e => e.Order)
+                    .HasColumnName("orderId")
+                    .HasColumnType("int(10) unsigned");
+
                 entity.Property(e => e.CreatedAt)
                     .IsRequired()
                     .HasColumnName("createdAt")
@@ -157,6 +161,10 @@ namespace DartLeague.Repositories.SeasonData
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.SeasonId)
+                    .HasColumnName("seasonId")
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(e => e.PositionId)
@@ -190,6 +198,10 @@ namespace DartLeague.Repositories.SeasonData
                 entity.Property(e => e.UpdatedBy)
                     .HasColumnName("updatedBy")
                     .HasColumnType("int(10) unsigned");
+
+                entity.HasOne(x => x.Season)
+                    .WithMany(e => e.BoardMembers)
+                    .HasForeignKey(e => e.SeasonId);
             });
         }
     }

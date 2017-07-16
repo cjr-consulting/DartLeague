@@ -16,5 +16,6 @@ namespace DartLeague.Repositories.SeasonData
         public int? UpdatedBy { get; set; }
 
         public List<SeasonLink> SeasonLinks { get; set; }
+        public List<BoardMember> BoardMembers { get; set; }
     }
 }
