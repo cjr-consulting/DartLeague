@@ -153,6 +153,9 @@ namespace DartLeague.Web.Controllers.Components
             };
 
             var season = await CurrentSeason();
+            if (season == null)
+                return nav;
+
             foreach (var link in season.SeasonLinks.OrderBy(x => x.Order).ToList())
             {
                 nav.SubNavigations.Add(new NavigationViewModel
