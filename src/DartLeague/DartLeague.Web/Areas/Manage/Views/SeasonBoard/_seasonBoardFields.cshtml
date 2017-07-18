@@ -5,7 +5,9 @@
     <div class="col-md-12">
         <div class="form-group">
             <label asp-for="MemberId"></label>
-            <select class="form-control" asp-for="MemberId" asp-items="Model.Members"></select>
+            <select class="form-control" asp-for="MemberId" asp-items="Model.Members">
+                <option>Please select member</option>
+            </select>
         </div>
     </div>
 </div>
@@ -14,7 +16,9 @@
     <div class="col-md-12">
         <div class="form-group">
             <label asp-for="PositionId"></label>
-            <select class="form-control" asp-for="PositionId" asp-items="Model.Positions"></select>
+            <select class="form-control" asp-for="PositionId" asp-items="Model.Positions">
+                <option>Please select position</option>
+            </select>
         </div>
     </div>
 </div>

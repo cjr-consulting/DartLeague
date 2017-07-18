@@ -5,10 +5,6 @@
 }
 
 <div class="container">
-    <ol class="breadcrumb">
-        <li><a asp-area="Manage" asp-controller="SeasonBoard" asp-action="Index">Manage League</a></li>
-        <li class="active">Add Member</li>
-    </ol>
     <h2>Add Board Member</h2>
     <form asp-controller="SeasonBoard" asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

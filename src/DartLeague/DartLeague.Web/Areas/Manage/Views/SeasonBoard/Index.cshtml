@@ -14,10 +14,9 @@
                     <h3 class="panel-title">Board Members</h3>
                 </div>
                 <div class="panel-body">
-                    @*<p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong></p>*@
-                    <p><i class="fa fa-asterisk" style="color: orangered;"></i> Nothing just yet.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong></p>
                 </div>
-                @*<table class="table table-condensed">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -26,14 +25,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!Model.Any())
+                        @if (!Model.Data.Any())
                         {
                             <tr class="warning">
                                 <td colspan="5">Currently No Board Memebers</td>
                             </tr>
                         }
 
-                        @foreach (var boardMember in Model)
+                        @foreach (var boardMember in Model.Data)
                         {
                             <tr>
                                 <td><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
@@ -42,7 +41,7 @@
                             </tr>
                         }
                     </tbody>
-                </table>*@
+                </table>
             </div>
         </div>
     </div>
