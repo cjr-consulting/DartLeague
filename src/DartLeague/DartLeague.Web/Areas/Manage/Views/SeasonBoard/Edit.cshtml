@@ -10,7 +10,7 @@
         <li class="active">Edit Board Member</li>
     </ol>
     <h2>Edit Board Member</h2>
-    <form asp-controller="SeasonBoard" asp-action="Edit" asp-route-id="@Model.Data.Id" method="post">
+    <form asp-controller="SeasonBoard" asp-action="Edit" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @Html.Partial("_seasonBoardFields", Model.Data)
         <div>
@@ -20,3 +20,18 @@
     </form>
 </div>
 
+
+@section scripts {
+    <script type="text/javascript">
+        (function (d, $) {
+            var elems = d.getElementsByClassName('confirmation');
+            var confirmIt = function (e) {
+                if (!confirm('Are you sure?')) e.preventDefault();
+            };
+
+            for (var i = 0, l = elems.length; i < l; i++) {
+                elems[i].addEventListener('click', confirmIt, false);
+            }
+        })(document, jQuery);
+    </script>
+}

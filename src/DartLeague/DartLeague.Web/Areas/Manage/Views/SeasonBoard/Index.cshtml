@@ -28,16 +28,16 @@
                         @if (!Model.Data.Any())
                         {
                             <tr class="warning">
-                                <td colspan="5">Currently No Board Memebers</td>
+                                <td style="vertical-align: middle;" colspan="5">Currently No Board Memebers</td>
                             </tr>
                         }
 
                         @foreach (var boardMember in Model.Data)
                         {
                             <tr>
-                                <td><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
-                                <td style="text-align:center;">@boardMember.Position</td>
-                                <td style="text-align:center;"><a asp-controller="SeasonBoard" asp-action="Delete" asp-area="Manage" asp-route-id="@boardMember.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                                <td style="vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
+                                <td style="text-align:center; vertical-align: middle;">@boardMember.Position</td>
+                                <td style="text-align:center; vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Delete" asp-area="Manage" asp-route-id="@boardMember.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
                     </tbody>
@@ -58,21 +58,6 @@
             for (var i = 0, l = elems.length; i < l; i++) {
                 elems[i].addEventListener('click', confirmIt, false);
             }
-
-            $(d).ready(function () {
-                function toggleEdit() {
-                    if ($("#seasonTitle").hasClass("hidden")) {
-                        $("#seasonTitle").removeClass("hidden");
-                        $("#seasonEdit").addClass("hidden");
-                    } else {
-                        $("#seasonTitle").addClass("hidden");
-                        $("#seasonEdit").removeClass("hidden");
-                    }
-                }
-
-                $("#btnCancelEdit").on("click", toggleEdit);
-                $("#btnEditSeason").on("click", toggleEdit);
-            });
         })(document, jQuery);
     </script>
 }

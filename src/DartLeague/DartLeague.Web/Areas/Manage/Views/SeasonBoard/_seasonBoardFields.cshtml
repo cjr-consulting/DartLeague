@@ -8,6 +8,7 @@
             <select class="form-control" asp-for="MemberId" asp-items="Model.Members">
                 <option>Please select member</option>
             </select>
+            <span asp-validation-for="MemberId" class="text-danger"></span>
         </div>
     </div>
 </div>
@@ -19,6 +20,7 @@
             <select class="form-control" asp-for="PositionId" asp-items="Model.Positions">
                 <option>Please select position</option>
             </select>
+            <span asp-validation-for="PositionId" class="text-danger"></span>
         </div>
     </div>
 </div>

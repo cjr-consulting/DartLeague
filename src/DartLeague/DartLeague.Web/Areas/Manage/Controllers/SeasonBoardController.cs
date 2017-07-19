@@ -115,7 +115,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 {
                     Positions = await GetPositions(),
                     Members = await GetMembers(),
-                    MemberId = id,
+                    MemberId = seasonBoardMember.MemberId,
                     PositionId = seasonBoardMember.PositionId
                 }
             };
@@ -127,7 +127,53 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int seasonId, int id, BoardMemberEditViewModel model)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var boardMember =
+                        await _seasonContext.BoardMembers
+                            .FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.Id == id);
+
+                    boardMember.MemberId = model.MemberId;
+                    boardMember.PositionId = model.PositionId;
+
+                    await _seasonContext.SaveChangesAsync();
+                    return RedirectToAction("Index", "SeasonBoard");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+
+            model.Members = await GetMembers();
+            model.Positions = await GetPositions();
+
+            var result = new SeasonManagementRootViewModel<BoardMemberEditViewModel>
+            {
+                SeasonEdit = await GetSeason(seasonId),
+                Data = model
+            };
+            return View(result);
+        }
+
+        [Route("/Manage/Season/{seasonId}/board/{id}/delete")]
+        public async Task<IActionResult> Delete(int seasonId, int id)
+        {
+            var boardmember =
+                await _seasonContext.BoardMembers.FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.Id == id);
+
+            if (boardmember != null)
+            {
+                _seasonContext.BoardMembers.Remove(boardmember);
+                await _seasonContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "SeasonBoard");
         }
 
         private async Task<List<SelectListItem>> GetPositions()
