@@ -78,7 +78,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     {
                         SeasonId = seasonId,
                         MemberId = model.MemberId,
-                        PositionId = model.PositionId
+                        PositionId = model.PositionId,
+                        CreatedAt = DateTime.UtcNow
                     };
                     _seasonContext.BoardMembers.Add(boardMember);
                     await _seasonContext.SaveChangesAsync();
@@ -137,7 +138,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
                     boardMember.MemberId = model.MemberId;
                     boardMember.PositionId = model.PositionId;
-
+                    boardMember.UpdatedAt = DateTime.UtcNow;
+                    
                     await _seasonContext.SaveChangesAsync();
                     return RedirectToAction("Index", "SeasonBoard");
                 }
@@ -172,6 +174,31 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 _seasonContext.BoardMembers.Remove(boardmember);
                 await _seasonContext.SaveChangesAsync();
             }
+
+            return RedirectToAction("Index", "SeasonBoard");
+        }
+
+        [Route("/Manage/Season/{seasonId}/board/copy")]
+        public async Task<IActionResult> Copy(int seasonId, bool previous)
+        {
+            if (await _seasonContext.BoardMembers.AnyAsync(x => x.SeasonId == seasonId))
+            {
+                return RedirectToAction("Index", "SeasonBoard");
+            }
+            var currentSeason = await _seasonContext.Seasons.FirstOrDefaultAsync(x => x.Id == seasonId);
+            var previousSeason = await _seasonContext.Seasons.Include("BoardMembers").Where(x => x.StartDate < currentSeason.StartDate)
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefaultAsync();
+            await _seasonContext.BoardMembers.AddRangeAsync(
+                previousSeason.BoardMembers.Select(x =>
+                    new BoardMember
+                    {
+                        SeasonId = seasonId,
+                        MemberId = x.MemberId,
+                        PositionId = x.PositionId,
+                        CreatedAt = DateTime.UtcNow
+                    }));
+            await _seasonContext.SaveChangesAsync();
 
             return RedirectToAction("Index", "SeasonBoard");
         }
