@@ -56,12 +56,12 @@
 
 <div class="container" style="margin-bottom: 10px;">
     <ul class="nav nav-tabs">
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonBoard" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Board</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonLink" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Links</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonMessage" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Messages</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Teams" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonTeam" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Teams</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Players" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonPlayer" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Players</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Achievements" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonAchievement" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Achievements</a></li>
-        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonCompetition" asp-action="Index" asp-route-id="@Model.SeasonEdit.Id">Competitions</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Board" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonBoard" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Board</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Links" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonLink" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Links</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Messages" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonMessage" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Messages</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Teams" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonTeam" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Teams</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Players" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonPlayer" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Players</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Achievements" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonAchievement" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Achievements</a></li>
+        <li role="presentation" class="@((string)ViewData["SeasonNavPage"] == "Competitions" ? "active" : string.Empty)"><a asp-area="Manage" asp-controller="SeasonCompetition" asp-action="Index" asp-route-seasonId="@Model.SeasonEdit.Id">Competitions</a></li>
     </ul>
 </div>

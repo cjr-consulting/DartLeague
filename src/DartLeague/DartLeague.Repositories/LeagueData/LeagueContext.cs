@@ -8,7 +8,6 @@ namespace DartLeague.Repositories.LeagueData
     public partial class LeagueContext : DbContext
     {
         public virtual DbSet<BrowsableFile> BrowsableFiles { get; set; }
-        public virtual DbSet<BoardMember> BoardMembers { get; set; }
         public virtual DbSet<DartEventResult> DartEventResults { get; set; }
         public virtual DbSet<DartEvent> DartEvents { get; set; }
         public virtual DbSet<PagePart> PageParts { get; set; }
@@ -51,66 +50,6 @@ namespace DartLeague.Repositories.LeagueData
                     .IsRequired()
                     .HasColumnName("relativePath")
                     .HasColumnType("varchar(255)");
-            });
-            modelBuilder.Entity<BoardMember>(entity =>
-            {
-                entity.ToTable("board_members");
-
-                entity.HasIndex(e => e.LeagueId)
-                    .HasName("board_members_leagueid_index");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.EndSeasonId)
-                    .HasColumnName("endSeasonId")
-                    .HasColumnType("bigint(20)");
-
-                entity.Property(e => e.EndingSeason)
-                    .HasColumnName("endingSeason")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.LeagueId)
-                    .HasColumnName("leagueId")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.Position)
-                    .IsRequired()
-                    .HasColumnName("position")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.StartSeasonId)
-                    .HasColumnName("startSeasonId")
-                    .HasColumnType("bigint(20)");
-
-                entity.Property(e => e.StartingSeason)
-                    .IsRequired()
-                    .HasColumnName("startingSeason")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("userId")
-                    .HasColumnType("int(11)");
-
-                entity.Property(x => x.CreatedAt)
-                    .HasColumnName("created_at")
-                    .HasColumnType("datetime(6)");
-
-                entity.Property(x => x.DeletedAt)
-                    .HasColumnName("deleted_at")
-                    .HasColumnType("datetime(6)")
-                    .HasDefaultValue(null);
-
-                entity.Property(x => x.UpdatedAt)
-                    .HasColumnName("updated_at")
-                    .HasColumnType("datetime")
-                    .HasDefaultValue(null);
             });
             modelBuilder.Entity<DartEventResult>(entity =>
             {

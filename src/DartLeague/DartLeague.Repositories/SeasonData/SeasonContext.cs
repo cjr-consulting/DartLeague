@@ -9,6 +9,8 @@ namespace DartLeague.Repositories.SeasonData
     {
         public DbSet<Season> Seasons { get; set; }
         public DbSet<SeasonLink> SeasonLinks { get; set; }
+        public DbSet<BoardMember> BoardMembers { get; set; }
+        public DbSet<BoardPosition> BoardPositions { get; set; }
 
         public SeasonContext(DbContextOptions<SeasonContext> options)
             : base(options)
@@ -96,26 +98,109 @@ namespace DartLeague.Repositories.SeasonData
 
                 entity.Property(x => x.CreatedAt)
                     .IsRequired()
-                    .HasColumnName("created_at")
+                    .HasColumnName("createdAt")
                     .HasColumnType("datetime(6)")
                     .HasDefaultValue(null);
 
                 entity.Property(x => x.CreatedBy)
                     .IsRequired()
-                    .HasColumnName("created_by")
+                    .HasColumnName("createdBy")
                     .HasColumnType("int(10) unsigned");
 
                 entity.Property(x => x.UpdatedAt)
-                    .HasColumnName("updated_at")
+                    .HasColumnName("updatedAt")
                     .HasColumnType("datetime(6)");
 
                 entity.Property(x => x.UpdatedBy)
                     .IsRequired()
-                    .HasColumnName("updated_by")
+                    .HasColumnName("updatedBy")
                     .HasColumnType("int(10) unsigned");
 
                 entity.HasOne(x => x.Season)
                     .WithMany(e => e.SeasonLinks)
+                    .HasForeignKey(e => e.SeasonId);
+            });
+            modelBuilder.Entity<BoardPosition>(entity =>
+            {
+                entity.ToTable("board_positions");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Order)
+                    .HasColumnName("orderId")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("createdBy")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.UpdatedBy)
+                    .HasColumnName("updatedBy")
+                    .HasColumnType("int(10) unsigned");
+            });
+            modelBuilder.Entity<BoardMember>(entity =>
+            {
+                entity.ToTable("board_members");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.SeasonId)
+                    .HasColumnName("seasonId")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.PositionId)
+                    .IsRequired()
+                    .HasColumnName("positionId")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.MemberId)
+                    .IsRequired()
+                    .HasColumnName("memberId")
+                    .HasColumnType("int(10) unsigned");
+                
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
+
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("createdBy")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.DeletedAt)
+                    .HasColumnName("deletedAt")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updatedAt")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.UpdatedBy)
+                    .HasColumnName("updatedBy")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.HasOne(x => x.Season)
+                    .WithMany(e => e.BoardMembers)
                     .HasForeignKey(e => e.SeasonId);
             });
         }

@@ -18,8 +18,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             _seasonContext = seasonContext;
         }
 
-        [Route("manage/season/{id}/competition")]
-        public async Task<IActionResult> Index(int id)
+        [Route("manage/season/{seasonId}/competition")]
+        public async Task<IActionResult> Index(int seasonId)
         {
             ViewData["SeasonNavPage"] = "Competitions";
             var season = await _seasonContext.Seasons
@@ -31,7 +31,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         StartDate = x.StartDate,
                         EndDate = x.EndDate
                     })
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == seasonId);
 
             return View(
                 new SeasonManagementRootViewModel<List<SeasonBoardListViewModel>>

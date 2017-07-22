@@ -1,0 +1,26 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model BoardMemberEditViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="MemberId"></label>
+            <select class="form-control" asp-for="MemberId" asp-items="Model.Members">
+                <option>Please select member</option>
+            </select>
+            <span asp-validation-for="MemberId" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="PositionId"></label>
+            <select class="form-control" asp-for="PositionId" asp-items="Model.Positions">
+                <option>Please select position</option>
+            </select>
+            <span asp-validation-for="PositionId" class="text-danger"></span>
+        </div>
+    </div>
+</div>
