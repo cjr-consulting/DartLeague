@@ -1,0 +1,53 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model SeasonTeamEditViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name" class="form-control input-lg"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Abbreviation"></label>
+            <input type="text" asp-for="Abbreviation" class="form-control"/>
+            <span asp-validation-for="Abbreviation" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th style="text-align:center;">Role</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.Players.Any())
+            {
+                <tr class="warning">
+                    <td colspan="5">Currently No Players</td>
+                </tr>
+            }
+
+            @foreach (var player in Model.Players)
+            {
+                <tr>
+                    <td>@player.MemberId</td>
+                    <td style="text-align:center;">@player.RoleId</td>
+                    <td style="text-align:center;"><i class="fa fa-trash-o fa-lg"></i></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

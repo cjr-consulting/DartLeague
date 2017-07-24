@@ -13,7 +13,6 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<PagePart> PageParts { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Sponsor> Sponsors { get; set; }
-        public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
 
         public LeagueContext(DbContextOptions<LeagueContext> options)
@@ -394,38 +393,6 @@ namespace DartLeague.Repositories.LeagueData
                 entity.Property(e => e.Zip)
                     .HasColumnName("zip")
                     .HasColumnType("varchar(10)");
-            });
-            modelBuilder.Entity<Team>(entity =>
-            {
-                entity.ToTable("teams");
-
-                entity.HasIndex(e => e.LeagueId)
-                    .HasName("teams_leagueid_index");
-
-                entity.HasIndex(e => e.SponsorId)
-                    .HasName("teams_sponsorid_index");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.LeagueId)
-                    .HasColumnName("leagueId")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.Notes)
-                    .IsRequired()
-                    .HasColumnName("notes")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.SponsorId)
-                    .HasColumnName("sponsorId")
-                    .HasColumnType("int(10) unsigned");
             });
             modelBuilder.Entity<LeagueLink>(entity =>
             {
