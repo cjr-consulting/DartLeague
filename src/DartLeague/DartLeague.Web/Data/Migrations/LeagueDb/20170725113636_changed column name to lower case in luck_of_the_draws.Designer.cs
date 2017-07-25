@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170725113636_changed column name to lower case in luck_of_the_draws")]
+    partial class changedcolumnnametolowercaseinluck_of_the_draws
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -260,10 +261,6 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("int(10) unsigned");
-
-                    b.Property<bool>("Active")
-                        .HasColumnName("active")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()

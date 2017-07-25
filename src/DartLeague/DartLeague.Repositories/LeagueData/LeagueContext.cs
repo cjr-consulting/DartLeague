@@ -15,6 +15,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<Sponsor> Sponsors { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
+        public virtual DbSet<LuckofTheDraw> LuckofTheDraws { get; set; }
 
         public LeagueContext(DbContextOptions<LeagueContext> options)
             : base(options)
@@ -468,6 +469,42 @@ namespace DartLeague.Repositories.LeagueData
                 entity.Property(x => x.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime(6)");
+            });
+            modelBuilder.Entity<LuckofTheDraw>(entity =>
+            {
+                entity.ToTable("luck_of_the_draw");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.Date)
+                    .IsRequired()
+                    .HasColumnName("eventDate")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(e => e.FileId)
+                    .IsRequired()
+                    .HasColumnName("fileId")
+                    .HasColumnType("int(11)");
+
+                entity.Property(x => x.CreatedAt)
+                    .IsRequired()
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime(6)")
+                    .HasDefaultValue(null);
+
+                entity.Property(x => x.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property(x => x.Active)
+                    .HasColumnName("active")
+                    .HasColumnType("bit");
             });
         }
     }

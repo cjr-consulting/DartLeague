@@ -1,0 +1,27 @@
+﻿@model DartLeague.Web.Areas.Site.Models.LodViewModel
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="EventDate"></label>
+            <input class="form-control" asp-for="EventDate" />
+            <span asp-validation-for="EventDate" class="text-danger"></span>
+        </div>
+    </div>
+    @if (Model.FileId > 0)
+    {
+        <img src="@Url.Action("Index", "File", new {Area = "", Id = Model.FileId})"/>
+    }
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="FileId">LOD Image <small>(image of 750w x 110h)</small></label>
+            <input type="file" id="lodImage" name="lodImage" class="form-control" />
+        </div>
+    </div>
+</div>

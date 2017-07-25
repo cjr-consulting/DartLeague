@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170722115948_rename of LuckOfTheDraw table to reflect other table names convention.")]
+    partial class renameofLuckOfTheDrawtabletoreflectothertablenamesconvention
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -261,10 +262,6 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.Property<bool>("Active")
-                        .HasColumnName("active")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("created_at")
@@ -278,9 +275,9 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("fileId")
                         .HasColumnType("int(11)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnName("name")
+                        .HasColumnName("title")
                         .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("UpdatedAt")
