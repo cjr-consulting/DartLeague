@@ -10,7 +10,7 @@
             <li class="active">Edit Board Member</li>
         </ol>
         <h2>Edit Team</h2>
-        <form asp-controller="SeasonTeam" asp-action="Edit" method="post">
+        <form enctype="multipart/form-data" asp-controller="SeasonTeam" asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.Partial("_teamFields", Model.Data)
             <div>

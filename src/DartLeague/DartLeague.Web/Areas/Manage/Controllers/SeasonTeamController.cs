@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -65,7 +66,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         [HttpPost("/manage/season/{seasonId}/team/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int seasonId, SeasonTeamEditViewModel model)
+        public async Task<IActionResult> Create(
+            int seasonId,
+            SeasonTeamEditViewModel model,
+            List<IFormFile> bannerFile,
+            List<IFormFile> logoFile,
+            List<IFormFile> teamFile)
         {
             try
             {

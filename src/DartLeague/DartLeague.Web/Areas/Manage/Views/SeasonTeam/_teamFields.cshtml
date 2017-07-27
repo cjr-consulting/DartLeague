@@ -23,31 +23,32 @@
 
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-condensed">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th style="text-align:center;">Role</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @if (!Model.Players.Any())
-            {
-                <tr class="warning">
-                    <td colspan="5">Currently No Players</td>
-                </tr>
-            }
+        <label for="logoFile">Logo Picture <small>jpg/png</small></label>
+        <input type="file" id="logoFile" name="logoFile" class="form-control" />
+        @if(!string.IsNullOrEmpty(Model.LogoFileUrl))
+        {
+            <a href="@Model.LogoFileUrl">Current File</a>
+        }
+    </div>
+</div>
 
-            @foreach (var player in Model.Players)
-            {
-                <tr>
-                    <td>@player.MemberId</td>
-                    <td style="text-align:center;">@player.RoleId</td>
-                    <td style="text-align:center;"><i class="fa fa-trash-o fa-lg"></i></td>
-                </tr>
-            }
-            </tbody>
-        </table>
+<div class="row">
+    <div class="col-md-12">
+        <label for="teamFile">Team Picture <small>jpg/png</small></label>
+        <input type="file" id="teamFile" name="teamFile" class="form-control" />
+        @if (!string.IsNullOrEmpty(Model.TeamFileUrl))
+        {
+            <a href="@Model.LogoFileUrl">Current File</a>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label asp-for="CaptainMemberId"></label>
+        <select class="form-control" asp-for="CaptainMemberId" asp-items="Model.Members">
+            <option>Please select member</option>
+        </select>
+        <span asp-validation-for="CaptainMemberId" class="text-danger"></span>
     </div>
 </div>

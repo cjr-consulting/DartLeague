@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,12 @@ namespace DartLeague.Web.Areas.Manage.Models
         public string Abbreviation { get; set; }
         public int BannerFileId { get; set; }
         public int LogoFileId { get; set; }
+        public string LogoFileUrl { get; set; }
         public int TeamPictureFileId { get; set; }
+        public string TeamFileUrl { get; set; }
 
-        public List<SeasonTeamPlayerViewModel> Players { get; set; } = new List<SeasonTeamPlayerViewModel>();
+        [DisplayName("Captain")]
+        public int CaptainMemberId { get; set; }
         public List<SelectListItem> Roles { get; set; }
         public List<SelectListItem> Members { get; set; }
     }
