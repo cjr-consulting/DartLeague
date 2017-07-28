@@ -10,58 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\android-icon-144x144.png" />
-    <Content Include="wwwroot\android-icon-192x192.png" />
-    <Content Include="wwwroot\android-icon-36x36.png" />
-    <Content Include="wwwroot\android-icon-48x48.png" />
-    <Content Include="wwwroot\android-icon-72x72.png" />
-    <Content Include="wwwroot\android-icon-96x96.png" />
-    <Content Include="wwwroot\apple-icon-114x114.png" />
-    <Content Include="wwwroot\apple-icon-120x120.png" />
-    <Content Include="wwwroot\apple-icon-144x144.png" />
-    <Content Include="wwwroot\apple-icon-152x152.png" />
-    <Content Include="wwwroot\apple-icon-180x180.png" />
-    <Content Include="wwwroot\apple-icon-57x57.png" />
-    <Content Include="wwwroot\apple-icon-60x60.png" />
-    <Content Include="wwwroot\apple-icon-72x72.png" />
-    <Content Include="wwwroot\apple-icon-76x76.png" />
-    <Content Include="wwwroot\apple-icon-precomposed.png" />
-    <Content Include="wwwroot\apple-icon.png" />
-    <Content Include="wwwroot\favicon-16x16.png" />
-    <Content Include="wwwroot\favicon-32x32.png" />
-    <Content Include="wwwroot\favicon-96x96.png" />
-    <Content Include="wwwroot\favicon.ico" />
-    <Content Include="wwwroot\images\award-tags-md.jpg" />
-    <Content Include="wwwroot\images\award-tags.jpg" />
-    <Content Include="wwwroot\images\background2.jpg" />
-    <Content Include="wwwroot\images\charity-logo.gif" />
-    <Content Include="wwwroot\images\dartsfordreams-header.jpg" />
-    <Content Include="wwwroot\images\emaillink.jpg" />
-    <Content Include="wwwroot\images\facebook.png" />
-    <Content Include="wwwroot\images\footer-copy.png" />
-    <Content Include="wwwroot\images\footer.jpg" />
-    <Content Include="wwwroot\images\gc_button1_en.gif" />
-    <Content Include="wwwroot\images\GTDL-logo.jpg" />
-    <Content Include="wwwroot\images\gtdlnotext.ico" />
-    <Content Include="wwwroot\images\header-detailed.jpg" />
-    <Content Include="wwwroot\images\header-thin.jpg" />
-    <Content Include="wwwroot\images\header.jpg" />
-    <Content Include="wwwroot\images\maw-header.jpg" />
-    <Content Include="wwwroot\images\redstripe.jpg" />
-    <Content Include="wwwroot\images\sbox.jpg" />
-    <Content Include="wwwroot\images\soft-tip-dart.jpg" />
-    <Content Include="wwwroot\images\steel_tip_dart.jpg" />
-    <Content Include="wwwroot\images\trenton-makes.jpg" />
-    <Content Include="wwwroot\images\trentondarts-logo.png" />
-    <Content Include="wwwroot\images\wood-wall-detailed.jpg" />
-    <Content Include="wwwroot\images\wood-wall.jpg" />
-    <Content Include="wwwroot\ms-icon-144x144.png" />
-    <Content Include="wwwroot\ms-icon-150x150.png" />
-    <Content Include="wwwroot\ms-icon-310x310.png" />
-    <Content Include="wwwroot\ms-icon-70x70.png" />
-    <Content Include="wwwroot\robots.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Hashids.net" Version="1.2.2" />
     <PackageReference Include="IdentityServer4" Version="1.5.2" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="1.0.1" />
@@ -106,7 +54,7 @@
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
     <Folder Include="Views\Shared\Components\EventList\" />
-    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DartLeague.Core\DartLeague.Core.csproj" />
