@@ -38,17 +38,18 @@ Task("Restore-NuGet-Packages")
 Task("Build")
     .Does(() =>
 {
-    /*
+    
     var exitCodeWithArgument = StartProcess(
         "docker-compose",
         new ProcessSettings {
             Arguments = "-f ./src/dartleague/docker-compose.ci.build.yml up" 
         });
-        */
+    /*
     DockerComposeUp(new DockerComposeUpSettings()
     {
         Files = new string[] {"./src/dartleague/docker-compose.ci.build.yml"}
     });
+    */
 });
 
 Task("Run-Unit-Tests")
