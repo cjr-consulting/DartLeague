@@ -1,6 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-#addin "Cake.Docker"
 #tool "nuget:?package=OctopusTools"
+#addin "Cake.Docker"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -39,10 +39,17 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
+    var exitCodeWithArgument = StartProcess(
+        "docker-compose",
+        new ProcessSettings {
+            Arguments = "-f ./src/dartleague/docker-compose.ci.build.yml up" 
+        });
+    /*
     DockerComposeUp(new DockerComposeUpSettings()
     {
         Files = new string[] {"./src/dartleague/docker-compose.ci.build.yml"}
     });
+    */
 });
 
 Task("Run-Unit-Tests")
@@ -61,17 +68,19 @@ Task("Run-Unit-Tests")
 Task("Default")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() => {
-//    DotNetCorePublish("./src/dartleague/dartleague.web/dartleague.web.csproj", new DotNetCorePublishSettings
-//     {
-//         Framework = "netcoreapp1.1",
-//         Configuration = "Release",
-//         OutputDirectory = "./obj/Docker/publish/"
-//     });
     });
 
 Task("Debug")
     .IsDependentOn("Build")
-    .Does(()=>{
+    .Does(() => {
+        DockerComposeKill(new DockerComposeKillSettings(){
+            Files = new string[]{
+                "./src/dartleague/docker-compose.yml",
+                "./src/dartleague/docker-compose.override.yml",
+                "./src/dartleague/docker-compose.vs.debug.yml"
+            },
+            ProjectName = "dartleagueweb"
+        });
         DockerComposeUp(new DockerComposeUpSettings(){
             Files = new string[]{
                 "./src/dartleague/docker-compose.yml",
@@ -84,7 +93,7 @@ Task("Debug")
 
 Task("Register")
     .IsDependentOn("Build")
-    .Does(() =>{
+    .Does(() => {
         DockerComposeBuild(new DockerComposeBuildSettings(){
             Files = new string[]{
                 "./src/dartleague/docker-compose.yml",
