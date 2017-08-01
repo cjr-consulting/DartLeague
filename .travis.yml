@@ -9,6 +9,5 @@ before_install:
   - docker-compose version
 
 script:
-  - docker-compose -f src/DartLeague/DartLeague.Web/docker-compose.ci.build.yml up
-
+  - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
 
