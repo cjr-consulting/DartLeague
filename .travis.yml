@@ -1,0 +1,14 @@
+sudo: required
+dist: trusty
+
+services:
+  - docker
+
+before_install:
+  - docker version
+  - docker-compose version
+
+script:
+  - docker-compose -f ./src/dartleague/docker-compose.ci.build.yml up
+
+
