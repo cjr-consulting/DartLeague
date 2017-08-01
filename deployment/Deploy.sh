@@ -10,3 +10,5 @@ echo FILE_STORAGE_PATH=$(get_octopusvariable "FILE_STORAGE_PATH") >> .env
 echo SSL_CERT_PATH=$(get_octopusvariable "SSL_CERT_PATH") >> .env
 
 docker-compose -f docker-compose.deploy.yml up -d
+
+docker rmi $(docker images -q --filter "dangling=true")

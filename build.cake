@@ -36,7 +36,6 @@ Task("Restore-NuGet-Packages")
 });
 
 Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
     /*
