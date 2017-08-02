@@ -22,8 +22,6 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
       docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.ci.override.yml -f src/DartLeague/docker-compose.vs.release.yml -p dartleagueweb-release build --no-cache dartleagueweb;
-      docker tag dartleagueweb "dartleagueweb:$SEMVER_NEXT";
-      docker images;
       docker tag dartleagueweb registry.thecitizens.net/dartleagueweb;
       docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$SEMVER_NEXT";
       docker push registry.thecitizens.net/dartleagueweb;
