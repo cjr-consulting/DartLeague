@@ -26,4 +26,3 @@ else
 fi
 
 export SEMVER_NEXT=$(semver)
-exit 0
