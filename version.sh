@@ -1,5 +1,6 @@
 #!/bin/bash
 
+git fetch -t
 export SEMVER_LAST_TAG=$(git describe --abbrev=0 --tags 2>/dev/null)
 export SEMVER_RELEASE_LEVEL=$(git log --oneline -1 --pretty=%B | cat | tr -d '\n' | cut -d "[" -f2 | cut -d "]" -f1)
 
