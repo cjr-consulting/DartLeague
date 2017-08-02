@@ -8,12 +8,14 @@ if [ -z $SEMVER_LAST_TAG ]; then
     echo "No tags defined"
 fi
 
+
+echo "$SEMVER_RELEASE_LEVEL"
+
 git clone https://github.com/fsaintjacques/semver-tool /tmp/semver
 $(cd /tmp/semver; git checkout tags/1.2.1)
 export PATH=$PATH:/tmp/semver/src
 semver init $SEMVER_LAST_TAG &>/dev/null
 
-echo $SEMVER_RELEASE_LEVEL
 
 if [ -n $SEMVER_RELEASE_LEVEL ]; then
     semver bump $SEMVER_RELEASE_LEVEL &>/dev/null
