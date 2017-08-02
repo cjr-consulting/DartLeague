@@ -13,6 +13,8 @@ $(cd /tmp/semver; git checkout tags/1.2.1)
 export PATH=$PATH:/tmp/semver/src
 semver init $SEMVER_LAST_TAG &>/dev/null
 
+echo $SEMVER_RELEASE_LEVEL
+
 if [ -n $SEMVER_RELEASE_LEVEL ]; then
     semver bump $SEMVER_RELEASE_LEVEL &>/dev/null
 else
