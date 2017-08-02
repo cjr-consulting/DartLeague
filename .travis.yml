@@ -14,8 +14,8 @@ before_install:
   - sudo apt-get -y install docker-ce
 
 before_script:
-  - chmod +X version.sh && ./version.sh
-  
+  - chmod +x version.sh && ./version.sh
+
 script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
   - docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.ci.override.yml -f src/DartLeague/docker-compose.vs.release.yml -p dartleagueweb-release build --no-cache dartleagueweb
