@@ -12,7 +12,7 @@ before_install:
 
 script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
-  - docker-compose build -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.vs.release.yml -p dartleagueweb-release --no-cache dartleagueweb
+  - docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.override.yml -f src/DartLeague/docker-compose.vs.release.yml -p dartleagueweb-release build --no-cache dartleagueweb
 
 after_success:
   - docker ps
