@@ -15,11 +15,11 @@ echo "Getting semver-tool"
 git clone https://github.com/fsaintjacques/semver-tool /tmp/semver
 $(cd /tmp/semver; git checkout tags/1.2.1)
 export PATH=$PATH:/tmp/semver/src
-semver init $SEMVER_LAST_TAG &>/dev/null
+semver init "$SEMVER_LAST_TAG" &>/dev/null
 
 if [ -n "$SEMVER_RELEASE_LEVEL" ]; then
     echo "Release Level: FOUND"
-    semver bump $SEMVER_RELEASE_LEVEL &>/dev/null
+    semver bump "$SEMVER_RELEASE_LEVEL" &>/dev/null
 else
     echo "Release Level: NONE"
     semver bump minor &>/dev/null
