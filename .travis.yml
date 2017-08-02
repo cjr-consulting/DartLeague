@@ -1,6 +1,9 @@
 sudo: required
 dist: trusty
 
+env:
+  - VERSION=$VERSION_PREFIX$TRAVIS_BUILD_NUMBER
+
 services:
   - docker
 
@@ -10,16 +13,20 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
 
+before_script:
+  - chmod +X version.sh && ./version.sh
+  
 script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
   - docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.ci.override.yml -f src/DartLeague/docker-compose.vs.release.yml -p dartleagueweb-release build --no-cache dartleagueweb
 
 after_success:
-  - docker ps
-  - docker tag dartleagueweb dartleagueweb:$VERSION_PREFIX$TRAVIS_BUILD_NUMBER
+  - docker tag dartleagueweb dartleagueweb:$SEMVER_NEXT
   - docker images
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
       docker tag dartleagueweb registry.thecitizens.net/dartleagueweb
-      docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$VERSION_PREFIX$TRAVIS_BUILD_NUMBER"
+      docker tag registry.thecitizens.net/dartleagueweb registry.thecitizens.net/dartleagueweb:$SEMVER_NEXT
       docker push registry.thecitizens.net/dartleagueweb
+      git tag $SEMVER_NEXT
+      git push origin --tags
     fi
