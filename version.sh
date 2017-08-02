@@ -17,7 +17,7 @@ $(cd /tmp/semver; git checkout tags/1.2.1)
 export PATH=$PATH:/tmp/semver/src
 semver init "$SEMVER_LAST_TAG" &>/dev/null
 
-if [ -n "$SEMVER_RELEASE_LEVEL" ]; then
+if [ -z "$SEMVER_RELEASE_LEVEL" ]; then
     echo "Release Level: FOUND"
     semver bump "$SEMVER_RELEASE_LEVEL" &>/dev/null
 else
