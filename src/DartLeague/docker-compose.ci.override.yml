@@ -1,0 +1,13 @@
+version: '2.1'
+
+services:
+  dartleagueweb:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+    volumes:
+      - /storage
+  mysqlserver:
+    volumes:
+      - /var/lib/mysql
