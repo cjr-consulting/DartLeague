@@ -14,7 +14,8 @@ before_install:
   - sudo apt-get -y install docker-ce
 
 before_script:
-  - chmod +x version.sh && ./version.sh
+  - chmod +x version.sh 
+  - ./version.sh
 
 script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
