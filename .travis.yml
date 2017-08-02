@@ -14,6 +14,8 @@ script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
 
 after_success:
+  - docker ps
+  - docker images
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
 
     docker push USER/REPO;
