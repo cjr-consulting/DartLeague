@@ -12,11 +12,14 @@ before_install:
 
 script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up
+  - docker-compose build -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.vs.release.yml -p dartleagueweb-release --no-cache dartleagueweb
 
 after_success:
   - docker ps
+  - docker tag dartleagueweb dartleagueweb:$VERSION_PREFIX$TRAVIS_BUILD_NUMBER
   - docker images
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-
-    docker push USER/REPO;
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then
+      docker tag dartleagueweb registry.thecitizens.net/dartleagueweb
+      docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$VERSION_PREFIX$TRAVIS_BUILD_NUMBER"
+      docker push registry.thecitizens.net/dartleagueweb
     fi
