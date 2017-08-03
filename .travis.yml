@@ -28,5 +28,5 @@ after_success:
       docker tag dartleagueweb registry.thecitizens.net/dartleagueweb;
       docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$TRAVIS_TAG";
       docker images;
-      docker push registry.thecitizens.net/dartleagueweb
+      docker push registry.thecitizens.net/dartleagueweb;
     fi
