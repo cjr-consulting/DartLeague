@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace DartLeague.Web.Controllers
 {
-    [SecurityHeaders]
     public class HomeController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;

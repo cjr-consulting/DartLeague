@@ -5,7 +5,7 @@
 
 <h2>Create Page Part</h2>
 <form asp-controller="PagePart" asp-action="Create" method="POST">
-    @Html.Partial("_PagePartFields")
+    @Html.Partial("_pagePartFields")
     <div>
         <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
         <a class="btn btn-danger" asp-controller="PagePart" asp-action="Index">Cancel</a>

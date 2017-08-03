@@ -8,9 +8,10 @@ using DartLeague.Repositories.SeasonData;
 namespace DartLeague.Web.Data.Migrations.SeasonDb
 {
     [DbContext(typeof(SeasonContext))]
-    partial class SeasonContextModelSnapshot : ModelSnapshot
+    [Migration("20170724041113_Add teams and team_players")]
+    partial class Addteamsandteam_players
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

@@ -93,10 +93,10 @@ namespace DartLeague.Web
                 AutomaticAuthenticate = false,
                 AutomaticChallenge = false
             });
-            
+
+            app.UseLeagueDbMigrations();
             if (env.IsDevelopment())
             {
-                app.UseLeagueDbMigrations();
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }

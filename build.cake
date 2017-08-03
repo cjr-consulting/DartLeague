@@ -1,17 +1,22 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#tool "nuget:?package=OctopusTools"
+#addin "Cake.Docker"
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-
+var sourceTag = Argument("sourceTag", "latest");
+var deployTag = Argument("deployTag", "latest");
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/DartLeague/DartLeague.Web/bin") + Directory(configuration);
+var buildDir = Directory("./src/DartLeague/obj/bin") + Directory(configuration);
+var buildDev = Directory("./src/DartLeague/DartLeague.Web/obj/Docker/Publish");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -20,7 +25,7 @@ var buildDir = Directory("./src/DartLeague/DartLeague.Web/bin") + Directory(conf
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectory(buildDir);
+    CleanDirectory(buildDev);
 });
 
 Task("Restore-NuGet-Packages")
@@ -31,23 +36,19 @@ Task("Restore-NuGet-Packages")
 });
 
 Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    MSBuild("./src/DartLeague/DartLeague.sln");
+    
+    var exitCodeWithArgument = StartProcess(
+        "docker-compose",
+        new ProcessSettings {
+            Arguments = "-f ./src/dartleague/docker-compose.ci.build.yml up" 
+        });
     /*
-    if(IsRunningOnWindows())
+    DockerComposeUp(new DockerComposeUpSettings()
     {
-      // Use MSBuild
-      MSBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
+        Files = new string[] {"./src/dartleague/docker-compose.ci.build.yml"}
+    });
     */
 });
 
@@ -67,12 +68,44 @@ Task("Run-Unit-Tests")
 Task("Default")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() => {
-//    DotNetCorePublish("./src/dartleague/dartleague.web/dartleague.web.csproj", new DotNetCorePublishSettings
-//     {
-//         Framework = "netcoreapp1.1",
-//         Configuration = "Release",
-//         OutputDirectory = "./obj/Docker/publish/"
-//     });
+    });
+
+Task("Debug")
+    .IsDependentOn("Build")
+    .Does(() => {
+        DockerComposeKill(new DockerComposeKillSettings(){
+            Files = new string[]{
+                "./src/dartleague/docker-compose.yml",
+                "./src/dartleague/docker-compose.override.yml",
+                "./src/dartleague/docker-compose.vs.debug.yml"
+            },
+            ProjectName = "dartleagueweb"
+        });
+        DockerComposeUp(new DockerComposeUpSettings(){
+            Files = new string[]{
+                "./src/dartleague/docker-compose.yml",
+                "./src/dartleague/docker-compose.override.yml",
+                "./src/dartleague/docker-compose.vs.debug.yml"
+            },
+            ProjectName = "dartleagueweb"
+        });
+    });
+
+Task("Register")
+    .IsDependentOn("Build")
+    .Does(() => {
+        DockerComposeBuild(new DockerComposeBuildSettings(){
+            Files = new string[]{
+                "./src/dartleague/docker-compose.yml",
+                "./src/dartleague/docker-compose.override.yml",
+                "./src/dartleague/docker-compose.vs.release.yml"
+            },
+            ProjectName = "dartleagueweb",
+            NoCache = true
+        });
+        DockerTag("dartleagueweb:" + sourceTag, "registry.thecitizens.net/dartleagueweb:" + deployTag);
+        DockerTag("registry.thecitizens.net/dartleagueweb:" + deployTag, "registry.thecitizens.net/dartleagueweb:latest");
+        DockerPush("registry.thecitizens.net/dartleagueweb:latest");
     });
 
 //////////////////////////////////////////////////////////////////////

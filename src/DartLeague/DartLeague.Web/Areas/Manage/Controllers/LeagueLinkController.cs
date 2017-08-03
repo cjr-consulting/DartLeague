@@ -13,11 +13,11 @@ using EF = DartLeague.Repositories.LeagueData;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
-    [Area("manage")]
+    [Area("Manage")]
     public class LeagueLinkController : Controller
     {
-        private EF.LeagueContext _leagueContext;
-        private IBrowsableFileService _browsableFileService;
+        private readonly EF.LeagueContext _leagueContext;
+        private readonly IBrowsableFileService _browsableFileService;
 
         public LeagueLinkController(EF.LeagueContext leagueContext, IBrowsableFileService browsableFileService)
         {
