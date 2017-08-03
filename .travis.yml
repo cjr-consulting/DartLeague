@@ -20,9 +20,9 @@ script:
   - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up  
 
 after_success:
-  - echo "$TAVIS_TAG"
-  - if [ -n "$TAVIS_TAG" ]; then
-      export $SEMVER_NEXT=$TRAVIS_TAG;
+  - echo "$TRAVIS_TAG"
+  - if [ -n "$TRAVIS_TAG" ]; then
+      export $SEMVER_NEXT="$TRAVIS_TAG";
       docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.ci.override.yml -f src/DartLeague/docker-compose.vs.release.yml -p dartleagueweb-release build --no-cache dartleagueweb;
       docker tag dartleagueweb registry.thecitizens.net/dartleagueweb;
       docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$SEMVER_NEXT";
