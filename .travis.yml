@@ -26,7 +26,4 @@ after_success:
       docker tag dartleagueweb registry.thecitizens.net/dartleagueweb;
       docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$SEMVER_NEXT";
       docker images;
-      # docker push registry.thecitizens.net/dartleagueweb;
-      # git tag $SEMVER_NEXT;
-      # git push origin --tags;
     fi
