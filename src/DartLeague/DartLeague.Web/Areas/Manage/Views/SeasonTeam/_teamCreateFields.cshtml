@@ -1,5 +1,5 @@
 @using DartLeague.Web.Areas.Manage.Models
-@model SeasonTeamEditViewModel
+@model SeasonTeamCreateViewModel
 
 <div class="row">
     <div class="col-md-12">
@@ -25,10 +25,6 @@
     <div class="col-md-12">
         <label for="logoFile">Logo Picture <small>jpg/png</small></label>
         <input type="file" id="logoFile" name="logoFile" class="form-control" />
-        @if(!string.IsNullOrEmpty(Model.LogoFileUrl))
-        {
-            <a href="@Model.LogoFileUrl">Current File</a>
-        }
     </div>
 </div>
 
@@ -36,10 +32,6 @@
     <div class="col-md-12">
         <label for="teamFile">Team Picture <small>jpg/png</small></label>
         <input type="file" id="teamFile" name="teamFile" class="form-control" />
-        @if (!string.IsNullOrEmpty(Model.TeamFileUrl))
-        {
-            <a href="@Model.LogoFileUrl">Current File</a>
-        }
     </div>
 </div>
 

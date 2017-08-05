@@ -8,9 +8,10 @@ using DartLeague.Repositories.SeasonData;
 namespace DartLeague.Web.Data.Migrations.SeasonDb
 {
     [DbContext(typeof(SeasonContext))]
-    partial class SeasonContextModelSnapshot : ModelSnapshot
+    [Migration("20170805190930_Added Image Links to the team table")]
+    partial class AddedImageLinkstotheteamtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
