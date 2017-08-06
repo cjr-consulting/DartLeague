@@ -12,6 +12,7 @@ using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
 using BrowsableFile = DartLeague.Domain.BrowsableFiles.BrowsableFile;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -165,18 +166,147 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("/manage/season/{seasonId}/team/edit/{id}")]
         public async Task<IActionResult> Edit(int seasonId, int id)
         {
+            var team = await GetTeamEditViewModel(id);
+            team.Roles = await GetRoles();
+            team.Members = await GetMembers();
+
             var model = new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
             {
                 SeasonEdit = await GetSeason(seasonId),
-                Data = new SeasonTeamEditViewModel
-                {
-                    Roles = await GetRoles(),
-                    Members = await GetMembers()
-                }
+                Data = team
             };
 
             return View(model);
         }
+
+        [HttpPost("/manage/season/{seasonId}/team/edit/{id}")]
+        public async Task<IActionResult> Edit(int seasonId, int id, SeasonTeamEditViewModel model,
+            List<IFormFile> bannerFile,
+            List<IFormFile> logoFile,
+            List<IFormFile> teamFile)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var team = await _seasonContext.Teams.FirstAsync(x => x.Id == id);
+                    team.Name = model.Name;
+                    team.Abbreviation = model.Abbreviation;
+                    team.UpdatedAt = DateTime.UtcNow;
+
+                    if (bannerFile.Any())
+                    {
+                        var file = bannerFile[0];
+                        var f = new BrowsableFile
+                        {
+                            FileName = $"{FileHelper.CleanString(team.Name)}-banner{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = await FileCategoryName(seasonId, team.Name),
+                            Stream = file.OpenReadStream()
+                        };
+
+                        if (team.BannerImageId > 0)
+                            await _browsableFileService.DeleteAsync(team.BannerImageId);
+
+                        team.BannerImageId = await _browsableFileService.AddAsync(f);
+                    }
+
+                    if (logoFile.Any())
+                    {
+                        var file = logoFile[0];
+                        var f = new BrowsableFile
+                        {
+                            FileName = $"{FileHelper.CleanString(team.Name)}-logo{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = await FileCategoryName(seasonId, team.Name),
+                            Stream = file.OpenReadStream()
+                        };
+
+                        if (team.LogoImageId > 0)
+                            await _browsableFileService.DeleteAsync(team.LogoImageId);
+
+                        team.LogoImageId = await _browsableFileService.AddAsync(f);
+                    }
+
+                    if (teamFile.Any())
+                    {
+                        var file = teamFile[0];
+                        var f = new BrowsableFile
+                        {
+                            FileName = $"{FileHelper.CleanString(team.Name)}-teamPicture{Path.GetExtension(file.FileName)}",
+                            Extension = Path.GetExtension(file.FileName),
+                            ContentType = file.ContentType,
+                            Category = await FileCategoryName(seasonId, team.Name),
+                            Stream = file.OpenReadStream()
+                        };
+
+                        if (team.TeamPictureImageId > 0)
+                            await _browsableFileService.DeleteAsync(team.TeamPictureImageId);
+
+                        team.TeamPictureImageId = await _browsableFileService.AddAsync(f);
+                    }
+
+                    await _seasonContext.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+            
+            model.Roles = await GetRoles();
+            model.Members = await GetMembers();
+            return View(new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
+            {
+                SeasonEdit = await GetSeason(seasonId),
+                Data = model
+            });
+        }
+
+        private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
+        {
+            var team = await _seasonContext.Teams.FirstAsync(x => x.Id == teamId);
+            var model = new SeasonTeamEditViewModel
+            {
+                Name = team.Name,
+                Abbreviation = team.Abbreviation,
+                BannerUrl = team.BannerImageId > 0
+                    ? Url.Action("Index", "File", new {Area = "", Id = NumberObfuscation.Encode(team.BannerImageId)})
+                    : string.Empty,
+                LogoFileUrl = team.LogoImageId > 0
+                    ? Url.Action("Index", "File", new {Area = "", Id = NumberObfuscation.Encode(team.LogoImageId)})
+                    : string.Empty,
+                TeamFileUrl = team.TeamPictureImageId > 0
+                    ? Url.Action("Index", "File",
+                        new {Area = "", Id = NumberObfuscation.Encode(team.TeamPictureImageId)})
+                    : string.Empty
+            };
+
+            var members = await _leagueContext.Members.ToListAsync();
+            var roles = await GetRoles();
+            foreach (var player in team.Players)
+            {
+                var member = members.First(x => x.Id == player.MemberId);
+                model.Players.Add(new SeasonTeamPlayerListViewModel
+                {
+                    Id = player.Id,
+                    Name = $"{member.FirstName} {member.LastName}",
+                    Email = member.Email,
+                    Nickname = member.Nickname,
+                    Role = roles.First(x => x.Value == player.RoleId.ToString()).Text
+                });
+            }
+
+            return model;
+        }
+
         private async Task<string> FileCategoryName(int seasonId, string teamName)
         {
             var season = await _seasonContext.Seasons.FirstAsync(x => x.Id == seasonId);

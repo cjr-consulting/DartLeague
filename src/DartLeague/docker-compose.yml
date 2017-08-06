@@ -6,6 +6,8 @@ services:
     build:
       context: ./DartLeague.Web
       dockerfile: Dockerfile
+    environment:
+      - "BrowsableFile:Storage=/storage"
     volumes:
       - "C:/DevData/DartLeague/storage:/storage"
     links:

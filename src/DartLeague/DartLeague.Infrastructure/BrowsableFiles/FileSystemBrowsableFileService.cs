@@ -3,19 +3,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Domain.BrowsableFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using EF = DartLeague.Repositories.LeagueData;
 
 namespace DartLeague.Infrastructure.BrowsableFiles
 {
     public class FileSystemBrowsableFileService : IBrowsableFileService
     {
-        public static string RootPath;
-
         private EF.LeagueContext _leagueContext;
-        
-        public FileSystemBrowsableFileService(EF.LeagueContext leagueContext)
+        private readonly IOptions<BrowsableFileOptions> _options;
+
+        public FileSystemBrowsableFileService(EF.LeagueContext leagueContext, IOptions<BrowsableFileOptions> options)
         {
             _leagueContext = leagueContext;
+            _options = options;
         }
         public async Task<int> AddAsync(BrowsableFile file)
         {
@@ -33,7 +34,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             _leagueContext.BrowsableFiles.Add(f);
             await _leagueContext.SaveChangesAsync();
             
-            var filePath = Path.Combine(RootPath, f.RelativePath);
+            var filePath = Path.Combine(_options.Value.Storage, f.RelativePath);
 
             using (var fileStream = File.Create(filePath))
             {
@@ -54,7 +55,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             {
                 Id = f.Id,
                 FileName = f.FileName,
-                Stream = File.OpenRead(Path.Combine(RootPath, f.RelativePath)),
+                Stream = File.OpenRead(Path.Combine(_options.Value.Storage, f.RelativePath)),
                 ContentType = f.ContentType,
                 Category = f.Category,
                 Extension = Path.GetExtension(f.RelativePath)
@@ -73,7 +74,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
             {
                 Id = f.Id,
                 FileName = f.FileName,
-                Stream = File.OpenRead(Path.Combine(RootPath, f.RelativePath)),
+                Stream = File.OpenRead(Path.Combine(_options.Value.Storage, f.RelativePath)),
                 ContentType = f.ContentType,
                 Category = f.Category,
                 Extension = Path.GetExtension(f.RelativePath)

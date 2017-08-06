@@ -11,8 +11,8 @@ namespace DartLeague.Web.Controllers.Components
 {
     public class NavigationViewComponent : ViewComponent
     {
-        private EFLeagueData.LeagueContext _leagueContext;
-        private EFSeasonData.SeasonContext _seasonContext;
+        private readonly EFLeagueData.LeagueContext _leagueContext;
+        private readonly EFSeasonData.SeasonContext _seasonContext;
 
         public NavigationViewComponent(EFLeagueData.LeagueContext leagueContext, EFSeasonData.SeasonContext seasonContext)
         {

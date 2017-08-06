@@ -35,6 +35,8 @@ namespace DartLeague.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
+
             var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
             
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
@@ -109,7 +111,6 @@ namespace DartLeague.Web
             InitializeAuthDb.Initialize(app).Wait();
             InitializeIdentityDb.Initialize(app);
             InitializeLeagueDb.Initialize(app).Wait();
-            FileSystemBrowsableFileService.RootPath = "/storage";
 
             app.UseStaticFiles();
 
