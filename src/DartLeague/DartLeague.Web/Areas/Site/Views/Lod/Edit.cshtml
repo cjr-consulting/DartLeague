@@ -4,6 +4,7 @@
 }
 <div class="container">
     <h2>Edit Dart Event</h2>
+    @Html.ValidationSummary()
     <form asp-controller="Lod" enctype="multipart/form-data" asp-action="Edit" method="post">
         @Html.Partial("_lodFields")
         <div>
@@ -12,3 +13,8 @@
         </div>
     </form>
 </div>
+<style>
+    validation-summary-errors {
+        color: crimson;
+    }
+</style>

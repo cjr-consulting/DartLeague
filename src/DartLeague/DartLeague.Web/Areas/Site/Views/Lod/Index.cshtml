@@ -54,7 +54,12 @@
                             </td>
                             <td style="vertical-align: middle">@luckOfTheDraw.EventDate.ToString("MM/dd/yyyy")</td>
                             <td style="vertical-align: middle">@luckOfTheDraw.Name</td>
-                            <td></td>
+                            <td>  
+                                @if (!string.IsNullOrEmpty(luckOfTheDraw.FileId))
+                                  {
+                                      <a href="@Url.Action("Index", "File", new {Area = "", Id = luckOfTheDraw.FileId})">LOD Poster Exists</a>
+                                  }
+                            </td>
                             <td>
                                 <a class="btn btn-link confirmation" asp-area="Site" asp-controller="Lod" asp-action="Delete" asp-route-id="@luckOfTheDraw.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                         </tr>

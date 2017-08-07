@@ -13,7 +13,7 @@ namespace DartLeague.Web.Areas.Site.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int FileId { get; set; }
+        public string FileId { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime EventDate { get; set; }

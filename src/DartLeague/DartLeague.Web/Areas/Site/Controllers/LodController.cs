@@ -29,7 +29,14 @@ namespace DartLeague.Web.Areas.Site.Controllers
         {
             var model = new LodListViewModel();
             model.LuckOfTheDraws = _leagueContext.LuckofTheDraws
-                .Select(x => new LodViewModel {Id = x.Id, Name = x.Name, EventDate = x.Date, FileId = x.FileId, Active = x.Active})
+                .Select(x => new LodViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    EventDate = x.Date,
+                    FileId = x.FileId > 0 ? NumberObfuscation.Encode(x.FileId) : string.Empty,
+                    Active = x.Active
+                })
                 .ToList();
             return View(model);
         }
@@ -48,19 +55,29 @@ namespace DartLeague.Web.Areas.Site.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var lod = new EF.LuckofTheDraw
+                    if (!_leagueContext.LuckofTheDraws.Any(x => string.Equals(x.Name.Trim(), lodEvent.Name.Trim(),
+                        StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        Name = lodEvent.Name,
-                        FileId = lodImage.Any() ? await CreateBrowseableFile(lodEvent, lodImage) : 0,
-                        Date = lodEvent.EventDate,
-                        CreatedAt = DateTime.UtcNow
-                    };
-                    _leagueContext.LuckofTheDraws.Add(lod);
-                    await _leagueContext.SaveChangesAsync();
-                    return Redirect("Index");
+                        var lod = new EF.LuckofTheDraw
+                        {
+                            Name = lodEvent.Name,
+                            FileId = lodImage.Any() ? await CreateBrowseableFile(lodEvent, lodImage[0]) : 0,
+                            Date = lodEvent.EventDate,
+                            CreatedAt = DateTime.UtcNow
+                        };
+                        if (lodImage.Any())
+                            if (lod.FileId > 0)
+                                await _browsableFileService.DeleteAsync(lod.FileId);
+                        lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
+                        _leagueContext.LuckofTheDraws.Add(lod);
+                        await _leagueContext.SaveChangesAsync();
+                        return Redirect("Index");
+                    }
+                    ModelState.AddModelError("",
+                        "A LOD event already exists with this name.  Choose another name, or edit the existing LOD event.");
                 }
             }
-            catch
+            catch (DbUpdateException)
             {
                 //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Unable to save changes. " +
@@ -70,21 +87,6 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(lodEvent);
         }
 
-        private async Task<int> CreateBrowseableFile(LodViewModel lodEvent, List<IFormFile> lodImage)
-        {
-            int imageFileId;
-            var file = lodImage[0];
-            imageFileId = await _browsableFileService.AddAsync(new BrowsableFile
-            {
-                FileName =
-                    $"ImageFile-{FileHelper.CleanString(lodEvent.Name)}{Path.GetExtension(file.FileName)}",
-                Extension = Path.GetExtension(file.FileName),
-                ContentType = file.ContentType,
-                Category = "LodImages",
-                Stream = file.OpenReadStream()
-            });
-            return imageFileId;
-        }
 
         [Route("site/lod/{id}/edit")]
         public async Task<IActionResult> Edit(int? id)
@@ -95,7 +97,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                 Id = lod.Id,
                 Name = lod.Name,
                 EventDate = lod.Date,
-                FileId = lod.FileId
+                FileId = lod.FileId > 0 ? NumberObfuscation.Encode(lod.FileId) : string.Empty
             };
             return View(lodModel);
         }
@@ -111,10 +113,13 @@ namespace DartLeague.Web.Areas.Site.Controllers
                 lod.Date = lodEvent.EventDate;
                 lod.UpdatedAt = DateTime.UtcNow;
                 if (lodImage.Any())
-                    lod.FileId = await CreateBrowseableFile(lodEvent, lodImage);
+                    if (lod.FileId > 0)
+                        await _browsableFileService.DeleteAsync(lod.FileId);
+                lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
                 await _leagueContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             catch (DbUpdateException)
             {
                 //Log the error (uncomment ex variable name and write a log.
@@ -124,12 +129,25 @@ namespace DartLeague.Web.Areas.Site.Controllers
             }
             return View(lodEvent);
         }
+
         [Route("site/lod/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
-            _leagueContext.Remove(lod);
-            await _leagueContext.SaveChangesAsync();
+            try
+            {
+                var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
+                _leagueContext.Remove(lod);
+                await _leagueContext.SaveChangesAsync();
+                await _browsableFileService.DeleteAsync(lod.FileId);
+            }
+            catch (DbUpdateException)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -152,6 +170,23 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                              "see your system administrator.");
             }
             return RedirectToAction("Index");
+        }
+
+        private async Task<int> CreateBrowseableFile(LodViewModel lodEvent, IFormFile lodImage)
+        {
+            int imageFileId;
+            var file = lodImage;
+            imageFileId = await _browsableFileService.AddAsync(new BrowsableFile
+            {
+                FileName =
+                    $"ImageFile-{FileHelper.CleanString(lodEvent.Name)}{Path.GetExtension(file.FileName)}",
+                Extension = Path.GetExtension(file.FileName),
+                ContentType = file.ContentType,
+                Category = "LodImages",
+                Stream = file.OpenReadStream()
+            });
+
+            return imageFileId;
         }
     }
 }

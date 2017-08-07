@@ -14,14 +14,15 @@
             <span asp-validation-for="EventDate" class="text-danger"></span>
         </div>
     </div>
-    @if (Model.FileId > 0)
-    {
-        <img src="@Url.Action("Index", "File", new {Area = "", Id = Model.FileId})"/>
-    }
     <div class="col-md-4">
         <div class="form-group">
             <label asp-for="FileId">LOD Image <small>(image of 750w x 110h)</small></label>
-            <input type="file" id="lodImage" name="lodImage" class="form-control" />
+            <br/>
+            @if (!string.IsNullOrEmpty(Model.FileId))
+            {
+                <a href="@Url.Action("Index", "File", new {Area = "", Id = Model.FileId})">LOD Poster Exists</a>
+            }
+            <input type="file" id="lodImage" name="lodImage" class="form-control"/>
         </div>
     </div>
 </div>
