@@ -24,7 +24,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         private readonly IBrowsableFileService _browsableFileService;
         private readonly LeagueContext _leagueContext;
 
-        public SeasonTeamController(LeagueContext leagueContext, SeasonContext seasonContext, IBrowsableFileService browsableFileService)
+        public SeasonTeamController(LeagueContext leagueContext, SeasonContext seasonContext,
+            IBrowsableFileService browsableFileService)
         {
             _leagueContext = leagueContext;
             _seasonContext = seasonContext;
@@ -63,7 +64,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 Data = new SeasonTeamCreateViewModel
                 {
                     Roles = await GetRoles(),
-                    Members = await GetAvailableMembers(seasonId)
+                    Members = await GetAvailableMembers(seasonId),
+                    Sponsors = await GetSponsors()
                 }
             };
 
@@ -88,6 +90,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         SeasonId = seasonId,
                         Name = model.Name,
                         Abbreviation = model.Abbreviation,
+                        SponsorId = model.SponsorId,
                         CreatedAt = DateTime.UtcNow
                     };
 
@@ -131,7 +134,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         var file = teamFile[0];
                         var f = new BrowsableFile
                         {
-                            FileName = $"{FileHelper.CleanString(team.Name)}-teamPicture{Path.GetExtension(file.FileName)}",
+                            FileName =
+                                $"{FileHelper.CleanString(team.Name)}-teamPicture{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = await FileCategoryName(seasonId, team.Name),
@@ -156,6 +160,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
             model.Members = await GetAvailableMembers(seasonId);
             model.Roles = await GetRoles();
+            model.Sponsors = await GetSponsors();
             return View(new SeasonManagementRootViewModel<SeasonTeamCreateViewModel>
             {
                 SeasonEdit = await GetSeason(seasonId),
@@ -169,6 +174,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             var team = await GetTeamEditViewModel(id);
             team.Roles = await GetRoles();
             team.Members = await GetAvailableMembers(seasonId);
+            team.Sponsors = await GetSponsors();
 
             var model = new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
             {
@@ -192,6 +198,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     var team = await _seasonContext.Teams.FirstAsync(x => x.Id == id);
                     team.Name = model.Name;
                     team.Abbreviation = model.Abbreviation;
+                    team.SponsorId = model.SponsorId;
                     team.UpdatedAt = DateTime.UtcNow;
 
                     if (bannerFile.Any())
@@ -235,7 +242,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         var file = teamFile[0];
                         var f = new BrowsableFile
                         {
-                            FileName = $"{FileHelper.CleanString(team.Name)}-teamPicture{Path.GetExtension(file.FileName)}",
+                            FileName =
+                                $"{FileHelper.CleanString(team.Name)}-teamPicture{Path.GetExtension(file.FileName)}",
                             Extension = Path.GetExtension(file.FileName),
                             ContentType = file.ContentType,
                             Category = await FileCategoryName(seasonId, team.Name),
@@ -260,9 +268,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                              "Try again, and if the problem persists " +
                                              "see your system administrator.");
             }
-            
+
             model.Roles = await GetRoles();
             model.Members = await GetAvailableMembers(seasonId);
+            model.Sponsors = await GetSponsors();
             return View(new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
             {
                 SeasonEdit = await GetSeason(seasonId),
@@ -273,7 +282,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("/manage/season/{seasonId}/team/{id}/delete")]
         public async Task<IActionResult> Delete(int seasonId, int id)
         {
-            var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.SeasonId == seasonId && x.Id == id);
+            var team = await _seasonContext.Teams.Include("Players")
+                .FirstAsync(x => x.SeasonId == seasonId && x.Id == id);
             if (team != null)
             {
                 foreach (var player in team.Players)
@@ -307,6 +317,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 {
                     Name = team.Name,
                     Abbreviation = team.Abbreviation,
+                    SponsorId = team.SponsorId,
                     CreatedAt = DateTime.UtcNow,
                     SeasonId = seasonId,
                 };
@@ -341,7 +352,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             await _seasonContext.SaveChangesAsync();
             return RedirectToAction("Index", "SeasonTeam");
         }
-        
+
         private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
         {
             var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.Id == teamId);
@@ -349,6 +360,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 Id = team.Id,
                 Name = team.Name,
+                SponsorId = team.SponsorId,
                 Abbreviation = team.Abbreviation,
                 BannerUrl = team.BannerImageId > 0
                     ? Url.Action("Index", "File", new {Area = "", Id = NumberObfuscation.Encode(team.BannerImageId)})
@@ -424,7 +436,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     Text = $"{x.FirstName} {x.LastName}"
                 }).ToListAsync();
         }
-        
+
         private async Task<SeasonEditViewModel> GetSeason(int id)
         {
             return await _seasonContext.Seasons
@@ -437,6 +449,17 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                         EndDate = x.EndDate
                     })
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        private async Task<List<SelectListItem>> GetSponsors()
+        {
+            return await _leagueContext.Sponsors
+                .Where(x => x.Type == "T")
+                .Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToListAsync();
         }
     }
 }
