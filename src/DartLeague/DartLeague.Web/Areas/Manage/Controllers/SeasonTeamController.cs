@@ -53,7 +53,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             }).ToListAsync()
                 });
         }
-        
+
         [Route("/manage/season/{seasonId}/team/create")]
         public async Task<IActionResult> Create(int seasonId)
         {
@@ -63,7 +63,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 Data = new SeasonTeamCreateViewModel
                 {
                     Roles = await GetRoles(),
-                    Members = await GetMembers()
+                    Members = await GetAvailableMembers(seasonId)
                 }
             };
 
@@ -154,7 +154,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                              "see your system administrator.");
             }
 
-            model.Members = await GetMembers();
+            model.Members = await GetAvailableMembers(seasonId);
             model.Roles = await GetRoles();
             return View(new SeasonManagementRootViewModel<SeasonTeamCreateViewModel>
             {
@@ -168,7 +168,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             var team = await GetTeamEditViewModel(id);
             team.Roles = await GetRoles();
-            team.Members = await GetMembers();
+            team.Members = await GetAvailableMembers(seasonId);
 
             var model = new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
             {
@@ -262,7 +262,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             }
             
             model.Roles = await GetRoles();
-            model.Members = await GetMembers();
+            model.Members = await GetAvailableMembers(seasonId);
             return View(new SeasonManagementRootViewModel<SeasonTeamEditViewModel>
             {
                 SeasonEdit = await GetSeason(seasonId),
@@ -290,6 +290,45 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return RedirectToAction("Index", "SeasonTeam");
         }
 
+        [Route("manage/season/{seasonId}/team/copyteams")]
+        public async Task<IActionResult> CopyTeamsFromPreviousSeason(int seasonId)
+        {
+            var season = await _seasonContext.Seasons.Include("Teams").FirstAsync(x => x.Id == seasonId);
+            var prevSeason = await _seasonContext.Seasons.Include("Teams")
+                .Where(x => x.StartDate < season.StartDate)
+                .OrderByDescending(x => x.StartDate)
+                .FirstAsync();
+            foreach (var team in prevSeason.Teams)
+            {
+                var newTeam = new Team
+                {
+                    Name = team.Name,
+                    Abbreviation = team.Abbreviation,
+                    CreatedAt = DateTime.UtcNow,
+                    SeasonId = seasonId,
+                };
+
+                if (team.BannerImageId > 0)
+                {
+                    var banner = await _browsableFileService.GetAsync(team.BannerImageId);
+                    banner.Category = await FileCategoryName(seasonId, team.Name);
+                    newTeam.BannerImageId = await _browsableFileService.AddAsync(banner);
+                }
+
+                if (team.LogoImageId > 0)
+                {
+                    var logo = await _browsableFileService.GetAsync(team.LogoImageId);
+                    logo.Category = await FileCategoryName(seasonId, team.Name);
+                    newTeam.LogoImageId = await _browsableFileService.AddAsync(logo);
+                }
+
+                await _seasonContext.Teams.AddAsync(newTeam);
+            }
+
+            await _seasonContext.SaveChangesAsync();
+            return RedirectToAction("Index", "SeasonTeam");
+        }
+        
         private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
         {
             var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.Id == teamId);
@@ -356,9 +395,16 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             };
         }
 
-        private async Task<List<SelectListItem>> GetMembers()
+        private async Task<List<SelectListItem>> GetAvailableMembers(int seasonId)
         {
+            var players = await _seasonContext.Teams
+                .Include("Players")
+                .Where(x => x.SeasonId == seasonId)
+                .SelectMany(x => x.Players)
+                .ToListAsync();
+
             return await _leagueContext.Members
+                .Where(x => players.Any(p => p.MemberId == x.Id) == false)
                 .Select(x => new SelectListItem
                 {
                     Value = x.Id.ToString(),

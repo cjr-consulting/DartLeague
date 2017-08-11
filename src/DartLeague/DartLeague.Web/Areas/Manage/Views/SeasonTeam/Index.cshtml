@@ -15,7 +15,7 @@
                 </div>
                 <div class="panel-body">
                     <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonTeam" asp-action="Create" title="Add Team"><i class="fa fa-plus-square"></i></a> <strong>Team</strong>
-                        <a class="btn btn-success btn-sm" href="#">Copy Teams</a>
+                        <a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonTeam" asp-action="CopyTeamsFromPreviousSeason" asp-route-seasonId="@Model.SeasonEdit.Id">Copy Teams</a>
                         <a class="btn btn-success btn-sm" href="#">Copy Teams with Players</a>
                     </p>
                 </div>
