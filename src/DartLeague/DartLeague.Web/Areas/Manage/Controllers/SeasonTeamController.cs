@@ -270,6 +270,26 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             });
         }
 
+        [Route("/manage/season/{seasonId}/team/{id}/delete")]
+        public async Task<IActionResult> Delete(int seasonId, int id)
+        {
+            var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.SeasonId == seasonId && x.Id == id);
+            if (team != null)
+            {
+                foreach (var player in team.Players)
+                    _seasonContext.TeamPlayers.Remove(player);
+
+                _seasonContext.Teams.Remove(team);
+
+                await _browsableFileService.DeleteAsync(team.LogoImageId);
+                await _browsableFileService.DeleteAsync(team.BannerImageId);
+                await _browsableFileService.DeleteAsync(team.TeamPictureImageId);
+                await _seasonContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "SeasonTeam");
+        }
+
         private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
         {
             var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.Id == teamId);
