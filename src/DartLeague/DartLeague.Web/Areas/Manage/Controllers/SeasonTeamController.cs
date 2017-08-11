@@ -291,10 +291,13 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [Route("manage/season/{seasonId}/team/copyteams")]
-        public async Task<IActionResult> CopyTeamsFromPreviousSeason(int seasonId)
+        public async Task<IActionResult> CopyTeamsFromPreviousSeason(int seasonId, bool withPlayers)
         {
             var season = await _seasonContext.Seasons.Include("Teams").FirstAsync(x => x.Id == seasonId);
-            var prevSeason = await _seasonContext.Seasons.Include("Teams")
+            if (season.Teams.Any())
+                return RedirectToAction("Index", "SeasonTeam");
+
+            var prevSeason = await _seasonContext.Seasons.Include("Teams.Players")
                 .Where(x => x.StartDate < season.StartDate)
                 .OrderByDescending(x => x.StartDate)
                 .FirstAsync();
@@ -320,6 +323,16 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     var logo = await _browsableFileService.GetAsync(team.LogoImageId);
                     logo.Category = await FileCategoryName(seasonId, team.Name);
                     newTeam.LogoImageId = await _browsableFileService.AddAsync(logo);
+                }
+
+                if (withPlayers)
+                {
+                    newTeam.Players.AddRange(team.Players.Select(x => new TeamPlayer
+                    {
+                        MemberId = x.MemberId,
+                        RoleId = x.RoleId,
+                        Team = newTeam
+                    }));
                 }
 
                 await _seasonContext.Teams.AddAsync(newTeam);
