@@ -163,7 +163,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             });
         }
 
-        [Route("/manage/season/{seasonId}/team/edit/{id}")]
+        [Route("/manage/season/{seasonId}/team/{id}/edit")]
         public async Task<IActionResult> Edit(int seasonId, int id)
         {
             var team = await GetTeamEditViewModel(id);
@@ -179,7 +179,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return View(model);
         }
 
-        [HttpPost("/manage/season/{seasonId}/team/edit/{id}")]
+        [HttpPost("/manage/season/{seasonId}/team/{id}/edit")]
         public async Task<IActionResult> Edit(int seasonId, int id, SeasonTeamEditViewModel model,
             List<IFormFile> bannerFile,
             List<IFormFile> logoFile,
@@ -272,9 +272,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
         {
-            var team = await _seasonContext.Teams.FirstAsync(x => x.Id == teamId);
+            var team = await _seasonContext.Teams.Include("Players").FirstAsync(x => x.Id == teamId);
             var model = new SeasonTeamEditViewModel
             {
+                Id = team.Id,
                 Name = team.Name,
                 Abbreviation = team.Abbreviation,
                 BannerUrl = team.BannerImageId > 0

@@ -49,6 +49,7 @@
     <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="Api\" />
     <Folder Include="Views\Shared\Components\ImportantMessage\" />
     <Folder Include="Views\Sponsor\" />
     <Folder Include="Views\Shared\Components\Navigation\" />
