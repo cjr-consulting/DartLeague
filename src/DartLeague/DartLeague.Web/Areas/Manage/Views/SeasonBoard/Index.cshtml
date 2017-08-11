@@ -15,7 +15,12 @@
                 </div>
                 <div class="panel-body">
                     <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong>
-                        <a class="btn btn-success btn-sm confirmation" asp-action="Copy"><i class="fa fa-copy"></i></a><strong> Copy Previous Season</strong></p>
+                    @if (Model.Data.Any() == false)
+                    {
+                        <a class="btn btn-success btn-sm confirmation" asp-action="Copy"><i class="fa fa-copy"></i></a>
+                        <strong> Copy Previous Season</strong>
+                    }
+                    </p>
                 </div>
                 <table class="table table-condensed">
                     <thead>

@@ -1,0 +1,18 @@
+﻿@using DartLeague.Web.Areas.Manage.Models;
+@model SeasonManagementRootViewModel<SeasonTeamPlayerCreateViewModel>
+@{
+    ViewData["Title"] = "Add Player";
+}
+
+<div class="container">
+    <h2>Add Player</h2>
+    <form enctype="multipart/form-data" asp-controller="SeasonTeamPlayer" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.Partial("_teamPlayerCreateFields", Model.Data)
+        <div>
+            <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
+            <a class="btn btn-danger" asp-controller="SeasonTeam" asp-action="Edit" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-id="@Model.Data.TeamId">Cancel</a>
+        </div>
+    </form>
+</div>
+

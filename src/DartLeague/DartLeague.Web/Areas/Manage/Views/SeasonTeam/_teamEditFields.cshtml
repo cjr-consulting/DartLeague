@@ -1,0 +1,91 @@
+﻿@using DartLeague.Web.Areas.Manage.Models
+@model SeasonTeamEditViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name" class="form-control input-lg" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Abbreviation"></label>
+            <input type="text" asp-for="Abbreviation" class="form-control" />
+            <span asp-validation-for="Abbreviation" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="logoFile">Logo Picture <small>jpg/png</small>
+            @if (!string.IsNullOrEmpty(Model.LogoFileUrl))
+            {
+                <a href="@Model.LogoFileUrl">Current File</a>
+            }
+        </label>
+        <input type="file" id="logoFile" name="logoFile" class="form-control" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="teamFile">Team Picture <small>jpg/png</small>
+            @if (!string.IsNullOrEmpty(Model.TeamFileUrl))
+            {
+                <a href="@Model.TeamFileUrl">Current File</a>
+            }
+        </label>
+        <input type="file" id="teamFile" name="teamFile" class="form-control" />
+    </div>
+</div>
+
+<div class="row" style="margin-top: 10px;">
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Players</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    <a class="btn btn-success btn-sm" asp-action="Create" asp-controller="SeasonTeamPlayer" asp-route-teamId="@Model.Id" title="Add Player">
+                        <i class="fa fa-plus-square"></i>
+                    </a> <strong>Player</strong>
+                </p>
+            </div>
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th style="text-align:center;">Email</th>
+                    <th>Role</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (!Model.Players.Any())
+                {
+                    <tr class="warning">
+                        <td style="vertical-align:middle;" colspan="4">Currently No Players</td>
+                    </tr>
+                }
+
+                @foreach (var player in Model.Players)
+                {
+                    <tr>
+                        <td style="vertical-align:middle;"><a asp-controller="SeasonTeamPlayer" asp-action="Edit" asp-area="Manage" asp-route-teamId="@Model.Id" asp-route-id="@player.Id" title="Edit Season Link">@player.Name</a></td>
+                        <td style="text-align:center; vertical-align:middle;">@player.Email</td>
+                        <td style="vertical-align:middle;">@player.Role</td>
+                        <td style="text-align:center;vertical-align:middle;"><a asp-controller="SeasonTeamPlayer" asp-action="Delete" asp-area="Manage" asp-route-teamId="@Model.Id" asp-route-id="@player.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

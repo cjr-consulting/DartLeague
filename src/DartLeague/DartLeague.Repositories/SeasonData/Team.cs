@@ -17,6 +17,9 @@ namespace DartLeague.Repositories.SeasonData
 
         public List<TeamPlayer> Players { get; set; } = new List<TeamPlayer>();
         public Season Season { get; set; }
+        public int BannerImageId { get; set; }
+        public int LogoImageId { get; set; }
+        public int TeamPictureImageId { get; set; }
     }
 
     public class TeamPlayer

@@ -227,6 +227,20 @@ namespace DartLeague.Repositories.SeasonData
                     .HasColumnName("abbreviation")
                     .HasColumnType("varchar(10)");
 
+                entity.Property(e => e.BannerImageId)
+                    .HasColumnName("bannerImageId")
+                    .HasColumnType("int(11) unsigned");
+
+                entity.Property(e => e.LogoImageId)
+                    .IsRequired()
+                    .HasColumnName("logoImageId")
+                    .HasColumnType("int(11) unsigned");
+
+                entity.Property(e => e.TeamPictureImageId)
+                    .IsRequired()
+                    .HasColumnName("teamPictureImageId")
+                    .HasColumnType("int(11) unsigned");
+                
                 entity.Property(e => e.CreatedAt)
                     .IsRequired()
                     .HasColumnName("createdAt")
@@ -236,7 +250,6 @@ namespace DartLeague.Repositories.SeasonData
                 entity.Property(e => e.CreatedBy)
                     .HasColumnName("createdBy")
                     .HasColumnType("int(10) unsigned");
-                
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updatedAt")

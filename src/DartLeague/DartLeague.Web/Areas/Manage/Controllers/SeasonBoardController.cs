@@ -185,6 +185,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 return RedirectToAction("Index", "SeasonBoard");
             }
+
             var currentSeason = await _seasonContext.Seasons.FirstOrDefaultAsync(x => x.Id == seasonId);
             var previousSeason = await _seasonContext.Seasons.Include("BoardMembers").Where(x => x.StartDate < currentSeason.StartDate)
                 .OrderByDescending(x => x.StartDate)
