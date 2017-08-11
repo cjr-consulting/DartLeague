@@ -22,8 +22,16 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <label for="logoFile">Logo Picture <small>jpg/png</small>
+    <div class="col-sm-12 col-md-6">
+        <label asp-for="SponsorId"></label>
+        <select class="form-control" asp-for="SponsorId" asp-items="Model.Sponsors">
+            <option>Please select Sponsor</option>
+        </select>
+        <span asp-validation-for="SponsorId" class="text-danger"></span>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <label for="logoFile">
+            Logo Picture <small>jpg/png</small>
             @if (!string.IsNullOrEmpty(Model.LogoFileUrl))
             {
                 <a href="@Model.LogoFileUrl">Current File</a>
