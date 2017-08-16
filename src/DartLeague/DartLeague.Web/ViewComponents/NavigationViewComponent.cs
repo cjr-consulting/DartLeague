@@ -84,7 +84,8 @@ namespace DartLeague.Web.Controllers.Components
                         {
                             new NavigationViewModel
                             {
-                                Title="Where we Play"
+                                Title="Where we Play",
+                                Href = url.Action("Index", "WhereWePlay")
                             },
                             new NavigationViewModel
                             {
@@ -93,15 +94,18 @@ namespace DartLeague.Web.Controllers.Components
                             },
                             new NavigationViewModel
                             {
-                                Title = "Darts in the Region"
+                                Title = "Darts in the Region",
+                                Href = url.Action("Index", "DartsInRegion")
                             },
                             new NavigationViewModel
                             {
-                                Title = "Board Members"
+                                Title = "Board Members",
+                                Href = url.Action("Index", "BoardMembers")
                             },
                             new NavigationViewModel
                             {
-                                Title="Contact"
+                                Title="Contact",
+                                Href = url.Action("Index", "Contact")
                             }
                         }
                     },
