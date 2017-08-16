@@ -6,6 +6,7 @@ using EFSeasonData = DartLeague.Repositories.SeasonData;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace DartLeague.Web.Controllers.Components
 {
@@ -112,41 +113,22 @@ namespace DartLeague.Web.Controllers.Components
                     new NavigationViewModel
                     {
                         Title="History",
-                        SubNavigations =
-                        {
-                            new NavigationViewModel
-                            {
-                                Title="2015 - 2016"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2014 - 2015"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2013 - 2014"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2012 - 2013"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2011 - 2012"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2010 - 2011"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2009 - 2010"
-                            }
-                        }
+                        SubNavigations = await BuildHistoryMenu(url)
                     },
                     await BuildOtherMenu()
                 }
             };
+        }
+
+        private async Task<List<NavigationViewModel>> BuildHistoryMenu(IUrlHelper url)
+        {
+            return await _seasonContext.Seasons.OrderByDescending(x => x.StartDate)
+                .Select(x =>
+                    new NavigationViewModel
+                    {
+                        Title = x.Title,
+                        Href = url.Action("Index", "History", new {title = x.Title})
+                    }).ToListAsync();
         }
 
         private async Task<NavigationViewModel> BuildSeasonActivitiesMenu()
