@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Repositories.SeasonData;
-using DartLeague.Web.Helpers;
+using DartLeague.Web.Models.HistoryViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -76,33 +75,5 @@ namespace DartLeague.Web.Controllers
 
             return View(model);
         }
-    }
-
-    public class HistoryViewModel
-    {
-        public HistorySeasonViewModel PreviousSeason { get; set; }
-        public HistorySeasonViewModel NextSeason { get; set; }
-
-        public string Title { get; set; }
-        public List<HistoryDocumentViewModel> Documents { get; set; } = new List<HistoryDocumentViewModel>();
-        public List<HistoryBoardMemberViewModel> BoardMembers { get; set; } = new List<HistoryBoardMemberViewModel>();
-    }
-
-    public class HistorySeasonViewModel
-    {
-        public string Title { get; set; }
-        public string Url { get; set; }
-    }
-
-    public class HistoryDocumentViewModel
-    {
-        public string Title { get; set; }
-        public string Url { get; set; }
-    }
-
-    public class HistoryBoardMemberViewModel
-    {
-        public string Name { get; set; }
-        public string Position { get; set; }
     }
 }
