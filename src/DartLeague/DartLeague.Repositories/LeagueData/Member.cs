@@ -23,5 +23,10 @@ namespace DartLeague.Repositories.LeagueData
         public string State { get; set; }
         public int UserId { get; set; }
         public string Zip { get; set; }
+
+        public string GetFullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

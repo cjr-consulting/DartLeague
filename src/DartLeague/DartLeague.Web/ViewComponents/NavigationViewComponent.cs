@@ -122,7 +122,10 @@ namespace DartLeague.Web.Controllers.Components
 
         private async Task<List<NavigationViewModel>> BuildHistoryMenu(IUrlHelper url)
         {
-            return await _seasonContext.Seasons.OrderByDescending(x => x.StartDate)
+            var today = DateTime.Now.Date;
+            return await _seasonContext.Seasons
+                .Where(x => x.EndDate < today)
+                .OrderByDescending(x => x.StartDate)
                 .Select(x =>
                     new NavigationViewModel
                     {
@@ -157,7 +160,9 @@ namespace DartLeague.Web.Controllers.Components
         private async Task<EFSeasonData.Season> CurrentSeason()
         {
             var today = DateTime.Now.Date;
-            return await _seasonContext.Seasons.Include("SeasonLinks").FirstOrDefaultAsync(x => x.StartDate <= today && today <= x.EndDate);
+            return await _seasonContext.Seasons
+                .Include("SeasonLinks")
+                .FirstOrDefaultAsync(x => x.StartDate <= today && today <= x.EndDate);
         }
 
         private async Task<NavigationViewModel> BuildOtherMenu()
