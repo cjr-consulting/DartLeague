@@ -1,0 +1,29 @@
+@using DartLeague.Web.ViewComponents.Models.Lod
+@model LodEventsListModel
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Luck Of The Draws</h3></div>
+    @if (!Model.LodEvents.Any())
+    {
+        <div class="panel-body">Currently No LODs</div>
+    }
+    else
+    {
+        <div class="dart-events">
+            @foreach (var l in Model.LodEvents)
+            {
+                <div class="dart-event clearfix">
+                    <div class="event-name">
+                        @if (!string.IsNullOrEmpty(l.ImageFileId))
+                        {
+                            <a asp-action="Index" asp-controller="File" asp-route-id="@l.ImageFileId" target="_blank"><i class="fa fa-eye"></i> @l.Name </a>
+                        }
+                        else { 
+                            @l.Name
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

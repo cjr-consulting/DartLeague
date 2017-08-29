@@ -61,14 +61,15 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         var lod = new EF.LuckofTheDraw
                         {
                             Name = lodEvent.Name,
-                            FileId = lodImage.Any() ? await CreateBrowseableFile(lodEvent, lodImage[0]) : 0,
                             Date = lodEvent.EventDate,
                             CreatedAt = DateTime.UtcNow
                         };
                         if (lodImage.Any())
+                        {
                             if (lod.FileId > 0)
                                 await _browsableFileService.DeleteAsync(lod.FileId);
-                        lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
+                            lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
+                        }
                         _leagueContext.LuckofTheDraws.Add(lod);
                         await _leagueContext.SaveChangesAsync();
                         return Redirect("Index");
