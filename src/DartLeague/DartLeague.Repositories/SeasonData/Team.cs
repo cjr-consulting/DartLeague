@@ -9,7 +9,11 @@ namespace DartLeague.Repositories.SeasonData
         public int Id { get; set; }
         public int SeasonId { get; set; }
         public string Name { get; set; }
+        public int SponsorId { get; set; }
         public string Abbreviation { get; set; }
+        public int BannerImageId { get; set; }
+        public int LogoImageId { get; set; }
+        public int TeamPictureImageId { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -20,15 +24,5 @@ namespace DartLeague.Repositories.SeasonData
         public int BannerImageId { get; set; }
         public int LogoImageId { get; set; }
         public int TeamPictureImageId { get; set; }
-    }
-
-    public class TeamPlayer
-    {
-        public int Id { get; set; }
-        public int TeamId { get; set; }
-        public int MemberId { get; set; }
-        public int RoleId { get; set; }
-
-        public Team Team { get; set; }
     }
 }

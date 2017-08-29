@@ -1,12 +1,18 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Models.SponsorListViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Controllers
 {
     public class SponsorController : Controller
     {
+        private readonly LeagueContext _leagueContext;
+
         private readonly List<SelectListItem> _sponsorTypes = new List<SelectListItem>
         {
             new SelectListItem {Text = "League Sponsors and Partners", Value = "L"},
@@ -15,44 +21,39 @@ namespace DartLeague.Web.Controllers
             new SelectListItem {Text = "Team Sponsors", Value = "T"}
         };
 
-        public IActionResult Index(string type)
+        public SponsorController(LeagueContext leagueContext)
+        {
+            _leagueContext = leagueContext;
+        }
+
+        public async Task<IActionResult> Index(string type)
         {
             ViewData["SponsorTypes"] = _sponsorTypes;
-            return View(new SponsorListViewModel
+            var model = new SponsorListViewModel
             {
-                SelectedSponsorType = type ?? "L",
-                Sponsors = {
-                    new SponsorViewModel
-                    {
-                        Name = "Sponsor 1",
-                        Url = "url",
-                        MapUrl = "mapurl",
-                        Address1 = "Address 1",
-                        Address2 = "Address 2",
-                        City = "City",
-                        State = "ST",
-                        Zip = "00000",
-                        FacebookUrl = "facebook",
-                        Phone = "(777) 777-7777",
-                        Email = "someone@somewhere.com",
-                        Description = "Descriptionsssss"
-                    },
+                SelectedSponsorType = type ?? "L"
+            };
 
+            model.Sponsors = await _leagueContext.Sponsors
+                .Where(x => x.Type == model.SelectedSponsorType)
+                .Select(x =>
                     new SponsorViewModel
                     {
-                        Name = "Sponsor 1",
-                        Url = "url",
-                        Address1 = "Address 1",
-                        Address2 = "Address 2",
-                        City = "City",
-                        State = "ST",
-                        Zip = "00000",
-                        FacebookUrl = "facebook",
-                        Phone = "(777) 777-7777",
-                        Email = "someone@somewhere.com",
-                    }
-                }
-            });
+                        Name = x.Name,
+                        Url = x.Url,
+                        MapUrl = x.MapUrl,
+                        Address1 = x.Address1,
+                        Address2 = x.Address2,
+                        City = x.City,
+                        State = x.State,
+                        Zip = x.Zip,
+                        FacebookUrl = x.FacebookUrl,
+                        Phone = x.Phone,
+                        Email = x.Email,
+                        Description = x.Description
+                    }).ToListAsync();
+
+            return View(model);
         }
     }
 }

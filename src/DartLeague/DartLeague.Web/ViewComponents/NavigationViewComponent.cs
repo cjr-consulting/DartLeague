@@ -6,6 +6,7 @@ using EFSeasonData = DartLeague.Repositories.SeasonData;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace DartLeague.Web.Controllers.Components
 {
@@ -84,7 +85,8 @@ namespace DartLeague.Web.Controllers.Components
                         {
                             new NavigationViewModel
                             {
-                                Title="Where we Play"
+                                Title="Where we Play",
+                                Href = url.Action("Index", "WhereWePlay")
                             },
                             new NavigationViewModel
                             {
@@ -93,56 +95,43 @@ namespace DartLeague.Web.Controllers.Components
                             },
                             new NavigationViewModel
                             {
-                                Title = "Darts in the Region"
+                                Title = "Darts in the Region",
+                                Href = url.Action("Index", "DartsInRegion")
                             },
                             new NavigationViewModel
                             {
-                                Title = "Board Members"
+                                Title = "Board Members",
+                                Href = url.Action("Index", "BoardMembers")
                             },
                             new NavigationViewModel
                             {
-                                Title="Contact"
+                                Title="Contact",
+                                Href = url.Action("Index", "Contact")
                             }
                         }
                     },
                     new NavigationViewModel
                     {
                         Title="History",
-                        SubNavigations =
-                        {
-                            new NavigationViewModel
-                            {
-                                Title="2015 - 2016"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2014 - 2015"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2013 - 2014"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2012 - 2013"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2011 - 2012"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2010 - 2011"
-                            },
-                            new NavigationViewModel
-                            {
-                                Title = "2009 - 2010"
-                            }
-                        }
+                        SubNavigations = await BuildHistoryMenu(url)
                     },
                     await BuildOtherMenu()
                 }
             };
+        }
+
+        private async Task<List<NavigationViewModel>> BuildHistoryMenu(IUrlHelper url)
+        {
+            var today = DateTime.Now.Date;
+            return await _seasonContext.Seasons
+                .Where(x => x.EndDate < today)
+                .OrderByDescending(x => x.StartDate)
+                .Select(x =>
+                    new NavigationViewModel
+                    {
+                        Title = x.Title,
+                        Href = url.Action("Index", "History", new {title = x.Title})
+                    }).ToListAsync();
         }
 
         private async Task<NavigationViewModel> BuildSeasonActivitiesMenu()
@@ -171,7 +160,9 @@ namespace DartLeague.Web.Controllers.Components
         private async Task<EFSeasonData.Season> CurrentSeason()
         {
             var today = DateTime.Now.Date;
-            return await _seasonContext.Seasons.Include("SeasonLinks").FirstOrDefaultAsync(x => x.StartDate <= today && today <= x.EndDate);
+            return await _seasonContext.Seasons
+                .Include("SeasonLinks")
+                .FirstOrDefaultAsync(x => x.StartDate <= today && today <= x.EndDate);
         }
 
         private async Task<NavigationViewModel> BuildOtherMenu()

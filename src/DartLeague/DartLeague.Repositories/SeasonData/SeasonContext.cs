@@ -222,6 +222,10 @@ namespace DartLeague.Repositories.SeasonData
                     .HasColumnName("name")
                     .HasColumnType("varchar(500)");
 
+                entity.Property(e => e.SponsorId)
+                    .HasColumnName("sponsorId")
+                    .HasColumnType("int(10) unsigned");
+
                 entity.Property(e => e.Abbreviation)
                     .IsRequired()
                     .HasColumnName("abbreviation")

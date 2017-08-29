@@ -8,9 +8,10 @@ using DartLeague.Repositories.SeasonData;
 namespace DartLeague.Web.Data.Migrations.SeasonDb
 {
     [DbContext(typeof(SeasonContext))]
-    partial class SeasonContextModelSnapshot : ModelSnapshot
+    [Migration("20170811160612_Added sponsor id to the team")]
+    partial class Addedsponsoridtotheteam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

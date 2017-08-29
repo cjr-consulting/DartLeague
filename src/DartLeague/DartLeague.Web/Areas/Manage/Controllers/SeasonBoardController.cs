@@ -37,6 +37,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     SeasonEdit = await GetSeason(seasonId),
                     Data = await _seasonContext.BoardMembers
                         .Where(x => x.SeasonId == seasonId)
+                        .OrderBy(x => x.Position.Order)
                         .Select(x =>
                             new SeasonBoardListViewModel
                             {

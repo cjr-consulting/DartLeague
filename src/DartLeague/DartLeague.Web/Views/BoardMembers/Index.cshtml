@@ -1,0 +1,41 @@
+@model List<BoardMemberListViewModel>
+@{
+    ViewData["Title"] = "Board Members";
+}
+<div class="container">
+    <div class="page-header"><h2>Board Members</h2></div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Started</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr class="warning"><td colspan="3">Currently No Board Members</td></tr>
+            }
+            else
+            {
+                foreach (var boardMember in Model)
+                {
+                    <tr>
+                        <td>
+                            @boardMember.Name
+                        </td>
+                        <td>
+                            @boardMember.Position
+                        </td>
+                        <td>
+                            @boardMember.StartSeason
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div style="text-align: center;">If you are interested in running for one of these positions, please see GTDL Rules</div>
+</div>
