@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Web", "DartLeague.Web\DartLeague.Web.csproj", "{5B3B99D9-16FC-4E58-BDC4-475CFE930947}"
 EndProject
@@ -16,11 +16,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Core", "DartLeag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Repositories", "DartLeague.Repositories\DartLeague.Repositories.csproj", "{CEB6257A-F4BA-4FFA-B350-C28C505A58EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.Infrastructure", "DartLeague.Infrastructure\DartLeague.Infrastructure.csproj", "{6CDDB759-1F4D-4B26-89D6-36A12E845C44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Infrastructure", "DartLeague.Infrastructure\DartLeague.Infrastructure.csproj", "{6CDDB759-1F4D-4B26-89D6-36A12E845C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.Domain", "DartLeague.Domain\DartLeague.Domain.csproj", "{383402CB-32C6-4444-80F8-118A49C46D9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Domain", "DartLeague.Domain\DartLeague.Domain.csproj", "{383402CB-32C6-4444-80F8-118A49C46D9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Common", "DartLeague.Common\DartLeague.Common.csproj", "{69741128-B3F1-44B0-A628-430AEFB8B04B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F386FF5E-FBC9-448E-9FFE-E0F21D75CD86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,5 +61,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80459DE5-AB7E-4DD0-A748-326750895591}
 	EndGlobalSection
 EndGlobal
