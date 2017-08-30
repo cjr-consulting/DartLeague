@@ -62,6 +62,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                         {
                             Name = lodEvent.Name,
                             Date = lodEvent.EventDate,
+                            Active = true,
                             CreatedAt = DateTime.UtcNow
                         };
                         if (lodImage.Any())
@@ -114,9 +115,13 @@ namespace DartLeague.Web.Areas.Site.Controllers
                 lod.Date = lodEvent.EventDate;
                 lod.UpdatedAt = DateTime.UtcNow;
                 if (lodImage.Any())
+                {
                     if (lod.FileId > 0)
                         await _browsableFileService.DeleteAsync(lod.FileId);
-                lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
+
+                    lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
+                }
+
                 await _leagueContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
