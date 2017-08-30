@@ -201,7 +201,8 @@ namespace DartLeague.Web.Controllers.Components
                         Href = "#",
                         SubNavigations = {
                             new NavigationViewModel{ Title = "Dart Events", Href = url.Action("Index", "DartEvent", new { Area = "Site" }) },
-                            new NavigationViewModel{ Title = "Page Content", Href =url.Action("Index", "PagePart", new { Area = "Site" }) }
+                            new NavigationViewModel{ Title = "Page Content", Href =url.Action("Index", "PagePart", new { Area = "Site" }) },
+                            new NavigationViewModel{ Title = "Luck of the Draws", Href =url.Action("Index", "Lod", new { Area = "Site" }) }
                         }
                     },
                     new NavigationViewModel {

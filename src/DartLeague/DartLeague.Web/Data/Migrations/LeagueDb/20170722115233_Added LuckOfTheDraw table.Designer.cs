@@ -8,9 +8,10 @@ using DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20170722115233_Added LuckOfTheDraw table")]
+    partial class AddedLuckOfTheDrawtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -261,10 +262,6 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.Property<bool>("Active")
-                        .HasColumnName("active")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("created_at")
@@ -278,9 +275,9 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasColumnName("fileId")
                         .HasColumnType("int(11)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnName("name")
+                        .HasColumnName("title")
                         .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -289,7 +286,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("luck_of_the_draw");
+                    b.ToTable("LuckofTheDraws");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Member", b =>
@@ -492,6 +489,42 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                         .HasName("sponsors_leagueid_index");
 
                     b.ToTable("sponsors");
+                });
+
+            modelBuilder.Entity("DartLeague.Repositories.LeagueData.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int(10) unsigned");
+
+                    b.Property<int>("LeagueId")
+                        .HasColumnName("leagueId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnName("notes")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("SponsorId")
+                        .HasColumnName("sponsorId")
+                        .HasColumnType("int(10) unsigned");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeagueId")
+                        .HasName("teams_leagueid_index");
+
+                    b.HasIndex("SponsorId")
+                        .HasName("teams_sponsorid_index");
+
+                    b.ToTable("teams");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEventResult", b =>

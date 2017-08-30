@@ -1,0 +1,72 @@
+@using System.Linq
+@using DartLeague.Repositories.LeagueData
+@model DartLeague.Web.Areas.Site.Models.LodListViewModel
+
+@{
+    ViewBag.Title = "Luck of the Draws";
+    Layout = "_Layout";
+}
+<h2>Luck of the Draw</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a class="btn btn-success btn-sm" asp-area="Site" asp-controller="Lod" asp-action="Create" title="Add Dart Event"><i class="fa fa-plus-square"></i></a> 
+       <strong>Luck of the Draw</strong>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="width: 84px;"></th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>File</th>
+                    <th width="5px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.LuckOfTheDraws.Any())
+            {
+                    <tr class="warning"><td colspan="6">Currently No Luck of the Draws</td></tr>
+                }
+                else
+                {
+                    foreach (var luckOfTheDraw in Model.LuckOfTheDraws)
+                    {
+                        <tr >
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default" asp-area="Site" asp-controller="Lod" asp-action="Edit" asp-route-id="@luckOfTheDraw.Id" title="@($"Edit{luckOfTheDraw.Name}")"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                                    @if (luckOfTheDraw.Active)
+                                    {
+                                        <a class="btn btn-default" title="Deactivate LOD Event" asp-action="Activate" asp-area="Site" asp-route-id="@luckOfTheDraw.Id" asp-controller="Lod">
+                                            <i class="fa fa-circle"></i>
+                                        </a>
+                                        
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-default" title="Activate LOD Event" asp-action="Activate" asp-area="Site" asp-route-id="@luckOfTheDraw.Id" asp-controller="Lod">
+                                            <i class="fa fa-circle-o"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                            <td style="vertical-align: middle">@luckOfTheDraw.EventDate.ToString("MM/dd/yyyy")</td>
+                            <td style="vertical-align: middle">@luckOfTheDraw.Name</td>
+                            <td>  
+                                @if (!string.IsNullOrEmpty(luckOfTheDraw.FileId))
+                                  {
+                                      <a href="@Url.Action("Index", "File", new {Area = "", Id = luckOfTheDraw.FileId})">LOD Poster Exists</a>
+                                  }
+                            </td>
+                            <td>
+                                <a class="btn btn-link confirmation" asp-area="Site" asp-controller="Lod" asp-action="Delete" asp-route-id="@luckOfTheDraw.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
