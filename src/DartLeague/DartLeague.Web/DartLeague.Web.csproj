@@ -54,6 +54,8 @@
     <Folder Include="Views\DartsInRegion\" />
     <Folder Include="Views\Contact\" />
     <Folder Include="Views\History\" />
+    <Folder Include="Views\Shared\Components\Activities\" />
+    <Folder Include="Views\Shared\Components\NewFolder\" />
     <Folder Include="Views\WhereWePlay\" />
     <Folder Include="Views\Shared\Components\ImportantMessage\" />
     <Folder Include="Views\Sponsor\" />

@@ -28,11 +28,11 @@ namespace DartLeague.Web.ViewComponents
             return View(model);
         }
 
-        private async Task<List<LuckofTheDrawModel>> GetLodEvents()
+        private async Task<List<LodModel>> GetLodEvents()
         {
             return await _leagueContext.LuckofTheDraws
                 .Where(x => x.Active)
-                .Select(x => new LuckofTheDrawModel
+                .Select(x => new LodModel
                 {
                     Id = x.Id,
                     Name = x.Name,

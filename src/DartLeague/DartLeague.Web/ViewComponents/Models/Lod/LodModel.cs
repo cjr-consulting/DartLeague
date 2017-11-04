@@ -1,6 +1,6 @@
-﻿namespace DartLeague.Web.ViewComponents.Models
+﻿namespace DartLeague.Web.ViewComponents.Models.Lod
 {
-    public class LuckofTheDrawModel
+    public class LodModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -15,7 +15,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<Sponsor> Sponsors { get; set; }
         public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
         public virtual DbSet<LuckofTheDraw> LuckofTheDraws { get; set; }
-
+        public virtual DbSet<Activity> Activities { get; set; }
         public LeagueContext(DbContextOptions<LeagueContext> options)
             : base(options)
         {
@@ -23,6 +23,42 @@ namespace DartLeague.Repositories.LeagueData
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Activity>(entity =>
+            {
+                entity.ToTable("activities");
+                
+                entity.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id")
+                    .HasColumnType("int(10) unsigned");
+
+                entity.Property<bool>("Active")
+                    .HasColumnName("active")
+                    .HasColumnType("bit");
+
+                entity.Property<DateTime>("CreatedAt")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property<DateTime>("Date")
+                    .HasColumnName("eventDate")
+                    .HasColumnType("datetime(6)");
+
+                entity.Property<int>("FileId")
+                    .HasColumnName("fileId")
+                    .HasColumnType("int(11)");
+
+                entity.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property<DateTime>("UpdatedAt")
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime(6)");
+
+            });
             modelBuilder.Entity<BrowsableFile>(entity =>
             {
                 entity.ToTable("browsable_files");

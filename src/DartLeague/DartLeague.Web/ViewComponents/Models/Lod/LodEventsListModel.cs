@@ -4,6 +4,6 @@ namespace DartLeague.Web.ViewComponents.Models.Lod
 {
     public class LodEventsListModel
     {
-        public List<LuckofTheDrawModel> LodEvents { get; set; }
+        public List<LodModel> LodEvents { get; set; }
     }
 }
