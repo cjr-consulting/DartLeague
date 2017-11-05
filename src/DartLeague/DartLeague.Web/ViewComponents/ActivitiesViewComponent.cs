@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
-using DartLeague.Web.ViewComponents.Models.Activity;
+using DartLeague.Web.ViewComponents.Models.Activities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DartLeague.Web.ViewComponents
 {
-    public class ActivitiesListViewComponent : ViewComponent
+    public class ActivitiesViewComponent : ViewComponent
     {
         private readonly LeagueContext _leagueContext;
 
-        public ActivitiesListViewComponent(LeagueContext leagueContext)
+        public ActivitiesViewComponent(LeagueContext leagueContext)
         {
             _leagueContext = leagueContext;
         }
@@ -20,7 +20,7 @@ namespace DartLeague.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var activities = await GetActivities();
-            var model = new ActivitiesListViewModel
+            var model = new ActivityListModel
             {
                 Activities = activities
             };

@@ -1,8 +1,25 @@
-@using DartLeague.Web.ViewComponents.Models.Activity
-@model DartLeague.Web.ViewComponents.Models.Activity.ActivityListModel
-@{
-    ViewData["Title"] = "Default";
-}
+@model DartLeague.Web.ViewComponents.Models.Activities.ActivityListModel
 
-<h2>Default</h2>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Activities</h3></div>
+    <ul class="list-group">
+        @if (!Model.Activities.Any())
+        {
+            <li class="list-group-item">Currently No Activities</li>
+        }
 
+        @foreach (var a in Model.Activities)
+        {
+            <li class="list-group-item">
+                @if (!string.IsNullOrEmpty(a.ImageFileId))
+                {
+                    <a asp-action="Index" asp-controller="File" asp-route-id="@a.ImageFileId" target="_blank"><i class="fa fa-eye"></i> @a.Name </a>
+                }
+                else
+                {
+                    @a.Name
+                }
+            </li>
+        }
+    </ul>
+</div>

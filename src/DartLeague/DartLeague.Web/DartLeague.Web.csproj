@@ -48,6 +48,7 @@
     <Folder Include="Areas\Manage\Views\SeasonBoard\" />
     <Folder Include="Areas\Manage\Views\SeasonCompetition\" />
     <Folder Include="Areas\Manage\Views\SeasonLink\" />
+    <Folder Include="Areas\Site\Views\Activities\" />
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Api\" />
     <Folder Include="Views\BoardMembers\" />
