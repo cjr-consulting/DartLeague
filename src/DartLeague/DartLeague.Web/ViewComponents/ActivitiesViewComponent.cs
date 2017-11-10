@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.ViewComponents.Models.Activities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.ViewComponents
 {
@@ -29,7 +30,14 @@ namespace DartLeague.Web.ViewComponents
 
         private async Task<List<ActivityModel>> GetActivities()
         {
-           return new List<ActivityModel>();
+            return await _leagueContext.Activities
+                .Where(x => x.Active)
+                .Select(x => new ActivityModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImageFileId = x.FileId > 0 ? NumberObfuscation.Encode(x.FileId) : string.Empty
+                }).ToListAsync();
         }
     }
 

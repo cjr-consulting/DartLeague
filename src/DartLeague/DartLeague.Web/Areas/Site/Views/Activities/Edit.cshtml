@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Edit Activity";
+}
+<div class="container">
+    <h2>Edit Activity</h2>
+    @Html.ValidationSummary()
+    <form asp-controller="Activities" enctype="multipart/form-data" asp-action="Edit" method="post">
+        @Html.Partial("_activitiesFields")
+        <div>
+            <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
+            <a class="btn btn-danger" asp-controller="Activities" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>
+<style>
+    validation-summary-errors {
+        color: crimson;
+    }
+</style>
