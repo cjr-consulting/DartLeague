@@ -13,7 +13,8 @@ namespace DartLeague.Web.Data.Initializers
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                var c = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
+                c.Database.Migrate();
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
