@@ -40,22 +40,20 @@ namespace DartLeague.Web.Configurations
             );
         }
 
-        public static void UseLeagueDbMigrations(this IApplicationBuilder app)
+        public static void UseLeagueDbMigrations(this IServiceScope serviceScope)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var authDbContext = serviceScope.ServiceProvider.GetService<AuthDbContext>();
-                authDbContext.Database.Migrate();
+            var authDbContext = serviceScope.ServiceProvider.GetService<AuthDbContext>();
+            authDbContext.Database.Migrate();
 
-                var leagueContext = serviceScope.ServiceProvider.GetService<LeagueContext>();
-                leagueContext.Database.Migrate();
+            var leagueContext = serviceScope.ServiceProvider.GetService<LeagueContext>();
+            var dbname = leagueContext.Database.GetDbConnection().Database;
+            leagueContext.Database.Migrate();
 
-                var winterSeasonContext = serviceScope.ServiceProvider.GetService<WinterSeasonContext>();
-                winterSeasonContext.Database.Migrate();
+            var winterSeasonContext = serviceScope.ServiceProvider.GetService<WinterSeasonContext>();
+            winterSeasonContext.Database.Migrate();
 
-                var seasonContext = serviceScope.ServiceProvider.GetService<SeasonContext>();
-                seasonContext.Database.Migrate();
-            }
+            var seasonContext = serviceScope.ServiceProvider.GetService<SeasonContext>();
+            seasonContext.Database.Migrate();
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DartLeague.Web.Configurations;
+using DartLeague.Web.Data.Initializers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,10 +34,15 @@ namespace DartLeague.Web
             {
                 var services = scope.ServiceProvider;
 
+                scope.UseLeagueDbMigrations();
+
                 try
                 {
                     // Requires using RazorPagesMovie.Models;
                     // SeedData.Initialize(services);
+                    InitializeAuthDb.Initialize(scope).Wait();
+                    InitializeIdentityDb.Initialize(scope);
+                    InitializeLeagueDb.Initialize(scope);
                 }
                 catch (Exception ex)
                 {

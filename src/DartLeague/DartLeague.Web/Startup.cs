@@ -19,6 +19,9 @@ using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using IdentityModel;
 
 namespace DartLeague.Web
 {
@@ -27,17 +30,14 @@ namespace DartLeague.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
-
-            var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
-            
+        {                        
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             
             services.AddIdentityServerConfiguration(
@@ -65,8 +65,11 @@ namespace DartLeague.Web
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IBrowsableFileService, FileSystemBrowsableFileService>();
 
+            services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
+
             services.AddMvc();
             
+            var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddConfigurationStore(options =>
@@ -93,6 +96,8 @@ namespace DartLeague.Web
                 })
                 .AddCookie(options =>
                 {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                    options.Cookie.Name = "mvchybrid";
                     options.LoginPath = "/Account/LogIn";
                     options.LogoutPath = "/Account/LogOff";
                 })
@@ -102,9 +107,20 @@ namespace DartLeague.Web
 
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
+                    
+                    options.ResponseType = "code id_token";
 
                     options.ClientId = "mvc";
+                    options.ClientSecret = "secret";
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = JwtClaimTypes.Name,
+                        RoleClaimType = JwtClaimTypes.Role,
+                    };
                 });
 
             services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
@@ -118,10 +134,7 @@ namespace DartLeague.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
-            app.UseAuthentication();
 
-            app.UseLeagueDbMigrations();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -132,15 +145,11 @@ namespace DartLeague.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseRaygun();
             }
-
-            InitializeAuthDb.Initialize(app).Wait();
-            InitializeIdentityDb.Initialize(app);
-            InitializeLeagueDb.Initialize(app).Wait();
+            
+            app.UseStaticFiles();
 
             app.UseIdentityServer();
 
-            app.UseStaticFiles();            
-            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",

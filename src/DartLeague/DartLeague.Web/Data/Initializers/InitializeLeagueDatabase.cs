@@ -11,12 +11,9 @@ namespace DartLeague.Web.Data.Initializers
     public static class InitializeLeagueDb
     {
 
-        public static async Task Initialize(IApplicationBuilder app)
+        public static void Initialize(IServiceScope serviceScope)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetService<LeagueContext>();
-            }
+            var context = serviceScope.ServiceProvider.GetService<LeagueContext>();
         }
     }
 }
