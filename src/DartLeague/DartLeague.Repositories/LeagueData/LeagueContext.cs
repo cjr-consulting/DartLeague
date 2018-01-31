@@ -16,6 +16,7 @@ namespace DartLeague.Repositories.LeagueData
         public virtual DbSet<LeagueLink> LeagueLinks { get; set; }
         public virtual DbSet<LuckofTheDraw> LuckofTheDraws { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
+
         public LeagueContext(DbContextOptions<LeagueContext> options)
             : base(options)
         {

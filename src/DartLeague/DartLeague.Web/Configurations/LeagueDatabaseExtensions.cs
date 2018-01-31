@@ -42,12 +42,11 @@ namespace DartLeague.Web.Configurations
 
         public static void UseLeagueDbMigrations(this IServiceScope serviceScope)
         {
-            var authDbContext = serviceScope.ServiceProvider.GetService<AuthDbContext>();
-            authDbContext.Database.Migrate();
-
             var leagueContext = serviceScope.ServiceProvider.GetService<LeagueContext>();
-            var dbname = leagueContext.Database.GetDbConnection().Database;
             leagueContext.Database.Migrate();
+
+            //var authDbContext = serviceScope.ServiceProvider.GetService<AuthDbContext>();
+            //authDbContext.Database.Migrate();
 
             var winterSeasonContext = serviceScope.ServiceProvider.GetService<WinterSeasonContext>();
             winterSeasonContext.Database.Migrate();

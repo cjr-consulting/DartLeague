@@ -40,14 +40,14 @@ namespace DartLeague.Web
         {                        
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             
+            services.AddLeagueDbContext(
+                Configuration.GetConnectionString("LeagueMySqlProvider"),
+                migrationsAssembly);
+
             services.AddIdentityServerConfiguration(
                 Configuration.GetConnectionString("AuthMySqlProvider"),
                 migrationsAssembly);
 
-            services.AddLeagueDbContext(
-                Configuration.GetConnectionString("LeagueMySqlProvider"),
-                migrationsAssembly);
-            
             services.AddWinterSeasonDbContext(
                 Configuration.GetConnectionString("WinterSeasonMySqlProvider"),
                 migrationsAssembly);
@@ -69,25 +69,25 @@ namespace DartLeague.Web
 
             services.AddMvc();
             
-            var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseMySql(authSqlConnectionString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseMySql(authSqlConnectionString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
+            //var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential()
+            //    .AddConfigurationStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseMySql(authSqlConnectionString,
+            //                sql => sql.MigrationsAssembly(migrationsAssembly));
+            //    })
+            //    .AddOperationalStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseMySql(authSqlConnectionString,
+            //                sql => sql.MigrationsAssembly(migrationsAssembly));
                     
-                    options.EnableTokenCleanup = true;
-                    options.TokenCleanupInterval = 30;
-                })
-                .AddAspNetIdentity<UserIdentity>();
+            //        options.EnableTokenCleanup = true;
+            //        options.TokenCleanupInterval = 30;
+            //    })
+            //    .AddAspNetIdentity<UserIdentity>();
 
             services.AddAuthentication(options =>
                 {
@@ -148,7 +148,7 @@ namespace DartLeague.Web
             
             app.UseStaticFiles();
 
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
 
             app.UseMvc(routes =>
             {
