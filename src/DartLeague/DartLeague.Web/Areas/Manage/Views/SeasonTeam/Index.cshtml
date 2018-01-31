@@ -1,0 +1,86 @@
+﻿@using DartLeague.Web.Areas.Manage.Models
+@model SeasonManagementRootViewModel<List<SeasonTeamListViewModel>>
+@{
+    ViewData["Title"] = "Teams";
+}
+
+@await Html.PartialAsync("_SeasonHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Teams</h3>
+                </div>
+                <div class="panel-body">
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonTeam" asp-action="Create" title="Add Team"><i class="fa fa-plus-square"></i></a> <strong>Team</strong>
+                    @if (Model.Data.Any() == false)
+                    {
+                        <a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonTeam" asp-action="CopyTeamsFromPreviousSeason" asp-route-seasonId="@Model.SeasonEdit.Id">Copy Teams</a>
+                        <a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonTeam" asp-action="CopyTeamsFromPreviousSeason" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-withPlayers="True">Copy Teams with Players</a>
+                    }
+                    </p>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th style="text-align:center;">Abbrv</th>
+                            <th style="text-align: center;"># Players</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Data.Any())
+                        {
+                        <tr class="warning">
+                            <td colspan="4">Currently No Teams</td>
+                        </tr>
+                        }
+
+                        @foreach (var team in Model.Data)
+                        {
+                        <tr>
+                            <td style="vertical-align: middle;"><a asp-controller="SeasonTeam" asp-action="Edit" asp-area="Manage" asp-route-id="@team.TeamId" title="Edit Board Member">@team.Name</a></td>
+                            <td style="text-align:center;vertical-align: middle;">@team.Abbreviation</td>
+                            <td style="text-align:center;vertical-align: middle;">@team.NumberOfPlayers</td>
+                            <td style="text-align:center;vertical-align: middle;"><a asp-controller="SeasonTeam" asp-action="Delete" asp-area="Manage" asp-route-id="@team.TeamId" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        (function (d, $) {
+            var elems = d.getElementsByClassName('confirmation');
+            var confirmIt = function (e) {
+                if (!confirm('Are you sure?')) e.preventDefault();
+            };
+
+            for (var i = 0, l = elems.length; i < l; i++) {
+                elems[i].addEventListener('click', confirmIt, false);
+            }
+
+            $(d).ready(function () {
+                function toggleEdit() {
+                    if ($("#seasonTitle").hasClass("hidden")) {
+                        $("#seasonTitle").removeClass("hidden");
+                        $("#seasonEdit").addClass("hidden");
+                    } else {
+                        $("#seasonTitle").addClass("hidden");
+                        $("#seasonEdit").removeClass("hidden");
+                    }
+                }
+
+                $("#btnCancelEdit").on("click", toggleEdit);
+                $("#btnEditSeason").on("click", toggleEdit);
+            });
+        })(document, jQuery);
+    </script>
+}

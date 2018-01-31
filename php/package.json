@@ -39,7 +39,7 @@
     "react-router": "~1.0.0-rc1",
     "flux": "~2.1.1",
     "react": "~0.13.3",
-    "jquery": "~2.1.4",
+    "jquery": "~3.0.0",
     "object-assign": "~4.0.1",
     "request": "~2.62.0"
   },

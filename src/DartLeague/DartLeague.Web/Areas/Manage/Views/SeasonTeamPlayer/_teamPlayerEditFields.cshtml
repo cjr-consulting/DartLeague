@@ -1,0 +1,20 @@
+﻿@using DartLeague.Web.Areas.Manage.Models
+@model SeasonTeamPlayerEditViewModel
+
+<div id="memberSelection">
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-12">
+            <h3>@Model.Name</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label asp-for="RoleId"></label>
+        <select class="form-control" asp-for="RoleId" asp-items="Model.Roles">
+            <option>Please select Role</option>
+        </select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+</div>

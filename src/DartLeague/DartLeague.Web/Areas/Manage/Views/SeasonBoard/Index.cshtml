@@ -1,0 +1,69 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model SeasonManagementRootViewModel<List<SeasonBoardListViewModel>>
+@{
+    ViewData["Title"] = "Season Board";
+}
+
+@await Html.PartialAsync("_SeasonHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Board Members</h3>
+                </div>
+                <div class="panel-body">
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong>
+                    @if (Model.Data.Any() == false)
+                    {
+                        <a class="btn btn-success btn-sm confirmation" asp-action="Copy"><i class="fa fa-copy"></i></a>
+                        <strong> Copy Previous Season</strong>
+                    }
+                    </p>
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th style="text-align:center;">Position</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Data.Any())
+                        {
+                            <tr class="warning">
+                                <td style="vertical-align: middle;" colspan="5">Currently No Board Members</td>
+                            </tr>
+                        }
+
+                        @foreach (var boardMember in Model.Data)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
+                                <td style="text-align:center; vertical-align: middle;">@boardMember.Position</td>
+                                <td style="text-align:center; vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Delete" asp-area="Manage" asp-route-id="@boardMember.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        (function (d, $) {
+            var elems = d.getElementsByClassName('confirmation');
+            var confirmIt = function (e) {
+                if (!confirm('Are you sure?')) e.preventDefault();
+            };
+
+            for (var i = 0, l = elems.length; i < l; i++) {
+                elems[i].addEventListener('click', confirmIt, false);
+            }
+        })(document, jQuery);
+    </script>
+}

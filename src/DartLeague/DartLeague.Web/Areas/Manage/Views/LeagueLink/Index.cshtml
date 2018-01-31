@@ -1,0 +1,65 @@
+@model List<DartLeague.Web.Areas.Manage.Models.LeagueLinksListViewModel>
+@{
+    ViewData["Title"] = "Manage Links";
+}
+
+@await  Html.PartialAsync("_ManagementHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Other Links and Files</h3>
+                </div>
+                <div class="panel-body">
+                    <p>These links and files will be available from the public <b>Other</b> menu.</p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="LeagueLink" asp-action="Create" title="Add League Link"><i class="fa fa-plus-square"></i></a> <strong>League Link</strong></p>
+                </div>
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th style="text-align:center;">Type</th>
+                            <th>Url</th>
+                            <th style="text-align:center;">Order</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr class="warning">
+                                <td colspan="5">Currently No Links</td>
+                            </tr>
+                        }
+
+                        @foreach (var leagueLink in Model)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;"><a asp-controller="LeagueLink" asp-action="Edit" asp-area="Manage" asp-route-id="@leagueLink.Id" title="Edit Link">@leagueLink.Title</a></td>
+                                <td style="text-align:center;vertical-align: middle;">@leagueLink.LinkType</td>
+                                <td style="vertical-align: middle;"><a href="@leagueLink.Url">@leagueLink.Url</a></td>
+                                <td style="text-align:center;vertical-align: middle;">@leagueLink.Order</td>
+                                <td style="text-align:center;vertical-align: middle;"><a asp-controller="LeagueLink" asp-action="Delete" asp-area="Manage" asp-route-id="@leagueLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var elems = document.getElementsByClassName('confirmation');
+        var confirmIt = function(e) {
+            if (!confirm('Are you sure?')) e.preventDefault();
+        };
+        for (var i = 0, l = elems.length; i < l; i++) {
+            elems[i].addEventListener('click', confirmIt, false);
+        }
+    </script>
+}

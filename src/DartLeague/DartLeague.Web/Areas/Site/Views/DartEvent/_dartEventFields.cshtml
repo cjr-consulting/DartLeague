@@ -1,0 +1,180 @@
+﻿@model DartLeague.Web.Areas.Site.Models.DartEventViewModel
+
+<div class="form-group">
+    <label asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="EventContact"></label>
+            <input class="form-control" asp-for="EventContact" />
+            <span asp-validation-for="EventContact" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="EventContact2"></label>
+            <input class="form-control" asp-for="EventContact2" />
+            <span asp-validation-for="EventContact2"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="EventDate.Date"></label>
+            <input class="form-control" asp-for="EventDate" />
+            <span asp-validation-for="EventDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="EventEndDate"></label>
+            <input class="form-control" asp-for="EventEndDate" />
+            <span asp-validation-for="EventEndDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="EventTypeId"></label>
+            <select class="form-control" asp-for="EventTypeId" asp-items="ViewBag.dartEventTypes"></select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="RegistrationStartTime"></label>
+            <input class="form-control" asp-for="RegistrationStartTime" />
+            <span asp-validation-for="RegistrationStartTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="RegistrationEndTime"></label>
+            <input class="form-control" asp-for="RegistrationEndTime" />
+            <span asp-validation-for="RegistrationEndTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="DartStart"></label>
+            <input class="form-control" asp-for="DartStart" />
+            <span asp-validation-for="DartStart"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="DartType"></label>
+            <select class="form-control" asp-for="DartType">
+                <option>Steel</option>
+                <option>Soft Tip</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="HostName"></label>
+            <input class="form-control" asp-for="HostName" />
+            <span asp-validation-for="HostName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="HostPhone"></label>
+            <input class="form-control" asp-for="HostPhone" />
+            <span asp-validation-for="HostPhone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="HostUrl"></label>
+            <input class="form-control" asp-for="HostUrl" />
+            <span asp-validation-for="HostUrl"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="LocationName"></label>
+    <input class="form-control" asp-for="LocationName" />
+    <span asp-validation-for="LocationName" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Address1"></label>
+    <input class="form-control" asp-for="Address1" />
+    <input class="form-control" asp-for="Address2" />
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label asp-for="City"></label>
+            <input class="form-control" asp-for="City" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label asp-for="State"></label>
+            <input class="form-control" asp-for="State" />
+            <span asp-validation-for="State"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label asp-for="Zip"></label>
+            <input class="form-control" asp-for="Zip" />
+            <span asp-validation-for="Zip" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ImageFileId))
+{
+    <img src="@Url.Action("Index", "File", new { Area = "", Id = Model.ImageFileId })"/>
+}
+<div class="form-group">
+    <label for="eventImage">Event Image <small>(image of 750w x 110h)</small></label>
+    <input type="file" id="eventImage" name="eventImage" class="form-control" />
+</div>
+
+@if (!string.IsNullOrEmpty(Model.PosterFileId))
+{
+    <a href="@Url.Action("Index", "File", new { Area = "", Id = Model.PosterFileId })">Poster Document Exists</a>
+}
+<div class="form-group">
+    <label for="posterDocument">Poster Document <small>(PDF document recommended)</small></label>
+    <input type="file" id="posterDocument" name="posterDocument" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="Url"></label>
+    <input class="form-control" asp-for="Url" />
+    <span asp-validation-for="Url" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="FacebookUrl"></label>
+    <input class="form-control" asp-for="FacebookUrl" />
+    <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+</div>
+
+
+<div class="form-group">
+    <label asp-for="MapUrl"></label>
+    <input class="form-control" asp-for="MapUrl" />
+    <span asp-validation-for="MapUrl" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Description"></label>
+    <textarea class="form-control" asp-for="Description"></textarea>
+</div>

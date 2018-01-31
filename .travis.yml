@@ -1,0 +1,32 @@
+sudo: required
+dist: trusty
+
+env:
+  - VERSION=$VERSION_PREFIX$TRAVIS_BUILD_NUMBER
+
+services:
+  - docker
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+
+before_script:
+  - source ./version.sh
+
+script:
+  - docker-compose -f src/DartLeague/docker-compose.ci.build.yml up  
+
+after_success:
+  - echo "$TRAVIS_TAG"
+  - if [ -n "$TRAVIS_TAG" ]; then
+      export $SEMVER_NEXT="$TRAVIS_TAG";
+      echo "$SEMVER_NEXT";
+      docker-compose -f src/DartLeague/docker-compose.yml -f src/DartLeague/docker-compose.ci.override.yml -f src/DartLeague/docker-compose.release.yml -p dartleagueweb-release build --no-cache dartleagueweb;
+      docker tag dartleagueweb registry.thecitizens.net/dartleagueweb;
+      docker tag registry.thecitizens.net/dartleagueweb "registry.thecitizens.net/dartleagueweb:$TRAVIS_TAG";
+      docker images;
+      docker push registry.thecitizens.net/dartleagueweb;
+    fi

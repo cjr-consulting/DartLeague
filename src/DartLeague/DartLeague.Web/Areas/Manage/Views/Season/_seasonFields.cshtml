@@ -1,0 +1,26 @@
+﻿@model DartLeague.Web.Areas.Manage.Models.SeasonEditViewModel
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control input-lg" asp-for="Title" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row"><div class="col-sm-6 col-md-6">
+        <div class="form-group">
+            <label asp-for="StartDate"></label>
+            <input class="form-control" asp-for="StartDate" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-6">
+        <div class="form-group">
+            <label asp-for="EndDate"></label>
+            <input class="form-control" asp-for="EndDate" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+    </div>
+</div>

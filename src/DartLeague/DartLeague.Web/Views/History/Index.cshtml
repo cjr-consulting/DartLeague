@@ -1,0 +1,56 @@
+@model DartLeague.Web.Models.HistoryViewModels.HistoryViewModel
+@{
+    ViewData["Title"] = "History";
+}
+
+<div class="container">  
+    <h2 style="text-align: center;">@Model.Title Season Recap</h2>
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-sm-3">
+            @if (Model.PreviousSeason != null)
+            {
+                <a href="@Model.PreviousSeason.Url" class="btn btn-block btn-info"><<< @Model.PreviousSeason.Title</a>
+            }
+        </div>
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-3">
+            @if (Model.NextSeason != null)
+            {
+                <a href="@Model.NextSeason.Url" class="btn btn-block btn-info">@Model.NextSeason.Title >>></a>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <div class="panel-heading">Links and Files</div>
+                <ul class="list-group">
+                    @if (Model.Documents.Any() == false)
+                    {
+                        <li class="list-group-item list-group-item-warning">No Links or Files</li>
+                    }
+                    @foreach (var link in Model.Documents)
+                    {
+                        <li class="list-group-item"><a href="@link.Url">@link.Title</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">Board Members</div>
+                <ul class="list-group">
+                    @if (Model.BoardMembers.Any() == false)
+                    {
+                        <li class="list-group-item list-group-item-warning">No Board Members</li>
+                    }
+                    @foreach (var boardMember in Model.BoardMembers)
+                    {
+                        <li class="list-group-item">@boardMember.Name (@boardMember.Position)</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

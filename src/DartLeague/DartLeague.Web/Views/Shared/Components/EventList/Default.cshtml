@@ -1,0 +1,127 @@
+@using DartLeague.Web.ViewComponents.Models.EventList
+@model EventListViewModel
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Area Events <small><a href="#">GTDL Player Results</a></small></h3></div>
+    @if (!Model.Events.Any())
+    {
+        <div class="panel-body">Currently No Events</div>
+    }
+    else
+    {
+        <div class="dart-events">
+            @foreach (var e in Model.Events)
+            {
+                <div class="dart-event clearfix">
+                    <div class="event-date pull-left">
+                        <div class="event-date-dayofweek">@e.EventDate.ToString("ddd")</div>
+                        <div class="event-date-day">@e.EventDate.Day</div>
+                        <div class="event-date-month">@e.EventDate.ToString("MMM")</div>
+                        <div class="event-date-year">@e.EventDate.Year</div>
+                    </div>
+                    <div class="event-detail pull-left">
+                        <div class="event-type pull-left">@e.EventType</div>
+                        <div class="event-dart-type pull-right">
+                            @e.DartType
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="event-name pull-left">
+                            @if (!string.IsNullOrEmpty(e.Url))
+                            {
+                                <a href="@e.Url" target="_blank">@e.Name</a>
+                            }
+                            else
+                            {
+                                @e.Name
+                            }
+
+                            @if (!string.IsNullOrEmpty(e.PosterFileId))
+                            {
+                                <a asp-action="Index" asp-controller="File" asp-route-id="@e.PosterFileId" target="_blank"><i class="fa fa-file"></i></a>
+                            }
+
+                            @if (!string.IsNullOrEmpty(e.FacebookUrl))
+                            {
+                                <a href="@e.FacebookUrl"><i class="fa fa-facebook-official"></i></a>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(e.HostName))
+                        {
+                            <div class="pull-left">
+                                <small class="hidden-xs">hosted by </small>
+                                @if (!string.IsNullOrEmpty(e.HostUrl))
+                                {
+                                    <a href="@e.HostUrl">@e.HostName</a>
+                                }
+                                else
+                                {
+                                    @e.HostName
+                                }
+                            </div>
+                        }
+                        <div class="clearfix"></div>
+                        <div class="event-location">
+                            <div class="event-location-name pull-left">
+                                <b>
+                                    @if (!string.IsNullOrEmpty(e.MapUrl))
+                                    {
+                                        <a href="@e.MapUrl" target="_blank"><i class="fa fa-map-o"></i> @e.LocationName</a>
+                                    }
+                                    else
+                                    {
+                                        @e.LocationName
+                                    }
+                                </b>
+                            </div>
+                            @if (!string.IsNullOrEmpty(@e.Address1))
+                            {
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                    <div class="event-address">
+                                        @e.Address1<br />
+                                        @if (!string.IsNullOrEmpty(e.Address2))
+                                        {
+                                            @e.Address2<br />
+                                        }
+                                        @e.City, @e.State  @e.Zip
+                                    </div>
+                                </div>
+                                <div class="hidden-xs pull-left">
+                                    <div class="event-address">
+                                        @e.Address1 @e.Address2 @e.City, @e.State  @e.Zip
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(e.RegistrationStartTime))
+                        {
+                            <div class="event-registration pull-left"><strong>Reg:</strong> @e.RegistrationStartTime to @e.RegistrationEndTime</div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(e.DartStart))
+                        {
+                            <div class="event-dart-start pull-left"><strong>Start:</strong> @e.DartStart</div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(e.Description))
+                        {
+                            <div class="clearfix"></div>
+                            <a style="cursor: pointer" data-toggle="collapse" data-target="@($"#event{e.Id}")">Details</a>
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    @if (!string.IsNullOrEmpty(e.Description))
+                    {
+                        <div class="event-description">
+                            <div id="@($"event{e.Id}")" class="collapse">
+                                <div class="well well-sm">@Html.Raw(e.Description)</div>
+                             </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

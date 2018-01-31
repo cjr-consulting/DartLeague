@@ -1,0 +1,53 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model SeasonTeamCreateViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name" class="form-control input-lg"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="Abbreviation"></label>
+            <input type="text" asp-for="Abbreviation" class="form-control"/>
+            <span asp-validation-for="Abbreviation" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label asp-for="SponsorId"></label>
+        <select class="form-control" asp-for="SponsorId" asp-items="Model.Sponsors">
+            <option>Please select Sponsor</option>
+        </select>
+        <span asp-validation-for="SponsorId" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="logoFile">Logo Picture <small>jpg/png</small></label>
+        <input type="file" id="logoFile" name="logoFile" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label for="teamFile">Team Picture <small>jpg/png</small></label>
+        <input type="file" id="teamFile" name="teamFile" class="form-control" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label asp-for="CaptainMemberId"></label>
+        <select class="form-control" asp-for="CaptainMemberId" asp-items="Model.Members">
+            <option>Please select member</option>
+        </select>
+        <span asp-validation-for="CaptainMemberId" class="text-danger"></span>
+    </div>
+</div>

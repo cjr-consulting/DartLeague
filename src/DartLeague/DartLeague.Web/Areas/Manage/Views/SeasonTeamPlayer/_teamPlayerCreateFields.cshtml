@@ -1,0 +1,91 @@
+﻿@using DartLeague.Web.Areas.Manage.Models
+@model SeasonTeamPlayerCreateViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <label asp-for="RoleId"></label>
+        <select class="form-control" asp-for="RoleId" asp-items="Model.Roles">
+            <option>Please select Role</option>
+        </select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+</div>
+
+<div id="memberSelection">
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-12">
+            <label asp-for="MemberId"></label>
+            <select class="form-control" asp-for="MemberId" asp-items="Model.Members">
+                <option>Please select member</option>
+            </select>
+            <span asp-validation-for="MemberId" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div id="memberCreation" class="hidden">
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input class="form-control" asp-for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input class="form-control" asp-for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+                <label asp-for="Nickname"></label>
+                <input class="form-control" asp-for="Nickname" />
+                <span asp-validation-for="Nickname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5">
+            <div class="form-group">
+                <label asp-for="HomePhone"></label>
+                <input class="form-control" asp-for="HomePhone" />
+                <span asp-validation-for="HomePhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-5 col-md-5">
+            <div class="form-group">
+                <label asp-for="CellPhone"></label>
+                <input class="form-control" asp-for="CellPhone" />
+                <span asp-validation-for="CellPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <div class="form-group">
+                <label asp-for="ShirtSize"></label>
+                <input class="form-control" asp-for="ShirtSize" />
+                <span asp-validation-for="ShirtSize" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row hidden" style="margin-top: 5px;">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <button id="newMember" class="btn btn-success"><i class="fa fa-plus-circle"></i>New Member</button>
+            <button id="selectMember" class="btn btn-success"><i class="fa fa-minus-circle"></i>Select Member</button>
+        </div>
+    </div>
+</div>

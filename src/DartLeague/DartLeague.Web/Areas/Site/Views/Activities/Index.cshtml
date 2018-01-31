@@ -1,0 +1,68 @@
+@model DartLeague.Web.Areas.Site.Models.ActivitiesListViewModel
+@{
+    ViewBag.Title = "Activities";
+    Layout = "_Layout";
+}
+<h2>Activities</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a class="btn btn-success btn-sm" asp-area="Site" asp-controller="Activities" asp-action="Create" title="Add An Activity"><i class="fa fa-plus-square"></i></a> 
+        <strong>Activity</strong>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="width: 84px;"></th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>File</th>
+                <th width="5px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.Activities.Any())
+            {
+                <tr class="warning"><td colspan="6">Currently No Activities</td></tr>
+            }
+            else
+            {
+                foreach (var activity in Model.Activities)
+                {
+                    <tr >
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-default" asp-area="Site" asp-controller="Activities" asp-action="Edit" asp-route-id="@activity.Id" title="@($"Edit{activity.Name}")"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                                @if (activity.Active)
+                                {
+                                    <a class="btn btn-default" title="Deactivate Activity" asp-action="Activate" asp-area="Site" asp-route-id="@activity.Id" asp-controller="Activities">
+                                        <i class="fa fa-circle"></i>
+                                    </a>
+                                        
+                                }
+                                else
+                                {
+                                    <a class="btn btn-default" title="Activate Activity" asp-action="Activate" asp-area="Site" asp-route-id="@activity.Id" asp-controller="Activities">
+                                        <i class="fa fa-circle-o"></i>
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle">@activity.ActivityDate.ToString("MM/dd/yyyy")</td>
+                        <td style="vertical-align: middle">@activity.Name</td>
+                        <td>  
+                            @if (!string.IsNullOrEmpty(activity.FileId))
+                            {
+                                <a href="@Url.Action("Index", "File", new {Area = "", Id = activity.FileId})">Activity Poster Exists</a>
+                            }
+                        </td>
+                        <td>
+                        <a class="btn btn-link confirmation" asp-area="Site" asp-controller="Activities" asp-action="Delete" asp-route-id="@activity.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+@model DartLeague.Web.Areas.Site.Models.ActivityViewModel
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="ActivityDate"></label>
+            <input class="form-control" asp-for="ActivityDate" />
+            <span asp-validation-for="ActivityDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="FileId">Activity Image <small>(image of 750w x 110h)</small></label>
+            <br/>
+            @if (!string.IsNullOrEmpty(Model.FileId))
+            {
+                <a href="@Url.Action("Index", "File", new {Area = "", Id = Model.FileId})">Activity Poster Exists</a>
+            }
+            <input type="file" id="activityImage" name="activityImage" class="form-control"/>
+        </div>
+    </div>
+</div>

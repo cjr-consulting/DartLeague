@@ -1,0 +1,52 @@
+@using DartLeague.Web.Areas.Manage.Models
+@model  SeasonManagementRootViewModel<List<SeasonLinkListViewModel>>
+@{
+    ViewData["Title"] = "Achievements";
+}
+
+@await Html.PartialAsync("_SeasonHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Achievements</h3>
+                </div>
+                <div class="panel-body">
+                    <p><i class="fa fa-asterisk" style="color: orangered;"></i> Nothing just yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        (function (d, $) {
+            var elems = d.getElementsByClassName('confirmation');
+            var confirmIt = function (e) {
+                if (!confirm('Are you sure?')) e.preventDefault();
+            };
+
+            for (var i = 0, l = elems.length; i < l; i++) {
+                elems[i].addEventListener('click', confirmIt, false);
+            }
+
+            $(d).ready(function () {
+                function toggleEdit() {
+                    if ($("#seasonTitle").hasClass("hidden")) {
+                        $("#seasonTitle").removeClass("hidden");
+                        $("#seasonEdit").addClass("hidden");
+                    } else {
+                        $("#seasonTitle").addClass("hidden");
+                        $("#seasonEdit").removeClass("hidden");
+                    }
+                }
+
+                $("#btnCancelEdit").on("click", toggleEdit);
+                $("#btnEditSeason").on("click", toggleEdit);
+            });
+        })(document, jQuery);
+    </script>
+}

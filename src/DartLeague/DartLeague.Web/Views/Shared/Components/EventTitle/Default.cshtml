@@ -1,0 +1,155 @@
+@using DartLeague.Web.ViewComponents.Models.EventList
+@model EventViewModel
+@if (Model != null)
+{
+    <div class="well well-sm ">
+        <div class="important-message">
+            @if (!string.IsNullOrEmpty(Model.ImageFileId))
+            {
+                if (!string.IsNullOrEmpty(Model.PosterFileId))
+                {
+                    <a asp-controller="File" asp-action="Index" asp-route-id="@Model.PosterFileId" target="_blank">
+                        <img class="important-banner" src="@Url.Action("Index", "File", new { id = Model.ImageFileId })" />
+                    </a>
+                }
+                else if (!string.IsNullOrEmpty(Model.Url))
+                {
+                    <a href="@Model.Url" target="_blank">
+                        <img class="important-banner" src="@Url.Action("Index", "File", new { id = Model.ImageFileId })" />
+                    </a>
+                }
+                else
+                {
+                    <img class="important-banner" src="@Url.Action("Index", "File", new { id = Model.ImageFileId })" />
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="clearfix"></div>
+                    <a style="cursor: pointer" data-toggle="collapse" data-target="@($"#titleevent{Model.Id}")">Details</a>
+                    <div class="clearfix"></div>
+                    <div class="event-description">
+                        <div id="@($"titleevent{Model.Id}")" class="collapse">
+                            <div class="well">@Html.Raw(Model.Description)</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="dart-event clearfix">
+                    <div class="event-date pull-left">
+                        <div class="event-date-dayofweek">@Model.EventDate.ToString("ddd")</div>
+                        <div class="event-date-day">@Model.EventDate.Day</div>
+                        <div class="event-date-month">@Model.EventDate.ToString("MMM")</div>
+                        <div class="event-date-year">@Model.EventDate.Year</div>
+                    </div>
+                    <div class="event-detail pull-left">
+                        <div class="event-type pull-left">@Model.EventType</div>
+                        <div class="event-dart-type pull-right">
+                            @Model.DartType
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="event-name pull-left">
+                            @if (!string.IsNullOrEmpty(Model.Url))
+                            {
+                                <a href="@Model.Url" target="_blank">@Model.Name</a>
+                            }
+                            else
+                            {
+                                @Model.Name
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.PosterFileId))
+                            {
+                                <a href="posterfileroute" target="_blank"><i class="fa fa-file"></i></a>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.FacebookUrl))
+                            {
+                                <a href="@Model.FacebookUrl"><i class="fa fa-facebook-official"></i></a>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.HostName))
+                        {
+                            <div class="pull-left">
+                                <small class="hidden-xs">hosted by </small>
+                                @if (!string.IsNullOrEmpty(Model.HostUrl))
+                                {
+                                    <a href="@Model.HostUrl">@Model.HostName</a>
+                                }
+                                else
+                                {
+                                    @Model.HostName
+                                }
+                            </div>
+                        }
+                        <div class="clearfix"></div>
+                        <div class="event-location">
+                            <div class="event-location-name pull-left">
+                                <b>
+                                    @if (!string.IsNullOrEmpty(Model.MapUrl))
+                                    {
+                                        <a href="@Model.MapUrl" target="_blank"><i class="fa fa-map-o"></i> @Model.LocationName</a>
+                                    }
+                                    else
+                                    {
+                                        @Model.LocationName
+                                    }
+                                </b>
+                            </div>
+                            @if (!string.IsNullOrEmpty(@Model.Address1))
+                            {
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                    <div class="event-address">
+                                        @Model.Address1<br />
+                                        @if (!string.IsNullOrEmpty(Model.Address2))
+                                        {
+                                            @Model.Address2<br />
+                                        }
+                                        @Model.City, @Model.State  @Model.Zip
+                                    </div>
+                                </div>
+                                <div class="hidden-xs pull-left">
+                                    <div class="event-address">
+                                        @Model.Address1 @Model.Address2 @Model.City, @Model.State  @Model.Zip
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.RegistrationStartTime))
+                        {
+                            <div class="event-registration pull-left"><strong>Reg:</strong> @Model.RegistrationStartTime to @Model.RegistrationEndTime</div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.DartStart))
+                        {
+                            <div class="event-dart-start pull-left"><strong>Start:</strong> @Model.DartStart</div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            <div class="clearfix"></div>
+                            <a style="cursor: pointer" data-toggle="collapse" data-target="@($"#event{Model.Id}")">Details</a>
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <div class="event-description">
+                            <div id="@($"event{Model.Id}")" class="collapse">
+                                <div class="well well-sm">@Html.Raw(Model.Description)</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="clearfix"></div>
+            }
+        </div>
+    </div>
+}
