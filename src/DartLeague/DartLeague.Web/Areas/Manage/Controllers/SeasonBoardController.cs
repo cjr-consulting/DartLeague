@@ -30,12 +30,14 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             ViewData["SeasonNavPage"] = "Board";
             var members = await _leagueContext.Members.ToListAsync();
+            var currentSeason = await GetSeason(seasonId);
+            var previousSeason = await _seasonContext.Seasons.Include("BoardMembers").Where(x => x.StartDate < currentSeason.StartDate)
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefaultAsync();
 
-            var model =
-                new SeasonManagementRootViewModel<List<SeasonBoardListViewModel>>
-                {
-                    SeasonEdit = await GetSeason(seasonId),
-                    Data = await _seasonContext.BoardMembers
+            var indexModel = new SeasonBoardIndexViewModel
+            {
+                BoardMembers = await _seasonContext.BoardMembers
                         .Where(x => x.SeasonId == seasonId)
                         .OrderBy(x => x.Position.Order)
                         .Select(x =>
@@ -46,6 +48,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                        members.First(m => m.Id == x.MemberId).LastName,
                                 Position = x.Position.Name
                             }).ToListAsync()
+            };
+            indexModel.IsCopyAvailable = !indexModel.BoardMembers.Any() &&
+                previousSeason != null && previousSeason.BoardMembers.Any();
+
+            var model =
+                new SeasonManagementRootViewModel<SeasonBoardIndexViewModel>
+                {
+                    SeasonEdit = currentSeason,
+                    Data = indexModel
                 };
 
             return View(model);

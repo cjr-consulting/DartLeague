@@ -71,9 +71,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("manage/season/{seasonId}/link/create")]
         public async Task<IActionResult> Create(int seasonId)
         {
-            var maxOrder = await _seasonContext.SeasonLinks
-                .Where(x => x.SeasonId == seasonId)
-                .MaxAsync(x => x.Order);
+            var maxOrder = 0;
+            if(await _seasonContext.SeasonLinks.AnyAsync(e=>e.SeasonId == seasonId))
+                maxOrder = await _seasonContext.SeasonLinks
+                    .Where(x => x.SeasonId == seasonId)
+                    .MaxAsync(x => x.Order);
+
             var model = new SeasonManagementRootViewModel<SeasonLinkViewModel>
             {
                 SeasonEdit = await GetSeason(seasonId),

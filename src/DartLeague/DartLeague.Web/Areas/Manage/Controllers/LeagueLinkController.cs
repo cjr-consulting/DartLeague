@@ -55,7 +55,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("/manage/link/create")]
         public async Task<IActionResult> Create()
         {
-            var maxOrder = await _leagueContext.LeagueLinks.MaxAsync(x => x.Order);
+            var maxOrder = 0;
+            if(await _leagueContext.LeagueLinks.AnyAsync())
+                maxOrder = await _leagueContext.LeagueLinks.MaxAsync(x => x.Order);
+
             var model = new LeagueLinkViewModel();
             model.Order = maxOrder + 1;
             return View(model);

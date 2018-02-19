@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DartLeague.Repositories.LeagueData;
-using Microsoft.AspNetCore.Builder;
+﻿using DartLeague.Repositories.LeagueData;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DartLeague.Web.Data.Initializers

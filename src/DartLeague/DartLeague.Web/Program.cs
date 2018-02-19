@@ -43,6 +43,7 @@ namespace DartLeague.Web
                     InitializeAuthDb.Initialize(scope).Wait();
                     InitializeIdentityDb.Initialize(scope);
                     InitializeLeagueDb.Initialize(scope);
+                    InitializeSeasonDb.InitializeAsync(scope).Wait();
                 }
                 catch (Exception ex)
                 {

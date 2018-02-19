@@ -1,5 +1,5 @@
 @using DartLeague.Web.Areas.Manage.Models
-@model SeasonManagementRootViewModel<List<SeasonBoardListViewModel>>
+@model SeasonManagementRootViewModel<SeasonBoardIndexViewModel>
 @{
     ViewData["Title"] = "Season Board";
 }
@@ -15,7 +15,7 @@
                 </div>
                 <div class="panel-body">
                     <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong>
-                    @if (Model.Data.Any() == false)
+                    @if (Model.Data.IsCopyAvailable)
                     {
                         <a class="btn btn-success btn-sm confirmation" asp-action="Copy"><i class="fa fa-copy"></i></a>
                         <strong> Copy Previous Season</strong>
@@ -31,14 +31,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!Model.Data.Any())
+                        @if (!Model.Data.BoardMembers.Any())
                         {
                             <tr class="warning">
                                 <td style="vertical-align: middle;" colspan="5">Currently No Board Members</td>
                             </tr>
                         }
 
-                        @foreach (var boardMember in Model.Data)
+                        @foreach (var boardMember in Model.Data.BoardMembers)
                         {
                             <tr>
                                 <td style="vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
