@@ -11,9 +11,10 @@ using System;
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
     [DbContext(typeof(LeagueContext))]
-    partial class LeagueContextModelSnapshot : ModelSnapshot
+    [Migration("20180218045831_Initial Setup")]
+    partial class InitialSetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,7 +128,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("DartEvents","league");
+                    b.ToTable("DartEvents");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEventResult", b =>
@@ -174,28 +175,6 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
                     b.HasKey("Id");
 
                     b.ToTable("LeagueLinks","league");
-                });
-
-            modelBuilder.Entity("DartLeague.Repositories.LeagueData.Lod", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("FileId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Lods","league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.LuckofTheDraw", b =>

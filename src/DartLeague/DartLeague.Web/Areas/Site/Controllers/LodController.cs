@@ -28,7 +28,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
         public IActionResult Index()
         {
             var model = new LodListViewModel();
-            model.LuckOfTheDraws = _leagueContext.LuckofTheDraws
+            model.LuckOfTheDraws = _leagueContext.LuckOfTheDraws
                 .Select(x => new LodViewModel
                 {
                     Id = x.Id,
@@ -55,10 +55,10 @@ namespace DartLeague.Web.Areas.Site.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!_leagueContext.LuckofTheDraws.Any(x => string.Equals(x.Name.Trim(), lodEvent.Name.Trim(),
+                    if (!_leagueContext.LuckOfTheDraws.Any(x => string.Equals(x.Name.Trim(), lodEvent.Name.Trim(),
                         StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        var lod = new EF.LuckofTheDraw
+                        var lod = new EF.LuckOfTheDraw
                         {
                             Name = lodEvent.Name,
                             Date = lodEvent.EventDate,
@@ -71,7 +71,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
                                 await _browsableFileService.DeleteAsync(lod.FileId);
                             lod.FileId = await CreateBrowseableFile(lodEvent, lodImage[0]);
                         }
-                        _leagueContext.LuckofTheDraws.Add(lod);
+                        _leagueContext.LuckOfTheDraws.Add(lod);
                         await _leagueContext.SaveChangesAsync();
                         return Redirect("Index");
                     }
@@ -93,7 +93,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [Route("site/lod/{id}/edit")]
         public async Task<IActionResult> Edit(int? id)
         {
-            var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
+            var lod = await _leagueContext.LuckOfTheDraws.FirstOrDefaultAsync(x => x.Id == id);
             var lodModel = new LodViewModel
             {
                 Id = lod.Id,
@@ -110,7 +110,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
         {
             try
             {
-                var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
+                var lod = await _leagueContext.LuckOfTheDraws.FirstOrDefaultAsync(x => x.Id == id);
                 lod.Name = lodEvent.Name;
                 lod.Date = lodEvent.EventDate;
                 lod.UpdatedAt = DateTime.UtcNow;
@@ -141,7 +141,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
         {
             try
             {
-                var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
+                var lod = await _leagueContext.LuckOfTheDraws.FirstOrDefaultAsync(x => x.Id == id);
                 _leagueContext.Remove(lod);
                 await _leagueContext.SaveChangesAsync();
                 await _browsableFileService.DeleteAsync(lod.FileId);
@@ -162,7 +162,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
         {
             try
             {
-                var lod = await _leagueContext.LuckofTheDraws.FirstOrDefaultAsync(x => x.Id == id);
+                var lod = await _leagueContext.LuckOfTheDraws.FirstOrDefaultAsync(x => x.Id == id);
                 lod.Active = lod.Active == false;
                 lod.UpdatedAt = DateTime.UtcNow;
                 await _leagueContext.SaveChangesAsync();

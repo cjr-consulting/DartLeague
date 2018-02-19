@@ -27,13 +27,13 @@ namespace DartLeague.Web.Configurations
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
-            
-            //services.AddDbContext<AuthDbContext>(options =>
-            //    options.UseMySql(
-            //        authSqlConnectionString,
-            //        b => b.MigrationsAssembly(migrationsAssembly)
-            //    )
-            //);
+
+            services.AddDbContext<AuthDbContext>(options =>
+                options.UseSqlServer(
+                    authSqlConnectionString,
+                    b => b.MigrationsAssembly(migrationsAssembly)
+                )
+            );
         }
     }
 }
