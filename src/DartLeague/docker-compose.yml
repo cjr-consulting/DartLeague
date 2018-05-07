@@ -11,12 +11,16 @@ services:
     volumes:
       - "C:/DevData/DartLeague/storage:/storage"
     links:
-    - mysqlserver
-  mysqlserver:
-    image: mysql
-    ports:
-    - "3306:3306"
+    - dartleaguedb
+  dartleaguedb:
+    image: microsoft/mssql-server-linux:2017-latest
+    #ports:
+    #- "1433:1433"
     volumes:
-    - "C:/DevData/DartLeague/mysql:/var/lib/mysql"
+    - dartleaguesqlvolume:/var/opt/mssql
     environment:
-    - MYSQL_ROOT_PASSWORD=my-secret-pw
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=AStrong!Passw0rd
+    - MSSQL_PID=Express
+volumes:
+  dartleaguesqlvolume:

@@ -30,7 +30,7 @@ namespace DartLeague.Web.ViewComponents
 
         private async Task<List<LodModel>> GetLodEvents()
         {
-            return await _leagueContext.LuckofTheDraws
+            return await _leagueContext.LuckOfTheDraws
                 .Where(x => x.Active)
                 .Select(x => new LodModel
                 {

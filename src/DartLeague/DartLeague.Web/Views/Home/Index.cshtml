@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Authentication.Cookies
+@{
+
     ViewData["Title"] = "Home Page";
 }
 
@@ -18,30 +20,30 @@
                 <div class="col-md-6 col-sm-6">
                     <!-- Activities-->
                     @await Component.InvokeAsync("Activities")
-                  </div>
+                </div>
                 <div class="col-md-6 col-sm-6">
                     <!-- Luck of the Draws-->
                     @await Component.InvokeAsync("Lod")
-                  </div>
+                </div>
             </div>
             @await Component.InvokeAsync("EventList")
-            </div>
-            <div class="col-sm-5 col-md-4">
-                Winter Standings
-                @*@include('season.winter.standings')*@
-            </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
-                <div class="alert alert-success text-center">
-                    <h4>Interesting <a href="http://www.si.com/vault/1975/02/17/557875/eight-feet-away-from-glory" target="_blank"> Sports Illustrated article</a> on darts from 1975.  Our own Conrad Daniels is a key part!</h4>
-                    <p>
-                        <a href="/documents/static/conrad_outs.pdf" target="_blank">Conrad Daniels Out Shots </a>
-                    </p>
-                </div>
+        <div class="col-sm-5 col-md-4">
+            Winter Standings
+            @*@include('season.winter.standings')*@
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="alert alert-success text-center">
+                <h4>Interesting <a href="http://www.si.com/vault/1975/02/17/557875/eight-feet-away-from-glory" target="_blank"> Sports Illustrated article</a> on darts from 1975.  Our own Conrad Daniels is a key part!</h4>
+                <p>
+                    <a href="/documents/static/conrad_outs.pdf" target="_blank">Conrad Daniels Out Shots </a>
+                </p>
             </div>
         </div>
     </div>
+</div>
 
 
 @if (User.Identity.IsAuthenticated)
@@ -56,13 +58,12 @@
         }
     </dl>
 
-    var authScheme = "Identity.Application";
-    if (!String.IsNullOrWhiteSpace(authScheme))
+    if (!String.IsNullOrWhiteSpace(CookieAuthenticationDefaults.AuthenticationScheme))
     {
         <h2>Cookies Properties</h2>
         <dl>
             @{
-                var props = (await Context.Authentication.GetAuthenticateInfoAsync(authScheme)).Properties;
+                var props = (await Context.AuthenticateAsync()).Properties;
             }
             @foreach (var item in props.Items)
             {

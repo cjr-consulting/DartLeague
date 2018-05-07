@@ -2,7 +2,7 @@
 
 namespace DartLeague.Repositories.LeagueData
 {
-    public class LuckofTheDraw
+    public class LuckOfTheDraw
     {
         public int Id { get; set; }
         public string Name { get; set; }

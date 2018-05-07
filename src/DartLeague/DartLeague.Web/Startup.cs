@@ -15,46 +15,44 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mindscape.Raygun4Net;
 using DartLeague.Web.Helpers;
+using IdentityServer4.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using IdentityModel;
 
 namespace DartLeague.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
-
-            var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
-            
+        {                        
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            
-            services.AddIdentityServerConfiguration(
-                Configuration.GetConnectionString("AuthMySqlProvider"),
-                migrationsAssembly);
+
+            var trentonDartsDbConnString = Configuration.GetConnectionString("TrentonDartsDb");
+            var authDbConnString = Configuration.GetConnectionString("AuthDb");
 
             services.AddLeagueDbContext(
-                Configuration.GetConnectionString("LeagueMySqlProvider"),
-                migrationsAssembly);
-            
-            services.AddWinterSeasonDbContext(
-                Configuration.GetConnectionString("WinterSeasonMySqlProvider"),
+                trentonDartsDbConnString,
                 migrationsAssembly);
 
+            services.AddIdentityServerConfiguration(
+                authDbConnString,
+                migrationsAssembly);
+            
             services.AddSeasonDbContext(
-                Configuration.GetConnectionString("SeasonMySqlProvider"),
+                trentonDartsDbConnString,
                 migrationsAssembly);
 
             services.AddIdentity<UserIdentity, IdentityRole>()
@@ -66,22 +64,68 @@ namespace DartLeague.Web
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IBrowsableFileService, FileSystemBrowsableFileService>();
 
+            services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
+
             services.AddMvc();
-            
+
+            //var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
             services.AddIdentityServer()
-                .AddTemporarySigningCredential()
-                .AddConfigurationStore(builder =>
-                    builder.UseMySql(authSqlConnectionString, options =>
-                        options.MigrationsAssembly(migrationsAssembly)))
-                .AddOperationalStore(builder =>
-                    builder.UseMySql(authSqlConnectionString, options =>
-                        options.MigrationsAssembly(migrationsAssembly)))
+                .AddDeveloperSigningCredential()
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(authDbConnString,
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(authDbConnString,
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+
+                    options.EnableTokenCleanup = true;
+                    options.TokenCleanupInterval = 30;
+                })
                 .AddAspNetIdentity<UserIdentity>();
-            
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                    options.Cookie.Name = "mvchybrid";
+                    options.LoginPath = "/Account/LogIn";
+                    options.LogoutPath = "/Account/LogOff";
+                })
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+                    
+                    options.ResponseType = "code id_token";
+
+                    options.ClientId = "mvc";
+                    options.ClientSecret = "secret";
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = JwtClaimTypes.Name,
+                        RoleClaimType = JwtClaimTypes.Role,
+                    };
+                });
+
             services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
-            {
-                ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
-            });
+                {
+                    ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,14 +133,7 @@ namespace DartLeague.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AutomaticAuthenticate = false,
-                AutomaticChallenge = false
-            });
 
-            app.UseLeagueDbMigrations();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -107,16 +144,11 @@ namespace DartLeague.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseRaygun();
             }
-
-            InitializeAuthDb.Initialize(app).Wait();
-            InitializeIdentityDb.Initialize(app);
-            InitializeLeagueDb.Initialize(app).Wait();
-
+            
             app.UseStaticFiles();
 
-            app.UseIdentity();
             app.UseIdentityServer();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",
