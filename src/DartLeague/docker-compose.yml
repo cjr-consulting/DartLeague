@@ -13,9 +13,9 @@ services:
     links:
     - dartleaguedb
   dartleaguedb:
-    image: microsoft/mssql-server-linux:2017-latest
-     #ports:
-    #- "1433:1433"
+    image: store/microsoft/mssql-server-linux:2017-latest
+    ports:
+    - "1433:1433"
     volumes:
     - dartleaguesqlvolume:/var/opt/mssql
     environment:
