@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   dartleagueweb:
@@ -7,7 +7,7 @@ services:
       context: ./DartLeague.Web
       dockerfile: Dockerfile
     environment:
-      - "BrowsableFile:Storage=/storage"
+       "BrowsableFile:Storage": '/storage'
     volumes:
       - "C:/DevData/DartLeague/storage:/storage"
     links:
@@ -19,8 +19,8 @@ services:
     volumes:
     - dartleaguesqlvolume:/var/opt/mssql
     environment:
-    - ACCEPT_EULA=Y
-    - SA_PASSWORD=AStrong!Passw0rd
-    - MSSQL_PID=Express
+      ACCEPT_EULA: Y
+      SA_PASSWORD: AStrong!Passw0rd
+      MSSQL_PID: Express
 volumes:
   dartleaguesqlvolume:
