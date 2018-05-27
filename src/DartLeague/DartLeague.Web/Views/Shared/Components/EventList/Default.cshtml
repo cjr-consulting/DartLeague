@@ -1,7 +1,7 @@
 @using DartLeague.Web.ViewComponents.Models.EventList
 @model EventListViewModel
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Area Events <small><a href="#">GTDL Player Results</a></small></h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Area Events <small>@Html.ActionLink("GTDL Player Results","LeaguePlayerEventActivity","DartEvents")</small></h3></div>
     @if (!Model.Events.Any())
     {
         <div class="panel-body">Currently No Events</div>

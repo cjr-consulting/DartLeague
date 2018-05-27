@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using DartLeague.Web.Helpers;
+using DartLeague.Web.Models;
 
 namespace DartLeague.Web.Areas.Site.Controllers
 {
@@ -328,6 +330,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
                     var r = new EF.DartEventResult
                     {
                         EventId = id,
@@ -372,5 +375,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             await _leagueContext.SaveChangesAsync();
             return RedirectToAction("Result", "DartEvent", new{id=eventId});
         }
+
+       
     }
 }
