@@ -4,6 +4,6 @@ services:
   ci-build:
     image: microsoft/aspnetcore-build:2.0.4-2.1.3
     volumes:
-      ".":/src
+      - .:/src
     working_dir: /src
     command: /bin/bash -c "dotnet restore ./DartLeague.sln && dotnet publish ./DartLeague.sln -c Release -o ./obj/Docker/publish"
