@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using IdentityModel;
+using Mindscape.Raygun4Net.AspNetCore;
 
 namespace DartLeague.Web
 {

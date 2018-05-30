@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Mindscape.Raygun4Net;
-using Mindscape.Raygun4Net.Messages;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Mindscape.Raygun4Net.AspNetCore;
 
 namespace DartLeague.Web.Helpers
 {
