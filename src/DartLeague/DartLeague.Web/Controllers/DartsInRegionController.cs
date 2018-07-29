@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DartLeague.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DartsInRegionController : Controller
     {
         public IActionResult Index()

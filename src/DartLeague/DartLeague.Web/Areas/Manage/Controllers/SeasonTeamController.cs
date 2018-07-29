@@ -18,6 +18,7 @@ using BrowsableFile = DartLeague.Domain.BrowsableFiles.BrowsableFile;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SeasonTeamController : Controller
     {
         private readonly SeasonContext _seasonContext;

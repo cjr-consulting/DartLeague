@@ -14,6 +14,7 @@ using DartLeague.Web.Helpers;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SeasonBoardController : Controller
     {
         private readonly SeasonContext _seasonContext;

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SponsorController : Controller
     {
         private readonly LeagueContext _leagueContext;

@@ -22,6 +22,10 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using IdentityModel;
+using Mindscape.Raygun4Net.AspNetCore;
+using NSwag.AspNetCore;
+using NJsonSchema;
+using AspNetCore.RouteAnalyzer;
 
 namespace DartLeague.Web
 {
@@ -121,7 +125,7 @@ namespace DartLeague.Web
                         RoleClaimType = JwtClaimTypes.Role,
                     };
                 });
-
+            services.AddRouteAnalyzer();
             services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
                 {
                     ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
@@ -149,8 +153,17 @@ namespace DartLeague.Web
 
             app.UseIdentityServer();
 
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            {
+                settings.GeneratorSettings.DefaultPropertyNameHandling =
+                    PropertyNameHandling.CamelCase;
+            });
+
             app.UseMvc(routes =>
             {
+                if(env.IsDevelopment())
+                    routes.MapRouteAnalyzer("/routes");
+
                 routes.MapRoute(name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 

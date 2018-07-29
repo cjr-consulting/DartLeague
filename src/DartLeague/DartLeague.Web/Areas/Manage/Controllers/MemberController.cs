@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MemberController : Controller
     {
         private LeagueContext _leagueContext;

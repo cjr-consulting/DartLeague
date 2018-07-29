@@ -19,6 +19,7 @@ namespace DartLeague.Web.Api
         {
             _leagueContext = leagueContext;
         }
+
         public async Task<IActionResult> Get(string search)
         {
             var members =

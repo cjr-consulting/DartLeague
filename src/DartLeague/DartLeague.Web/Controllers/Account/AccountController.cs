@@ -19,6 +19,7 @@ namespace DartLeague.Web.Controllers
 {
     [Authorize]
     [SecurityHeaders]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : Controller
     {
         private readonly UserManager<UserIdentity> _userManager;

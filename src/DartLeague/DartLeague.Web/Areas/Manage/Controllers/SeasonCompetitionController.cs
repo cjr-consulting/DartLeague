@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SeasonCompetitionController : Controller
     {
         private readonly SeasonContext _seasonContext;

@@ -18,6 +18,7 @@ using DartLeague.Web.Models;
 namespace DartLeague.Web.Areas.Site.Controllers
 {
     [Area("Site")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DartEventController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;

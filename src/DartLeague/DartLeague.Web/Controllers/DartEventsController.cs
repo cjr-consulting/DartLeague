@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DartEventsController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;
