@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DartLeague.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;

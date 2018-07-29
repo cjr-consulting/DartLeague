@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DartLeague.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HistoryController : Controller
     {
         private readonly LeagueContext _leagueContext;

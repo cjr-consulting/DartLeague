@@ -14,6 +14,7 @@ using EF = DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class LeagueLinkController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;

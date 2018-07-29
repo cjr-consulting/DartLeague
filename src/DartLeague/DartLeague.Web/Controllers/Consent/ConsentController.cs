@@ -15,6 +15,7 @@ namespace DartLeague.Web.Controllers
     /// This controller processes the consent UI
     /// </summary>
     [SecurityHeaders]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ConsentController : Controller
     {
         private readonly ConsentService _consent;

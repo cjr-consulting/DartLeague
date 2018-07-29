@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SeasonAchievementController : Controller
     {
         private readonly SeasonContext _seasonContext;

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SeasonLinkController : Controller
     {
         private const string SEASON_LINK_CATEGORY = "SeasonLinks";
