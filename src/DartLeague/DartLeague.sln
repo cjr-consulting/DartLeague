@@ -24,6 +24,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.Common", "DartLe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F386FF5E-FBC9-448E-9FFE-E0F21D75CD86}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DartEvent", "DartEvent", "{567BCA75-CB80-4630-987C-3C3D0B8C9812}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartLeague.GameEvents", "DartLeague.GameEvents\DartLeague.GameEvents.csproj", "{951CD20E-8039-4ABE-A1A5-04E7B1CF5064}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DartLeague.GameEvents.Tests", "DartLeague.GameEvents.Tests\DartLeague.GameEvents.Tests.csproj", "{4C7FFC1A-E010-4A9A-BDD8-47541719B95E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,9 +64,21 @@ Global
 		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69741128-B3F1-44B0-A628-430AEFB8B04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951CD20E-8039-4ABE-A1A5-04E7B1CF5064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951CD20E-8039-4ABE-A1A5-04E7B1CF5064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951CD20E-8039-4ABE-A1A5-04E7B1CF5064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951CD20E-8039-4ABE-A1A5-04E7B1CF5064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C7FFC1A-E010-4A9A-BDD8-47541719B95E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C7FFC1A-E010-4A9A-BDD8-47541719B95E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C7FFC1A-E010-4A9A-BDD8-47541719B95E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C7FFC1A-E010-4A9A-BDD8-47541719B95E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{951CD20E-8039-4ABE-A1A5-04E7B1CF5064} = {567BCA75-CB80-4630-987C-3C3D0B8C9812}
+		{4C7FFC1A-E010-4A9A-BDD8-47541719B95E} = {567BCA75-CB80-4630-987C-3C3D0B8C9812}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80459DE5-AB7E-4DD0-A748-326750895591}
