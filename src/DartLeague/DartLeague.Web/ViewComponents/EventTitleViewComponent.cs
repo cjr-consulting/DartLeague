@@ -28,7 +28,7 @@ namespace DartLeague.Web.ViewComponents
         private async Task<EventViewModel> GetTitleEvent()
         {
             var titleEvent = await _leagueContext.DartEvents
-                .Where(e => e.IsTitleEvent)
+                .Where(e => e.IsTitleEvent && e.EventDate >= DateTime.Now.Date)
                 .Select(e => new EventViewModel
                 {
                     Id = e.Id,
