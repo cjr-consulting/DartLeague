@@ -14,6 +14,7 @@ using EF = DartLeague.Repositories.LeagueData;
 namespace DartLeague.Web.Areas.Site.Controllers
 {
     [Area("Site")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class LodController : Controller
     {
         private readonly IBrowsableFileService _browsableFileService;

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DartLeague.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class BoardMembersController : Controller
     {
         private readonly LeagueContext _leagueContext;

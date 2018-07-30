@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DartLeague.Web.Areas.Site.Controllers
 {
     [Area("Site")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PagePartController : Controller
     {
         private readonly LeagueContext _leagueContext;

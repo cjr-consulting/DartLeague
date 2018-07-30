@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private LeagueContext _leagueContext;

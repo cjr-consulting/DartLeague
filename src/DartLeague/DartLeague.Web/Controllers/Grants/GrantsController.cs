@@ -18,6 +18,7 @@ namespace DartLeague.Web.Controllers
     /// </summary>
     [SecurityHeaders]
     [Authorize(AuthenticationSchemes = IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GrantsController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
