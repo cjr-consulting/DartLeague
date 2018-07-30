@@ -107,7 +107,7 @@
                         @if (!string.IsNullOrEmpty(e.Description))
                         {
                             <div class="clearfix"></div>
-                            <a style="cursor: pointer" data-toggle="collapse" data-target="@($"#event{e.Id}")">Details</a>
+                            <a style="cursor: pointer" data-toggle="collapse" data-target="@($"#event{e.Id}")_history">Details</a>
                         }
                         <div class="clearfix"></div>
                     </div>
@@ -115,7 +115,7 @@
                     @if (!string.IsNullOrEmpty(e.Description))
                     {
                         <div class="event-description">
-                            <div id="@($"event{e.Id}")" class="collapse">
+                            <div id="@($"event{e.Id}")_history" class="collapse">
                                 <div class="well well-sm">@Html.Raw(e.Description)</div>
                              </div>
                         </div>

@@ -32,14 +32,14 @@ namespace DartLeague.Web.Controllers
                 var eventResults = await _leagueContext.DartEventResults.Where(x => x.EventId == dartEvent.Id).ToListAsync();
                 foreach (var eventResult in eventResults)
                 {
+                    var member = await _leagueContext.Members.Where(x => x.Id == eventResult.MemberId).FirstOrDefaultAsync();
+                    var memberName = member == null ? "" : $"{member.FirstName} {member.LastName}";
                     model.PlayerActivityResults.Add(new PlayerActivityModel
                     {
                         DartEventName = dartEvent.Name,
                         Id = eventResult.Id,
                         SpecificEventName = eventResult.SpecificEventName,
-                        MemberName = eventResult.Member != null
-                            ? $"{eventResult.Member.FirstName} {eventResult.Member.LastName}"
-                            : string.Empty,
+                        MemberName = memberName,
                         Finished = eventResult.Finished
                     });
                 }
