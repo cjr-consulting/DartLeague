@@ -1,18 +1,17 @@
-﻿using System;
+﻿using DartLeague.Domain.BrowsableFiles;
+using DartLeague.Repositories.LeagueData;
 using DartLeague.Repositories.SeasonData;
 using DartLeague.Web.Areas.Manage.Models;
+using DartLeague.Web.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DartLeague.Domain.BrowsableFiles;
-using DartLeague.Repositories.LeagueData;
-using DartLeague.Web.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Routing;
 using BrowsableFile = DartLeague.Domain.BrowsableFiles.BrowsableFile;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
@@ -148,7 +147,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     await _seasonContext.Teams.AddAsync(team);
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "SeasonTeam");
+                    return RedirectToAction("Index", "SeasonTeam", new { seasonId });
                 }
             }
             catch (DbUpdateException)
@@ -173,6 +172,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public async Task<IActionResult> Edit(int seasonId, int id)
         {
             var team = await GetTeamEditViewModel(id);
+            team.SeasonId = seasonId;
             team.Roles = await GetRoles();
             team.Members = await GetAvailableMembers(seasonId);
             team.Sponsors = await GetSponsors();
@@ -259,7 +259,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { seasonId });
                 }
             }
             catch (DbUpdateException)
@@ -298,7 +298,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 await _seasonContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index", "SeasonTeam");
+            return RedirectToAction("Index", "SeasonTeam", new { seasonId });
         }
 
         [Route("manage/season/{seasonId}/team/copyteams")]
@@ -306,7 +306,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             var season = await _seasonContext.Seasons.Include("Teams").FirstAsync(x => x.Id == seasonId);
             if (season.Teams.Any())
-                return RedirectToAction("Index", "SeasonTeam");
+                return RedirectToAction("Index", "SeasonTeam", new { seasonId });
 
             var prevSeason = await _seasonContext.Seasons.Include("Teams.Players")
                 .Where(x => x.StartDate < season.StartDate)
@@ -351,7 +351,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             }
 
             await _seasonContext.SaveChangesAsync();
-            return RedirectToAction("Index", "SeasonTeam");
+            return RedirectToAction("Index", "SeasonTeam", new { seasonId });
         }
 
         private async Task<SeasonTeamEditViewModel> GetTeamEditViewModel(int teamId)
@@ -364,14 +364,14 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 SponsorId = team.SponsorId,
                 Abbreviation = team.Abbreviation,
                 BannerUrl = team.BannerImageId > 0
-                    ? Url.Action("Index", "File", new {Area = "", Id = NumberObfuscation.Encode(team.BannerImageId)})
+                    ? Url.Action("Index", "File", new { Area = "", Id = NumberObfuscation.Encode(team.BannerImageId) })
                     : string.Empty,
                 LogoFileUrl = team.LogoImageId > 0
-                    ? Url.Action("Index", "File", new {Area = "", Id = NumberObfuscation.Encode(team.LogoImageId)})
+                    ? Url.Action("Index", "File", new { Area = "", Id = NumberObfuscation.Encode(team.LogoImageId) })
                     : string.Empty,
                 TeamFileUrl = team.TeamPictureImageId > 0
                     ? Url.Action("Index", "File",
-                        new {Area = "", Id = NumberObfuscation.Encode(team.TeamPictureImageId)})
+                        new { Area = "", Id = NumberObfuscation.Encode(team.TeamPictureImageId) })
                     : string.Empty
             };
 
@@ -401,36 +401,37 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         private async Task<List<SelectListItem>> GetRoles()
         {
-            return new List<SelectListItem>
-            {
-                new SelectListItem
+            return await Task.FromResult(new List<SelectListItem>
                 {
-                    Text = "Captain",
-                    Value = "1"
-                },
-                new SelectListItem
-                {
-                    Text = "Co-Captain",
-                    Value = "2"
-                },
-                new SelectListItem
-                {
-                    Text = "Player",
-                    Value = "3"
-                }
-            };
+                    new SelectListItem
+                    {
+                        Text = "Captain",
+                        Value = "1"
+                    },
+                    new SelectListItem
+                    {
+                        Text = "Co-Captain",
+                        Value = "2"
+                    },
+                    new SelectListItem
+                    {
+                        Text = "Player",
+                        Value = "3"
+                    }
+                });
         }
 
         private async Task<List<SelectListItem>> GetAvailableMembers(int seasonId)
         {
-            var players = await _seasonContext.Teams
+            var memberIds = await _seasonContext.Teams
                 .Include("Players")
                 .Where(x => x.SeasonId == seasonId)
                 .SelectMany(x => x.Players)
+                .Select(x => x.MemberId)
                 .ToListAsync();
 
             return await _leagueContext.Members
-                .Where(x => players.Any(p => p.MemberId == x.Id) == false)
+                .Where(x => !memberIds.Contains(x.Id))
                 .Select(x => new SelectListItem
                 {
                     Value = x.Id.ToString(),
@@ -457,10 +458,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return await _leagueContext.Sponsors
                 .Where(x => x.Type == "T")
                 .Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name
-            }).ToListAsync();
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                }).ToListAsync();
         }
     }
 }

@@ -38,17 +38,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
             var indexModel = new SeasonBoardIndexViewModel
             {
-                BoardMembers = await _seasonContext.BoardMembers
-                        .Where(x => x.SeasonId == seasonId)
-                        .OrderBy(x => x.Position.Order)
-                        .Select(x =>
-                            new SeasonBoardListViewModel
-                            {
-                                Id = x.Id,
-                                Name = members.First(m => m.Id == x.MemberId).FirstName + " " +
-                                       members.First(m => m.Id == x.MemberId).LastName,
-                                Position = x.Position.Name
-                            }).ToListAsync()
+                BoardMembers = await GetBoardMembers(seasonId, members)
             };
             indexModel.IsCopyAvailable = !indexModel.BoardMembers.Any() &&
                 previousSeason != null && previousSeason.BoardMembers.Any();
@@ -61,6 +51,23 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 };
 
             return View(model);
+        }
+
+        private async Task<List<SeasonBoardListViewModel>> GetBoardMembers(int seasonId, List<Member> members)
+        {
+            var dbBoardMembers = await _seasonContext.BoardMembers.Include("Position")
+                                    .Where(x => x.SeasonId == seasonId)
+                                    .OrderBy(x => x.Position.Order)
+                                    .ToListAsync();
+            return dbBoardMembers.Select(x =>
+                                        new SeasonBoardListViewModel
+                                        {
+                                            Id = x.Id,
+                                            Name = members.First(m => m.Id == x.MemberId).FirstName + " " +
+                                                   members.First(m => m.Id == x.MemberId).LastName,
+                                            Position = x.Position.Name
+                                        })
+                                        .ToList();
         }
 
         [Route("/manage/season/{seasonId}/board/create")]
@@ -97,7 +104,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     _seasonContext.BoardMembers.Add(boardMember);
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "SeasonBoard");
+                    return RedirectToAction("Index", "SeasonBoard", new { seasonId });
                 }
             }
             catch (DbUpdateException)
@@ -154,7 +161,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     boardMember.UpdatedAt = DateTime.UtcNow;
                     
                     await _seasonContext.SaveChangesAsync();
-                    return RedirectToAction("Index", "SeasonBoard");
+                    return RedirectToAction("Index", "SeasonBoard", new { seasonId });
                 }
             }
             catch (DbUpdateException)
@@ -188,7 +195,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 await _seasonContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index", "SeasonBoard");
+            return RedirectToAction("Index", "SeasonBoard", new { seasonId });
         }
 
         [Route("/Manage/Season/{seasonId}/board/copy")]
@@ -196,7 +203,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         {
             if (await _seasonContext.BoardMembers.AnyAsync(x => x.SeasonId == seasonId))
             {
-                return RedirectToAction("Index", "SeasonBoard");
+                return RedirectToAction("Index", "SeasonBoard", new { seasonId });
             }
 
             var currentSeason = await _seasonContext.Seasons.FirstOrDefaultAsync(x => x.Id == seasonId);
@@ -214,7 +221,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     }));
             await _seasonContext.SaveChangesAsync();
 
-            return RedirectToAction("Index", "SeasonBoard");
+            return RedirectToAction("Index", "SeasonBoard", new { seasonId });
         }
 
         private async Task<List<SelectListItem>> GetPositions()

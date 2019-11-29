@@ -11,6 +11,7 @@ namespace DartLeague.Web.Areas.Manage.Models
     public class SeasonTeamEditViewModel
     {
         public int Id { get; set; }
+        public int SeasonId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

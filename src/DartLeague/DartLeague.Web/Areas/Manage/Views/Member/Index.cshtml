@@ -2,7 +2,6 @@
     ViewData["Title"] = "Manage Members";
 }
 
-@using IdentityServer4.Extensions
 @model DartLeague.Web.Areas.Manage.Models.MembersListViewModel
 
 @await Html.PartialAsync("_ManagementHeader")
@@ -38,7 +37,7 @@
                                 <tr>
                                     <td class="hidden-sm hidden-xs"><a class="btn btn-link" asp-area="Manage" asp-controller="Member" asp-action="Edit" asp-route-id="@member.Id"><i class="fa fa-pencil-square-o fa-lg"></i></a></td>
                                     <td style="vertical-align: middle;"><a class="btn btn-link" asp-area="Manage" asp-controller="Member" asp-action="Edit" asp-route-id="@member.Id">@($"{member.FirstName} {member.LastName}")</a></td>
-                                    <td style="vertical-align: middle;">@(member.Email.IsNullOrEmpty() ? "none" : member.Email)</td>
+                                    <td style="vertical-align: middle;">@(string.IsNullOrEmpty(member.Email) ? "none" : member.Email)</td>
                                     <td style="vertical-align: middle;">@member.CellPhone</td>
                                     <td class="hidden-xs" style="vertical-align: middle;">@member.ShirtSize</td>
                                     <td class="hidden-sm hidden-xs" style="vertical-align: middle;"><a class="btn btn-link confirmation" asp-area="Manage" asp-controller="Member" asp-action="Delete" asp-route-id="@member.Id" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a></td>

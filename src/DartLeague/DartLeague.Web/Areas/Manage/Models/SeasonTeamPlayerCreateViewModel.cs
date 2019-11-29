@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
-using Remotion.Linq.Clauses;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
@@ -21,7 +19,7 @@ namespace DartLeague.Web.Areas.Manage.Models
         public string Nickname { get; set; }
         public string Email { get; set; }
         public string HomePhone { get; set; }
-        
+
         public string CellPhone { get; set; }
         public string ShirtSize { get; set; }
 

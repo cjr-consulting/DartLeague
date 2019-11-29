@@ -5,7 +5,7 @@
     <h2>Edit Sponsor</h2>
     <form asp-controller="Sponsor" asp-action="Edit" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.Partial("_sponsorFields")
+        @await Html.PartialAsync("_sponsorFields")
         <div>
             <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
             <a class="btn btn-danger" asp-area="Manage" asp-controller="Sponsor" asp-action="Index">Cancel</a>

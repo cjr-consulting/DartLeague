@@ -33,7 +33,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
 
             _leagueContext.BrowsableFiles.Add(f);
             await _leagueContext.SaveChangesAsync();
-            
+
             var filePath = Path.Combine(_options.Value.Storage, f.RelativePath);
 
             using (var fileStream = File.Create(filePath))

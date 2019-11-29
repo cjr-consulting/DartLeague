@@ -57,19 +57,4 @@
             <dd>@claim.Value</dd>
         }
     </dl>
-
-    if (!String.IsNullOrWhiteSpace(CookieAuthenticationDefaults.AuthenticationScheme))
-    {
-        <h2>Cookies Properties</h2>
-        <dl>
-            @{
-                var props = (await Context.AuthenticateAsync()).Properties;
-            }
-            @foreach (var item in props.Items)
-            {
-                <dt>@item.Key</dt>
-                <dd>@item.Value</dd>
-            }
-        </dl>
-    }
 }

@@ -6,12 +6,12 @@
 
     <div class="container">
         <h2>Add Team</h2>
-        <form enctype="multipart/form-data" asp-controller="SeasonTeam" asp-action="Create" method="post">
+        <form enctype="multipart/form-data" asp-area="Manage" asp-controller="SeasonTeam" asp-action="Create" asp-route-seasonId="@Model.SeasonEdit.Id" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.Partial("_teamCreateFields", Model.Data)
+            @await Html.PartialAsync("_teamCreateFields", Model.Data)
             <div>
                 <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
-                <a class="btn btn-danger" asp-controller="SeasonTeam" asp-action="Index" asp-area="Manage">Cancel</a>
+                <a class="btn btn-danger" asp-controller="SeasonTeam" asp-action="Index" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id">Cancel</a>
             </div>
         </form>
     </div>

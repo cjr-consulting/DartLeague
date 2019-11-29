@@ -9,7 +9,7 @@
         <div class="col-sm-3">
             @if (Model.PreviousSeason != null)
             {
-                <a href="@Model.PreviousSeason.Url" class="btn btn-block btn-info"><<< @Model.PreviousSeason.Title</a>
+            <a href="@Model.PreviousSeason.Url" class="btn btn-block btn-info">&lt;&lt;&lt; @Model.PreviousSeason.Title</a>
             }
         </div>
         <div class="col-sm-6">
@@ -17,7 +17,7 @@
         <div class="col-sm-3">
             @if (Model.NextSeason != null)
             {
-                <a href="@Model.NextSeason.Url" class="btn btn-block btn-info">@Model.NextSeason.Title >>></a>
+            <a href="@Model.NextSeason.Url" class="btn btn-block btn-info">@Model.NextSeason.Title &gt;&gt;&gt;</a>
             }
         </div>
     </div>

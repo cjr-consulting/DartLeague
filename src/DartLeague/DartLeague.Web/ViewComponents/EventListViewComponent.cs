@@ -1,12 +1,12 @@
-﻿using System;
+﻿using DartLeague.Repositories.LeagueData;
+using DartLeague.Web.Helpers;
+using DartLeague.Web.ViewComponents.Models.EventList;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using DartLeague.Web.ViewComponents.Models.EventList;
-using DartLeague.Repositories.LeagueData;
-using Microsoft.EntityFrameworkCore;
-using DartLeague.Web.Helpers;
 
 namespace DartLeague.Web.ViewComponents
 {
@@ -22,44 +22,50 @@ namespace DartLeague.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var events = await GetEvents();
-            var model = new EventListViewModel
+            return View(new EventListViewModel
             {
                 Events = events
-            };
-            return View(model);
+            });
         }
 
         private async Task<List<EventViewModel>> GetEvents()
         {
-            return await _leagueContext.DartEvents
+            var currentEvents = await _leagueContext.DartEvents
                 .Where(e => e.EventDate >= DateTime.Now.Date)
                 .OrderBy(e => e.EventDate)
                 .Take(15)
-                .Select(e => new EventViewModel
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    EventDate = e.EventDate,
-                    DartType = e.DartType,
-                    EventType = StaticLists.DartEventTypes.FirstOrDefault(x => x.Value == e.EventTypeId.ToString()).Text,
-                    RegistrationStartTime = e.RegistrationStartTime,
-                    RegistrationEndTime = e.RegistrationEndTime,
-                    DartStart = e.DartStart,
-                    ImageFileId = e.ImageFileId > 0 ? NumberObfuscation.Encode(e.ImageFileId) : string.Empty,
-                    PosterFileId = e.PosterFileId > 0 ? NumberObfuscation.Encode(e.PosterFileId) : string.Empty,
-                    HostName = e.HostName,
-                    HostUrl = e.HostUrl,
-                    LocationName = e.LocationName,
-                    MapUrl = e.MapUrl,
-                    Address1 = e.Address1,
-                    Address2 = e.Address2,
-                    City = e.City,
-                    State = e.State,
-                    Zip = e.Zip,
-                    Description = e.Description,
-                    FacebookUrl = e.FacebookUrl,
-                    Url = e.Url,
-                }).ToListAsync();
+                .ToListAsync();
+
+            return currentEvents.Select(e => Map(e)).ToList();
+        }
+
+        private static EventViewModel Map(DartEvent dartEvent)
+        {
+            return new EventViewModel
+            {
+                Id = dartEvent.Id,
+                Name = dartEvent.Name,
+                EventDate = dartEvent.EventDate,
+                DartType = dartEvent.DartType,
+                EventType = StaticLists.DartEventTypes.FirstOrDefault(x => x.Value == dartEvent.EventTypeId.ToString()).Text,
+                RegistrationStartTime = dartEvent.RegistrationStartTime,
+                RegistrationEndTime = dartEvent.RegistrationEndTime,
+                DartStart = dartEvent.DartStart,
+                ImageFileId = dartEvent.ImageFileId > 0 ? NumberObfuscation.Encode(dartEvent.ImageFileId) : string.Empty,
+                PosterFileId = dartEvent.PosterFileId > 0 ? NumberObfuscation.Encode(dartEvent.PosterFileId) : string.Empty,
+                HostName = dartEvent.HostName,
+                HostUrl = dartEvent.HostUrl,
+                LocationName = dartEvent.LocationName,
+                MapUrl = dartEvent.MapUrl,
+                Address1 = dartEvent.Address1,
+                Address2 = dartEvent.Address2,
+                City = dartEvent.City,
+                State = dartEvent.State,
+                Zip = dartEvent.Zip,
+                Description = dartEvent.Description,
+                FacebookUrl = dartEvent.FacebookUrl,
+                Url = dartEvent.Url,
+            };
         }
     }
 }

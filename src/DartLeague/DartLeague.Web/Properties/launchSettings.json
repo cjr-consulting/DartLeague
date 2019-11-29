@@ -1,10 +1,10 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:49935/",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:50943",
+      "sslPort": 44337
     }
   },
   "profiles": {
@@ -15,13 +15,25 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebSiteWithAccount": {
+    "DartLeague.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:49936"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "https://+:443;http://+:80",
+        "ASPNETCORE_HTTPS_PORT": "44338"
+      },
+      "httpPort": 50950,
+      "useSSL": true,
+      "sslPort": 44338
     }
   }
 }

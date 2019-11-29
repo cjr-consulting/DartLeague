@@ -186,7 +186,7 @@ namespace DartLeague.Web.Controllers.Components
 
         private async Task<SiteNavigationViewModel> ManagementNavigation(IUrlHelper url)
         {
-            return new SiteNavigationViewModel
+            return await Task.FromResult(new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
@@ -217,12 +217,12 @@ namespace DartLeague.Web.Controllers.Components
                         }
                     }
                 }
-            };
+            });
         }
 
         private async Task<SiteNavigationViewModel> DartsForDreamsNavigation(IUrlHelper url)
         {
-            return new SiteNavigationViewModel
+            return await Task.FromResult(new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
@@ -278,7 +278,7 @@ namespace DartLeague.Web.Controllers.Components
                         Href = "/"
                     }
                 }
-            };
+            });
         }
     }
 }

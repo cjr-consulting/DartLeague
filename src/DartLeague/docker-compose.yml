@@ -1,26 +1,15 @@
 version: '3.4'
 
 services:
-  dartleagueweb:
-    image: dartleagueweb
-    build:
-      context: ./DartLeague.Web
-      dockerfile: Dockerfile
-    environment:
-       "BrowsableFile:Storage": '/storage'
-    volumes:
-      - "C:/DevData/DartLeague/storage:/storage"
-    links:
-    - dartleaguedb
-  dartleaguedb:
-    image: microsoft/mssql-server-linux:2017-latest
+  dartleaguedbsolo:
+    image:  mcr.microsoft.com/mssql/server
     ports:
     - "9888:1433"
     volumes:
-    - dartleaguesqlvolume:/var/opt/mssql
+    - dartleaguesolosqlvolume:/var/opt/mssql
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: AStrong!Passw0rd
       MSSQL_PID: Express
 volumes:
-  dartleaguesqlvolume:
+  dartleaguesolosqlvolume:
