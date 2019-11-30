@@ -6,7 +6,7 @@ namespace DartLeague.GameEvents.Tests
 {
     public class Given_a_new_team_to_create
     {
-        private CreateTeamEventCommand EVENT_DATA = new CreateTeamEventCommand();
+        readonly CreateTeamEventCommand EVENT_DATA = new CreateTeamEventCommand();
 
         [Fact]
         public void When_creating_a_team_with_required_configuration()

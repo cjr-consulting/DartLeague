@@ -199,7 +199,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [Route("/Manage/Season/{seasonId}/board/copy")]
-        public async Task<IActionResult> Copy(int seasonId, bool previous)
+        public async Task<IActionResult> Copy(int seasonId)
         {
             if (await _seasonContext.BoardMembers.AnyAsync(x => x.SeasonId == seasonId))
             {

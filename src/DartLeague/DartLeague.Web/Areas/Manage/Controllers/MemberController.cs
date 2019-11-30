@@ -11,7 +11,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class MemberController : Controller
     {
-        private LeagueContext _leagueContext;
+        readonly LeagueContext _leagueContext;
 
         public MemberController(LeagueContext leagueContext)
         {
@@ -21,17 +21,19 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public IActionResult Index()
         {
             ViewData["LeagueNavPage"] = "Members";
-            var playersList = new MembersListViewModel();
-            playersList.Members = _leagueContext.Members.Select(x =>
-                new MemberViewModel
-                {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Email = x.Email,
-                    CellPhone = x.CellPhone,
-                    ShirtSize = x.ShirtSize
-                }).ToList();
+            var playersList = new MembersListViewModel()
+            {
+                Members = _leagueContext.Members.Select(x =>
+new MemberViewModel
+{
+Id = x.Id,
+FirstName = x.FirstName,
+LastName = x.LastName,
+Email = x.Email,
+CellPhone = x.CellPhone,
+ShirtSize = x.ShirtSize
+}).ToList()
+            };
 
             return View(playersList);
         }

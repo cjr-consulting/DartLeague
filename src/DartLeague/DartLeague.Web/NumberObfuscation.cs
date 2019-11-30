@@ -8,8 +8,8 @@ namespace DartLeague.Web
 {
     public static class NumberObfuscation
     {
-        private static string salt = "This is my salty salt salt";
-        private static Hashids hashids = new Hashids(salt);
+        private static readonly string salt = "This is my salty salt";
+        private static readonly Hashids hashids = new Hashids(salt);
 
 
         public static string Encode(int number)

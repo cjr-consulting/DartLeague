@@ -8,8 +8,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
-        private LeagueContext _leagueContext;
-        private IBrowsableFileService _browsableFileService;
+        readonly LeagueContext _leagueContext;
+        readonly IBrowsableFileService _browsableFileService;
 
         public HomeController(LeagueContext leagueContext, IBrowsableFileService browsableFileService)
         {

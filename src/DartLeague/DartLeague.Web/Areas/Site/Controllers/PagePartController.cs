@@ -21,15 +21,17 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
         public IActionResult Index()
         {
-            var pagePartsList = new PagePartsListViewModel();
-            pagePartsList.PageParts = _leagueContext.PageParts.Select(x => new PagePartViewModel
+            var pagePartsList = new PagePartsListViewModel()
             {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Html = x.Html,
-                UpdatedAt = x.UpdatedAt
-            }).ToList();
+                PageParts = _leagueContext.PageParts.Select(x => new PagePartViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Html = x.Html,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList()
+            };
             return View(pagePartsList);
         }
 

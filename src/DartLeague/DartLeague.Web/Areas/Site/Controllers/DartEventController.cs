@@ -22,7 +22,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
     public class DartEventController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;
-        private IBrowsableFileService _browsableFileService;
+        readonly IBrowsableFileService _browsableFileService;
 
         public DartEventController(EF.LeagueContext leagueContext, IBrowsableFileService browsableFileService)
         {

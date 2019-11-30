@@ -10,7 +10,7 @@ namespace DartLeague.Infrastructure.BrowsableFiles
 {
     public class FileSystemBrowsableFileService : IBrowsableFileService
     {
-        private EF.LeagueContext _leagueContext;
+        readonly EF.LeagueContext _leagueContext;
         private readonly IOptions<BrowsableFileOptions> _options;
 
         public FileSystemBrowsableFileService(EF.LeagueContext leagueContext, IOptions<BrowsableFileOptions> options)

@@ -28,8 +28,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
         public IActionResult Index()
         {
-            var model = new ActivitiesListViewModel();
-            model.Activities = _leagueContext.Activities
+            var model = new ActivitiesListViewModel()
+            {
+                Activities = _leagueContext.Activities
                 .Select(x => new ActivityViewModel
                 {
                     Id = x.Id,
@@ -37,7 +38,8 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     ActivityDate = x.Date,
                     FileId = x.FileId > 0 ? NumberObfuscation.Encode(x.FileId) : string.Empty,
                     Active = x.Active
-                }).ToList();
+                }).ToList()
+            };
             return View(model);
         }
 

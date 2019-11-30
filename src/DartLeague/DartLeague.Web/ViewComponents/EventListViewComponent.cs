@@ -12,7 +12,7 @@ namespace DartLeague.Web.ViewComponents
 {
     public class EventListViewComponent : ViewComponent
     {
-        private LeagueContext _leagueContext;
+        readonly LeagueContext _leagueContext;
 
         public EventListViewComponent(LeagueContext leagueContext)
         {
