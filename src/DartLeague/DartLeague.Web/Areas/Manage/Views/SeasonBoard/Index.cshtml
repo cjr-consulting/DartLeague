@@ -14,7 +14,7 @@
                     <h3 class="panel-title">Board Members</h3>
                 </div>
                 <div class="panel-body">
-                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonBoard" asp-action="Create" asp-route-seasonId="@Model.SeasonEdit.Id" title="Add Board Member"><i class="fa fa-plus-square"></i></a> <strong>Board Memeber</strong>
                     @if (Model.Data.IsCopyAvailable)
                     {
                         <a class="btn btn-success btn-sm confirmation" asp-action="Copy"><i class="fa fa-copy"></i></a>
@@ -41,9 +41,9 @@
                         @foreach (var boardMember in Model.Data.BoardMembers)
                         {
                             <tr>
-                                <td style="vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
+                                <td style="vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Edit" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-id="@boardMember.Id" title="Edit Board Member">@boardMember.Name</a></td>
                                 <td style="text-align:center; vertical-align: middle;">@boardMember.Position</td>
-                                <td style="text-align:center; vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Delete" asp-area="Manage" asp-route-id="@boardMember.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                                <td style="text-align:center; vertical-align: middle;"><a asp-controller="SeasonBoard" asp-action="Delete" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-id="@boardMember.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
                     </tbody>

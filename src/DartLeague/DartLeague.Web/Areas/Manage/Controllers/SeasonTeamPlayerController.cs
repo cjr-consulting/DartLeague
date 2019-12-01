@@ -62,7 +62,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     await _seasonContext.TeamPlayers.AddAsync(player);
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Edit", "SeasonTeam", new {id = teamId});
+                    return RedirectToAction("Edit", "SeasonTeam", new { seasonId, id = teamId });
                 }
             }
             catch (DbUpdateException)
@@ -112,7 +112,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     player.RoleId = model.RoleId;
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Edit", "SeasonTeam", new { id = teamId });
+                    return RedirectToAction("Edit", "SeasonTeam", new { seasonId, id = teamId });
                 }
             }
             catch (DbUpdateException)
@@ -141,12 +141,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 await _seasonContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("Edit", "SeasonTeam", new { id = teamId });
+            return RedirectToAction("Edit", "SeasonTeam", new { seasonId, id = teamId });
         }
 
         private async Task<List<SelectListItem>> GetRoles()
         {
-            return new List<SelectListItem>
+            return await Task.FromResult(new List<SelectListItem>
             {
                 new SelectListItem
                 {
@@ -163,19 +163,20 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     Text = "Player",
                     Value = "3"
                 }
-            };
+            });
         }
 
         private async Task<List<SelectListItem>> GetAvailableMembers(int seasonId)
         {
-            var players = await _seasonContext.Teams
+            var memberIds = await _seasonContext.Teams
                 .Include("Players")
                 .Where(x => x.SeasonId == seasonId)
                 .SelectMany(x => x.Players)
+                .Select(x => x.MemberId)
                 .ToListAsync();
 
             return await _leagueContext.Members
-                .Where(x => players.Any(p => p.MemberId == x.Id) == false)
+                .Where(x => !memberIds.Contains(x.Id))
                 .Select(x => new SelectListItem
                 {
                     Value = x.Id.ToString(),

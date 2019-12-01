@@ -14,7 +14,7 @@
                     <h3 class="panel-title">Season Links</h3>
                 </div>
                 <div class="panel-body">
-                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonLink" asp-action="Create" title="Add Season Link"><i class="fa fa-plus-square"></i></a> <strong>Season Link</strong></p>
+                    <p><a class="btn btn-success btn-sm" asp-area="Manage" asp-controller="SeasonLink" asp-action="Create" asp-route-seasonId="@Model.SeasonEdit.Id" title="Add Season Link"><i class="fa fa-plus-square"></i></a> <strong>Season Link</strong></p>
                 </div>
                 <table class="table table-condensed">
                     <thead>
@@ -37,11 +37,11 @@
                         @foreach (var seasonLink in Model.Data)
                         {
                             <tr>
-                                <td style="vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Edit" asp-area="Manage" asp-route-id="@seasonLink.Id" title="Edit Season Link">@seasonLink.Title</a></td>
+                                <td style="vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Edit" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-id="@seasonLink.Id" title="Edit Season Link">@seasonLink.Title</a></td>
                                 <td style="text-align:center; vertical-align:middle;">@seasonLink.LinkType</td>
                                 <td style="vertical-align:middle;"><a href="@seasonLink.Url">@seasonLink.Url</a></td>
                                 <td style="text-align:center;vertical-align:middle;">@seasonLink.Order</td>
-                                <td style="text-align:center;vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Delete" asp-area="Manage" asp-route-id="@seasonLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                                <td style="text-align:center;vertical-align:middle;"><a asp-controller="SeasonLink" asp-action="Delete" asp-area="Manage" asp-route-seasonId="@Model.SeasonEdit.Id" asp-route-id="@seasonLink.Id" class="btn btn-link confirmation"><i class="fa fa-trash-o fa-lg"></i></a></td>
                             </tr>
                         }
                     </tbody>

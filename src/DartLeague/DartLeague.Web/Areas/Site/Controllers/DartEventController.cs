@@ -22,7 +22,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
     public class DartEventController : Controller
     {
         private readonly EF.LeagueContext _leagueContext;
-        private IBrowsableFileService _browsableFileService;
+        readonly IBrowsableFileService _browsableFileService;
 
         public DartEventController(EF.LeagueContext leagueContext, IBrowsableFileService browsableFileService)
         {
@@ -32,24 +32,31 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var events = _leagueContext.DartEvents;
             var model = new DartEventsListViewModel
             {
-                DartEvents = await events.OrderByDescending(x => x.EventDate)
-                    .Select(x =>
-                    new DartEventListViewModel
-                    {
-                        Id = x.Id,
-                        IsTitleEvent = x.IsTitleEvent,
-                        Name = x.Name,
-                        EventDate = x.EventDate,
-                        EventType = StaticLists.DartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
-                        LocationName = x.LocationName
-                    }).ToListAsync()
+                DartEvents = await GetDartEvents()
             };
+
             return View(model);
         }
 
+        private async Task<List<DartEventListViewModel>> GetDartEvents()
+        {
+            var events = await _leagueContext.DartEvents.OrderByDescending(x => x.EventDate)
+                                .ToListAsync();
+
+            return events.Select(x =>
+                                new DartEventListViewModel
+                                {
+                                    Id = x.Id,
+                                    IsTitleEvent = x.IsTitleEvent,
+                                    Name = x.Name,
+                                    EventDate = x.EventDate,
+                                    EventType = StaticLists.DartEventTypes.First(y => y.Value == x.EventTypeId.ToString()).Text,
+                                    LocationName = x.LocationName
+                                }).ToList();
+        }
+               
         public IActionResult Create()
         {
             ViewBag.dartEventTypes = StaticLists.DartEventTypes;

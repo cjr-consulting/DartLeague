@@ -57,11 +57,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         public async Task<IActionResult> Create()
         {
             var maxOrder = 0;
-            if(await _leagueContext.LeagueLinks.AnyAsync())
+            if (await _leagueContext.LeagueLinks.AnyAsync())
                 maxOrder = await _leagueContext.LeagueLinks.MaxAsync(x => x.Order);
 
-            var model = new LeagueLinkViewModel();
-            model.Order = maxOrder + 1;
+            var model = new LeagueLinkViewModel() { Order = maxOrder + 1 };
             return View(model);
         }
 
@@ -109,7 +108,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             catch (DbUpdateException)
             {
                 //Log the error (uncomment ex variable name and write a log.
-                ModelState.AddModelError("", "Unable to save changes. " +
+                ModelState.AddModelError(string.Empty, "Unable to save changes. " +
                                              "Try again, and if the problem persists " +
                                              "see your system administrator.");
             }
@@ -124,7 +123,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             if (leagueLink == null)
                 return NotFound();
 
-            string fileLink = "";
+            string fileLink = string.Empty;
             if (leagueLink.LinkType == 2)
             {
                 fileLink = leagueLink.Url;
@@ -190,7 +189,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             catch (DbUpdateException)
             {
                 //Log the error (uncomment ex variable name and write a log.
-                ModelState.AddModelError("", "Unable to save changes. " +
+                ModelState.AddModelError(string.Empty, "Unable to save changes. " +
                                              "Try again, and if the problem persists " +
                                              "see your system administrator.");
             }

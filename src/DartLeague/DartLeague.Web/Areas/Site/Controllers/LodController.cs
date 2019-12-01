@@ -28,8 +28,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
 
         public IActionResult Index()
         {
-            var model = new LodListViewModel();
-            model.LuckOfTheDraws = _leagueContext.LuckOfTheDraws
+            var model = new LodListViewModel()
+            {
+                LuckOfTheDraws = _leagueContext.LuckOfTheDraws
                 .Select(x => new LodViewModel
                 {
                     Id = x.Id,
@@ -38,7 +39,8 @@ namespace DartLeague.Web.Areas.Site.Controllers
                     FileId = x.FileId > 0 ? NumberObfuscation.Encode(x.FileId) : string.Empty,
                     Active = x.Active
                 })
-                .ToList();
+                .ToList()
+            };
             return View(model);
         }
 

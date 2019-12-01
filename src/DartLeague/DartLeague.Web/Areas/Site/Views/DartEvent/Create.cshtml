@@ -7,7 +7,7 @@
 <div class="container">
     <h2>Create Dart Event</h2>
     <form asp-controller="DartEvent" enctype="multipart/form-data" asp-action="Create" method="post">
-        @Html.Partial("_dartEventFields")
+        @await Html.PartialAsync("_dartEventFields")
         <div>
             <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Add</button>
             <a class="btn btn-danger" asp-controller="DartEvent" asp-action="Index">Cancel</a>

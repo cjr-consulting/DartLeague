@@ -8,7 +8,7 @@ namespace DartLeague.Web.Data.Initializers
 
         public static void Initialize(IServiceScope serviceScope)
         {
-            var context = serviceScope.ServiceProvider.GetService<LeagueContext>();
+            serviceScope.ServiceProvider.GetService<LeagueContext>();
         }
     }
 }

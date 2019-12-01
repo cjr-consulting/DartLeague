@@ -1,31 +1,19 @@
-﻿using System;
-using System.Reflection;
 using DartLeague.Domain.BrowsableFiles;
 using DartLeague.Infrastructure.BrowsableFiles;
 using DartLeague.Web.Configurations;
 using DartLeague.Web.Data;
-using DartLeague.Web.Data.Initializers;
-using DartLeague.Web.Services;
+using DartLeague.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Mindscape.Raygun4Net;
-using DartLeague.Web.Helpers;
-using IdentityServer4.Configuration;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using IdentityModel;
+using Microsoft.Extensions.Hosting;
 using Mindscape.Raygun4Net.AspNetCore;
-using NSwag.AspNetCore;
-using NJsonSchema;
-using AspNetCore.RouteAnalyzer;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace DartLeague.Web
 {
@@ -34,14 +22,13 @@ namespace DartLeague.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {                        
+        {
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             var trentonDartsDbConnString = Configuration.GetConnectionString("TrentonDartsDb");
@@ -51,125 +38,64 @@ namespace DartLeague.Web
                 trentonDartsDbConnString,
                 migrationsAssembly);
 
-            services.AddIdentityServerConfiguration(
+            services.AddAuthDbContext(
                 authDbConnString,
                 migrationsAssembly);
-            
+
             services.AddSeasonDbContext(
                 trentonDartsDbConnString,
                 migrationsAssembly);
-
-            services.AddIdentity<UserIdentity, IdentityRole>()
-                .AddEntityFrameworkStores<AuthDbContext>()
-                .AddDefaultTokenProviders();
-
-            // Add framework services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+           
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AuthDbContext>();
+            
             services.AddTransient<IBrowsableFileService, FileSystemBrowsableFileService>();
 
             services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
 
-            services.AddMvc();
+            //services.AddMvc();
 
-            //var authSqlConnectionString = Configuration.GetConnectionString("AuthMySqlProvider");
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(authDbConnString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(authDbConnString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
-
-                    options.EnableTokenCleanup = true;
-                    options.TokenCleanupInterval = 30;
-                })
-                .AddAspNetIdentity<UserIdentity>();
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options =>
-                {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                    options.Cookie.Name = "mvchybrid";
-                    options.LoginPath = "/Account/LogIn";
-                    options.LogoutPath = "/Account/LogOff";
-                })
-                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-                {
-                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
-                    
-                    options.ResponseType = "code id_token";
-
-                    options.ClientId = "mvc";
-                    options.ClientSecret = "secret";
-
-                    options.GetClaimsFromUserInfoEndpoint = true;
-                    options.SaveTokens = true;
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        NameClaimType = JwtClaimTypes.Name,
-                        RoleClaimType = JwtClaimTypes.Role,
-                    };
-                });
-            services.AddRouteAnalyzer();
+            services.AddControllersWithViews();            
+            services.AddRazorPages();
+            
             services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
-                {
-                    ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
-                });
+            {
+                ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseRaygun();
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
-            
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseIdentityServer();
+            app.UseRouting();
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
+            app.UseEndpoints(endpoints =>
             {
-                settings.GeneratorSettings.DefaultPropertyNameHandling =
-                    PropertyNameHandling.CamelCase;
-            });
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-            app.UseMvc(routes =>
-            {
-                if(env.IsDevelopment())
-                    routes.MapRouteAnalyzer("/routes");
-
-                routes.MapRoute(name: "areaRoute",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

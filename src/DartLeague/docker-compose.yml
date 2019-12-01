@@ -13,7 +13,7 @@ services:
     links:
     - dartleaguedb
   dartleaguedb:
-    image: microsoft/mssql-server-linux:2017-latest
+    image:  mcr.microsoft.com/mssql/server
     ports:
     - "9888:1433"
     volumes:

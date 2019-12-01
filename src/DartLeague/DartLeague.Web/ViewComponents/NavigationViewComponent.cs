@@ -29,15 +29,12 @@ namespace DartLeague.Web.Controllers.Components
         
         public async Task<SiteNavigationViewModel> NavBuilder(IUrlHelper url, string name = "Default")
         {
-            switch (name)
+            return name switch
             {
-                case "DartsForDreams":
-                    return await DartsForDreamsNavigation(url);
-                case "Manage":
-                    return await ManagementNavigation(url);
-                default:
-                    return await DefaultNavigation(url);
-            }
+                "DartsForDreams" => await DartsForDreamsNavigation(url),
+                "Manage" => await ManagementNavigation(url),
+                _ => await DefaultNavigation(url),
+            };
         }
 
         private async Task<SiteNavigationViewModel> DefaultNavigation(IUrlHelper url)
@@ -65,7 +62,7 @@ namespace DartLeague.Web.Controllers.Components
                             },
                             new NavigationViewModel
                             {
-                                Title = "Leaderboards"
+                                Title = "LeaderBoards"
                             },
                             new NavigationViewModel
                             {
@@ -186,7 +183,7 @@ namespace DartLeague.Web.Controllers.Components
 
         private async Task<SiteNavigationViewModel> ManagementNavigation(IUrlHelper url)
         {
-            return new SiteNavigationViewModel
+            return await Task.FromResult(new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
@@ -213,16 +210,16 @@ namespace DartLeague.Web.Controllers.Components
                             new NavigationViewModel{ Title = "Members", Href = url.Action("Index", "Member", new { Area = "Manage" }) },
                             new NavigationViewModel{ Title = "Teams", Href = "manage.team.index"},
                             new NavigationViewModel{ Title = "Sponsors", Href = url.Action("Index", "Sponsor", new { Area = "Manage" })},
-                            new NavigationViewModel{ Title = "Board Members", Href = "manage.boardmember.index"},
+                            new NavigationViewModel{ Title = "Board Members", Href = "manage.boardMember.index"},
                         }
                     }
                 }
-            };
+            });
         }
 
         private async Task<SiteNavigationViewModel> DartsForDreamsNavigation(IUrlHelper url)
         {
-            return new SiteNavigationViewModel
+            return await Task.FromResult(new SiteNavigationViewModel
             {
                 ParentNavigations =
                 {
@@ -278,7 +275,7 @@ namespace DartLeague.Web.Controllers.Components
                         Href = "/"
                     }
                 }
-            };
+            });
         }
     }
 }

@@ -7,7 +7,7 @@
     <h2>Edit Member</h2>
     <form asp-controller="Member" asp-action="Edit" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.Partial("_memberFields")
+        @await Html.PartialAsync("_memberFields")
         <div>
             <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o fa-lg"></i> Save</button>
             <a class="btn btn-danger" asp-controller="Member" asp-action="Index">Cancel</a>

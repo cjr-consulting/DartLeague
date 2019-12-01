@@ -129,7 +129,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     _seasonContext.SeasonLinks.Add(l);
                     await _seasonContext.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "SeasonLink");
+                    return RedirectToAction("Index", "SeasonLink", new { seasonId });
                 }
             }
             catch (DbUpdateException)
@@ -186,7 +186,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var seasonLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == seasonId);
+                    var seasonLink = await _seasonContext.SeasonLinks.FirstOrDefaultAsync(x => x.Id == id);
                     if (seasonLink == null)
                         return NotFound();
 
@@ -218,7 +218,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     seasonLink.UpdatedAt = DateTime.UtcNow;
 
                     _seasonContext.SaveChanges();
-                    return RedirectToAction("Index", "SeasonLink");
+                    return RedirectToAction("Index", "SeasonLink", new { seasonId });
                 }
 
             }
@@ -253,7 +253,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                 await _seasonContext.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index", "SeasonLink");
+            return RedirectToAction("Index", "SeasonLink", new { seasonId });
         }
     }
 }

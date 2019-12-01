@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DartLeague.Web.Configurations;
 using DartLeague.Web.Data.Initializers;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 
 namespace DartLeague.Web
 {
@@ -17,19 +13,7 @@ namespace DartLeague.Web
     {
         public static void Main(string[] args)
         {
-            /*
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
-            host.Run();
-            */
-            var host = BuildWebHost(args);
-
+            var host = CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -41,7 +25,6 @@ namespace DartLeague.Web
                     // Requires using RazorPagesMovie.Models;
                     // SeedData.Initialize(services);
                     InitializeAuthDb.Initialize(scope).Wait();
-                    InitializeIdentityDb.Initialize(scope);
                     InitializeLeagueDb.Initialize(scope);
                     InitializeSeasonDb.InitializeAsync(scope).Wait();
                 }
@@ -55,13 +38,11 @@ namespace DartLeague.Web
             host.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureAppConfiguration((hostContext, config) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    config.AddEnvironmentVariables();
-                })
-                .Build();
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
