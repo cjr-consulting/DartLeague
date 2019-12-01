@@ -6,7 +6,6 @@ using DartLeague.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,26 +44,28 @@ namespace DartLeague.Web
             services.AddSeasonDbContext(
                 trentonDartsDbConnString,
                 migrationsAssembly);
-           
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AuthDbContext>();
-            
+
             services.AddTransient<IBrowsableFileService, FileSystemBrowsableFileService>();
 
             services.Configure<BrowsableFileOptions>(Configuration.GetSection("BrowsableFile"));
 
             //services.AddMvc();
 
-            services.AddControllersWithViews();            
+            services.AddControllersWithViews();
             services.AddRazorPages();
-            
+
             services.AddRaygun(Configuration, new RaygunMiddlewareSettings()
             {
                 ClientProvider = new DartLeagueRaygunAspNetCoreClientProvider()
             });
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -85,7 +86,7 @@ namespace DartLeague.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

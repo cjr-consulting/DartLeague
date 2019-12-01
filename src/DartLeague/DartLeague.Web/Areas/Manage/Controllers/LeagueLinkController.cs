@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +69,9 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (linkFile == null) throw new ArgumentNullException(nameof(linkFile));
+
             try
             {
                 if (ModelState.IsValid)
@@ -86,7 +90,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = "League", f.FileName });
                     }
 
                     var l = new EF.LeagueLink
@@ -146,6 +150,9 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, LeagueLinkViewModel model, List<IFormFile> linkFile)
         {
+            Contract.Requires(model != null, nameof(model));
+            Contract.Requires(linkFile != null, nameof(linkFile));
+
             try
             {
                 if (ModelState.IsValid)
@@ -171,7 +178,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = "League", FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = "League", f.FileName });
                     }
 
                     leagueLink.Title = model.Title;

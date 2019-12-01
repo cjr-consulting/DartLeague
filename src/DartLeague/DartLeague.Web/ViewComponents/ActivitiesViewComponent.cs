@@ -21,10 +21,8 @@ namespace DartLeague.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var activities = await GetActivities();
-            var model = new ActivityListModel
-            {
-                Activities = activities
-            };
+            var model = new ActivityListModel();
+            model.Activities.AddRange(activities);
             return View(model);
         }
 
@@ -41,6 +39,7 @@ namespace DartLeague.Web.ViewComponents
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO")]
     public class ActivitiesListViewModel
     {
         public List<ActivityModel> Activities { get; set; }

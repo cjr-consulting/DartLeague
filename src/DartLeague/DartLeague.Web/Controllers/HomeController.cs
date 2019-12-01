@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DartLeague.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DartLeague.Web.Models;
+using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace DartLeague.Web.Controllers
 {
@@ -31,6 +29,7 @@ namespace DartLeague.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            _logger.LogError($"404 Page: {Activity.Current?.Id ?? HttpContext.TraceIdentifier}");
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

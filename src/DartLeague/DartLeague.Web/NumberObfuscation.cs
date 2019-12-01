@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HashidsNet;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
-using HashidsNet;
 
 namespace DartLeague.Web
 {
     public static class NumberObfuscation
     {
-        private static readonly string salt = "This is my salty salt";
+        private const string salt = "This is my salty salt";
         private static readonly Hashids hashids = new Hashids(salt);
 
 

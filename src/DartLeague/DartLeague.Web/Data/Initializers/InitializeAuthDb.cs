@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web.Data.Initializers
 {
@@ -11,8 +11,10 @@ namespace DartLeague.Web.Data.Initializers
     {
         public static async Task Initialize(IServiceScope serviceScope)
         {
+            Contract.Requires(serviceScope != null);
+
             var context = serviceScope.ServiceProvider.GetService<AuthDbContext>();
-            var roleStore = new RoleStore<IdentityRole>(context);
+            using var roleStore = new RoleStore<IdentityRole>(context);
 
             if (!context.Roles.Any(r => r.Name == "Administrator"))
             {

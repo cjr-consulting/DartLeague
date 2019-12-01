@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -57,6 +58,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SponsorViewModel sponsor)
         {
+            Contract.Requires(sponsor != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -129,6 +132,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, SponsorViewModel sponsor)
         {
+            Contract.Requires(sponsor != null);
+
             try
             {
                 if (ModelState.IsValid)

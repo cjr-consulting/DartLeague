@@ -1,15 +1,14 @@
-using System;
 using DartLeague.Repositories.LeagueData;
 using DartLeague.Repositories.SeasonData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using DartLeague.Web.Helpers;
 
 namespace DartLeague.Web.Areas.Manage.Controllers
 {
@@ -90,6 +89,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int seasonId, BoardMemberEditViewModel model)
         {
+            Contract.Requires(model != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -148,6 +149,10 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int seasonId, int id, BoardMemberEditViewModel model)
         {
+            Contract.Requires(seasonId > 0);
+            Contract.Requires(id > 0);
+            Contract.Requires(model != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -159,7 +164,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                     boardMember.MemberId = model.MemberId;
                     boardMember.PositionId = model.PositionId;
                     boardMember.UpdatedAt = DateTime.UtcNow;
-                    
+
                     await _seasonContext.SaveChangesAsync();
                     return RedirectToAction("Index", "SeasonBoard", new { seasonId });
                 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,12 +55,14 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LodViewModel lodEvent, List<IFormFile> lodImage)
         {
+            Contract.Requires(lodEvent != null);
+            Contract.Requires(lodImage != null);
+
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (!_leagueContext.LuckOfTheDraws.Any(x => string.Equals(x.Name.Trim(), lodEvent.Name.Trim(),
-                        StringComparison.CurrentCultureIgnoreCase)))
+                    if (!_leagueContext.LuckOfTheDraws.Any(x => x.Name.Trim() == lodEvent.Name.Trim()))
                     {
                         var lod = new EF.LuckOfTheDraw
                         {
@@ -111,6 +114,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, LodViewModel lodEvent, List<IFormFile> lodImage)
         {
+            Contract.Requires(lodEvent != null);
+            Contract.Requires(lodImage != null);
+
             try
             {
                 var lod = await _leagueContext.LuckOfTheDraws.FirstOrDefaultAsync(x => x.Id == id);

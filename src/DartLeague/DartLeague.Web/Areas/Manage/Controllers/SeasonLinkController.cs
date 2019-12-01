@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -92,8 +94,11 @@ namespace DartLeague.Web.Areas.Manage.Controllers
 
         [HttpPost("manage/season/{seasonId}/link/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int seasonId, SeasonLinkViewModel model, List<IFormFile> linkFile)
+        public async Task<IActionResult> Create(int seasonId, [NotNull] SeasonLinkViewModel model, [NotNull] List<IFormFile> linkFile)
         {
+            Contract.Requires(model != null, "SeasonLinkViewModel is null");
+            Contract.Requires(linkFile != null, "linkFile is null");
+
             try
             {
                 if (ModelState.IsValid)
@@ -112,7 +117,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), f.FileName });
                     }
 
                     var l = new SeasonLink
@@ -182,6 +187,9 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int seasonId, int id, SeasonLinkViewModel model, List<IFormFile> linkFile)
         {
+            Contract.Requires(model != null, nameof(model));
+            Contract.Requires(linkFile != null, nameof(linkFile));
+
             try
             {
                 if (ModelState.IsValid)
@@ -207,7 +215,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                             Stream = file.OpenReadStream()
                         };
                         linkFileId = await _browsableFileService.AddAsync(f);
-                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), FileName = f.FileName });
+                        url = Url.Action("Index", "File", new { Category = CategoryForSeason(seasonId), f.FileName });
                     }
 
                     seasonLink.Title = model.Title;

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
@@ -45,6 +46,8 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PagePartViewModel pagePart)
         {
+            Contract.Requires(pagePart != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -71,7 +74,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(pagePart);
         }
 
-        [Route("site/pagepart/{id}/edit")]
+        [Route("site/pagePart/{id}/edit")]
         public async Task<IActionResult> Edit(int id)
         {
             var pagePart = await _leagueContext.PageParts.FirstOrDefaultAsync(x => x.Id == id);
@@ -88,10 +91,12 @@ namespace DartLeague.Web.Areas.Site.Controllers
             return View(pagePartModel);
         }
 
-        [HttpPost("site/pagepart/{id}/edit")]
+        [HttpPost("site/pagePart/{id}/edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PagePartViewModel pagePart)
         {
+            Contract.Requires(pagePart != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -114,7 +119,7 @@ namespace DartLeague.Web.Areas.Site.Controllers
             }
             return View(pagePart);
         }
-        [Route("site/pagepart/{id}/delete")]
+        [Route("site/pagePart/{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
             var pagePart = await _leagueContext.PageParts.FirstOrDefaultAsync(x => x.Id == id);

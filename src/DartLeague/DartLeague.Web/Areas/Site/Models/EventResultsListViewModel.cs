@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Site.Models
 {
@@ -22,7 +21,7 @@ namespace DartLeague.Web.Areas.Site.Models
 
         public int OrderId { get; set; }
 
-        public List<DartEventResultViewModel> Results { get; set; } = new List<DartEventResultViewModel>();
+        public List<DartEventResultViewModel> Results { get; } = new List<DartEventResultViewModel>();
 
 
     }

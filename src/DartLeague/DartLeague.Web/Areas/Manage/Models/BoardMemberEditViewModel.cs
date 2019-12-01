@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO")]
     public class BoardMemberEditViewModel
     {
         [Required]

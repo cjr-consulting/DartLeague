@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,7 +51,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
                                 TeamId = x.Id,
                                 Name = x.Name,
                                 Abbreviation = x.Abbreviation,
-                                NumberOfPlayers = x.Players.Count()
+                                NumberOfPlayers = x.Players.Count
                             }).ToListAsync()
                 });
         }
@@ -81,6 +82,12 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             List<IFormFile> logoFile,
             List<IFormFile> teamFile)
         {
+            Contract.Requires(seasonId > 0, "Valid seasonId required");
+            Contract.Requires(model != null, nameof(model));
+            Contract.Requires(bannerFile != null, nameof(bannerFile));
+            Contract.Requires(logoFile != null, nameof(logoFile));
+            Contract.Requires(teamFile != null, nameof(teamFile));
+
             try
             {
                 if (ModelState.IsValid)
@@ -187,11 +194,19 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [HttpPost("/manage/season/{seasonId}/team/{id}/edit")]
-        public async Task<IActionResult> Edit(int seasonId, int id, SeasonTeamEditViewModel model,
+        public async Task<IActionResult> Edit(
+            int seasonId, 
+            int id,
+            SeasonTeamEditViewModel model,
             List<IFormFile> bannerFile,
             List<IFormFile> logoFile,
             List<IFormFile> teamFile)
         {
+            Contract.Requires(model != null);
+            Contract.Requires(bannerFile != null);
+            Contract.Requires(logoFile != null);
+            Contract.Requires(teamFile != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -399,7 +414,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return $"Season-{season.Title}-{teamName}";
         }
 
-        private async Task<List<SelectListItem>> GetRoles()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
+        private static async Task<List<SelectListItem>> GetRoles()
         {
             return await Task.FromResult(new List<SelectListItem>
                 {

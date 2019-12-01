@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DartLeague.Repositories.SeasonData
 {
@@ -15,8 +14,8 @@ namespace DartLeague.Repositories.SeasonData
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy { get; set; }
 
-        public List<SeasonLink> SeasonLinks { get; set; } = new List<SeasonLink>();
-        public List<BoardMember> BoardMembers { get; set; } = new List<BoardMember>();
-        public List<Team> Teams { get; set; }
+        public List<SeasonLink> SeasonLinks { get; } = new List<SeasonLink>();
+        public List<BoardMember> BoardMembers { get; } = new List<BoardMember>();
+        public List<Team> Teams { get; } = new List<Team>();
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DartLeague.Repositories.LeagueData.Mappings
 {
-    class MemberMapping : IEntityMap<LeagueContext>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Ef Config")]
+    internal class MemberMapping : IEntityMap<LeagueContext>
     {
         public MemberMapping(ModelBuilder modelBuilder)
         {

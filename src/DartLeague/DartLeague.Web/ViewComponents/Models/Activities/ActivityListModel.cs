@@ -4,6 +4,6 @@ namespace DartLeague.Web.ViewComponents.Models.Activities
 {
     public class ActivityListModel
     {
-        public List<ActivityModel> Activities { get; set; }
+        public List<ActivityModel> Activities { get; } = new List<ActivityModel>();
     }
 }

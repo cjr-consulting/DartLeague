@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Repositories.LeagueData;
@@ -45,6 +46,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost("/manage/season/{seasonId}/team/{teamId}/player/create")]
         public async Task<IActionResult> Create(int seasonId, int teamId, SeasonTeamPlayerCreateViewModel model)
         {
+            Contract.Requires(model != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -85,7 +88,7 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [Route("/manage/season/{seasonId}/team/{teamId}/player/{id}/edit")]
         public async Task<IActionResult> Edit(int seasonId, int teamId, int id)
         {
-            var player = await _seasonContext.TeamPlayers.FirstAsync(x => x.Id == id);
+            var player = await _seasonContext.TeamPlayers.FirstAsync(x => x.Id == id && x.TeamId == teamId);
             var member = await _leagueContext.Members.FirstAsync(x => x.Id == player.MemberId);
             var model = new SeasonTeamPlayerEditViewModel
             {
@@ -104,6 +107,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost("/manage/season/{seasonId}/team/{teamId}/player/{id}/edit")]
         public async Task<IActionResult> Edit(int seasonId, int teamId, int id, SeasonTeamPlayerEditViewModel model)
         {
+            Contract.Requires(model != null);
+
             try
             {
                 if (ModelState.IsValid)
@@ -144,7 +149,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             return RedirectToAction("Edit", "SeasonTeam", new { seasonId, id = teamId });
         }
 
-        private async Task<List<SelectListItem>> GetRoles()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
+        private static async Task<List<SelectListItem>> GetRoles()
         {
             return await Task.FromResult(new List<SelectListItem>
             {

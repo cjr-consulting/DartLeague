@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DartLeague.Repositories.LeagueData;
+﻿using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Helpers;
 using DartLeague.Web.ViewComponents.Models.EventList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DartLeague.Web.ViewComponents
 {

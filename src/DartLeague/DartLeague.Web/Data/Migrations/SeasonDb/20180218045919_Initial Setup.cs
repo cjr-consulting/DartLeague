@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace DartLeague.Web.Data.Migrations.SeasonDb
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Ef Migration")]
     public partial class InitialSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

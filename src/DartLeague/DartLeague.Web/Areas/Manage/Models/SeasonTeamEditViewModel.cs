@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO")]
     public class SeasonTeamEditViewModel
     {
         public int Id { get; set; }
@@ -30,8 +30,8 @@ namespace DartLeague.Web.Areas.Manage.Models
         public string TeamFileUrl { get; set; }
         public List<SeasonTeamPlayerListViewModel> Players { get; set; } = new List<SeasonTeamPlayerListViewModel>();
 
-        public List<SelectListItem> Roles { get; set; }
-        public List<SelectListItem> Members { get; set; }
-        public List<SelectListItem> Sponsors { get; set; }
+        public List<SelectListItem> Roles { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> Members { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> Sponsors { get; set; } = new List<SelectListItem>();
     }
 }

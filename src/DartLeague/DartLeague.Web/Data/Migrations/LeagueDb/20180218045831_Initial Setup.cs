@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace DartLeague.Web.Data.Migrations.LeagueDb
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Migration")]
     public partial class InitialSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

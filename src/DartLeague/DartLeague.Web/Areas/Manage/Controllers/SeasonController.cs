@@ -3,6 +3,7 @@ using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,6 +48,8 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         [HttpPost("manage/season/create")]
         public async Task<IActionResult> Create(SeasonEditViewModel model)
         {
+            Contract.Requires(model != null, nameof(model));
+
             try
             {
                 if (ModelState.IsValid)
@@ -82,16 +85,18 @@ namespace DartLeague.Web.Areas.Manage.Controllers
         }
 
         [HttpPost("manage/season/{id}/edit")]
-        public async Task<IActionResult> Edit(int id, SeasonEditViewModel SeasonEdit)
+        public async Task<IActionResult> Edit(int id, SeasonEditViewModel model)
         {
+            Contract.Requires(model != null, nameof(model));
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     var season = await _seasonContext.Seasons.FirstOrDefaultAsync(x => x.Id == id);
-                    season.Title = SeasonEdit.Title;
-                    season.StartDate = SeasonEdit.StartDate.Value;
-                    season.EndDate = SeasonEdit.EndDate.Value;
+                    season.Title = model.Title;
+                    season.StartDate = model.StartDate.Value;
+                    season.EndDate = model.EndDate.Value;
                     await _seasonContext.SaveChangesAsync();
                     return Redirect(Request.Headers["Referer"].ToString());
                 }

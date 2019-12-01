@@ -2,7 +2,8 @@
 
 namespace DartLeague.Repositories.SeasonData.Mappings
 {
-    class TeamMapping : IEntityMap<SeasonContext>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Ef Config")]
+    internal class TeamMapping : IEntityMap<SeasonContext>
     {
         public TeamMapping(ModelBuilder modelBuilder)
         {

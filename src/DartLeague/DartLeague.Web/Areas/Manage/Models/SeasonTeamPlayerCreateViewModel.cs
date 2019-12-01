@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace DartLeague.Web.Areas.Manage.Models
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO")]
     public class SeasonTeamPlayerCreateViewModel
     {
         public int TeamId { get; set; }
@@ -24,7 +25,7 @@ namespace DartLeague.Web.Areas.Manage.Models
         public string ShirtSize { get; set; }
 
 
-        public List<SelectListItem> Roles { get; set; }
-        public List<SelectListItem> Members { get; set; }
+        public List<SelectListItem> Roles { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> Members { get; set; } = new List<SelectListItem>();
     }
 }

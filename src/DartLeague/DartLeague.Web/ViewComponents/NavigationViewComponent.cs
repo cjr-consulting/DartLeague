@@ -31,7 +31,7 @@ namespace DartLeague.Web.Controllers.Components
         {
             return name switch
             {
-                "DartsForDreams" => await DartsForDreamsNavigation(url),
+                "DartsForDreams" => await DartsForDreamsNavigation(),
                 "Manage" => await ManagementNavigation(url),
                 _ => await DefaultNavigation(url),
             };
@@ -181,7 +181,7 @@ namespace DartLeague.Web.Controllers.Components
             return nav;
         }
 
-        private async Task<SiteNavigationViewModel> ManagementNavigation(IUrlHelper url)
+        private static async Task<SiteNavigationViewModel> ManagementNavigation(IUrlHelper url)
         {
             return await Task.FromResult(new SiteNavigationViewModel
             {
@@ -217,7 +217,7 @@ namespace DartLeague.Web.Controllers.Components
             });
         }
 
-        private async Task<SiteNavigationViewModel> DartsForDreamsNavigation(IUrlHelper url)
+        private static async Task<SiteNavigationViewModel> DartsForDreamsNavigation()
         {
             return await Task.FromResult(new SiteNavigationViewModel
             {

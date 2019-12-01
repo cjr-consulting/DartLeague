@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DartLeague.Domain.BrowsableFiles;
@@ -20,6 +21,8 @@ namespace DartLeague.Infrastructure.BrowsableFiles
         }
         public async Task<int> AddAsync(BrowsableFile file)
         {
+            Contract.Requires(file != null, nameof(file));
+
             if (_leagueContext.BrowsableFiles.Any(x => x.Category == file.Category && x.FileName == file.FileName))
                 throw new BrowsableFileAlreadyExistsException($"{file.FileName} already exists in the category {file.Category}");
 

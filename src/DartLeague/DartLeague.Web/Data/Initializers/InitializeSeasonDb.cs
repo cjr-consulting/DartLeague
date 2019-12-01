@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace DartLeague.Web.Data.Initializers
     {
         public static async Task InitializeAsync(IServiceScope serviceScope)
         {
+            Contract.Requires(serviceScope != null);
+
             var context = serviceScope.ServiceProvider.GetService<SeasonContext>();
             var positions = await context.BoardPositions.ToListAsync();
             AddPosition(context, positions, position: "President", order: 1);

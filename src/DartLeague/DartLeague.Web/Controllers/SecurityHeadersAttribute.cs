@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics.Contracts;
 
 namespace DartLeague.Web.Controllers
 {
@@ -11,6 +12,8 @@ namespace DartLeague.Web.Controllers
     {
         public override void OnResultExecuting(ResultExecutingContext context)
         {
+            Contract.Requires(context != null);
+
             var result = context.Result;
             if (result is ViewResult)
             {

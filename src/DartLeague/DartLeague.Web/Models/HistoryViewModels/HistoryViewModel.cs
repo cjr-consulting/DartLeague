@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace DartLeague.Web.Models.HistoryViewModels
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "DTO")]
     public class HistoryViewModel
     {
         public HistorySeasonViewModel PreviousSeason { get; set; }

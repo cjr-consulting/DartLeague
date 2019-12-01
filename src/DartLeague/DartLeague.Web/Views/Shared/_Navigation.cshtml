@@ -20,7 +20,7 @@
                         @foreach (var item in parentNav.SubNavigations) {
                         @if (item.IsHeader) {
                         <li class="dropdown-header">@item.Title</li>
-                            } else if (item.IsSeperator) {
+                            } else if (item.IsSeparator) {
                         <li role="separator" class="divider"></li>
                             } else {
                         <li><a href="@item.Href">@item.Title</a></li>

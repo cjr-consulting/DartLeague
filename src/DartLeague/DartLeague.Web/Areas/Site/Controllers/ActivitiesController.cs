@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,6 +68,9 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, ActivityViewModel activityModel, List<IFormFile> activityImage)
         {
+            Contract.Requires(activityModel != null);
+            Contract.Requires(activityImage != null);
+
             try
             {
                 var activity = await _leagueContext.Activities.FirstOrDefaultAsync(x => x.Id == id);
@@ -99,12 +103,14 @@ namespace DartLeague.Web.Areas.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ActivityViewModel activityModel, List<IFormFile> activityImage)
         {
+            Contract.Requires(activityModel != null);
+            Contract.Requires(activityImage != null);
+
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (!_leagueContext.Activities.Any(x => string.Equals(x.Name.Trim(), activityModel.Name.Trim(),
-                        StringComparison.CurrentCultureIgnoreCase)))
+                    if (!_leagueContext.Activities.Any(x => x.Name.Trim() == activityModel.Name.Trim()))
                     {
                         var activity = new EF.Activity()
                         {

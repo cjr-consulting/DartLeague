@@ -4,6 +4,7 @@ using DartLeague.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.Contracts;
 
 namespace DartLeague.Web.Configurations
 {
@@ -31,6 +32,8 @@ namespace DartLeague.Web.Configurations
 
         public static void UseLeagueDbMigrations(this IServiceScope serviceScope)
         {
+            Contract.Requires(serviceScope != null);
+
             var authDbContext = serviceScope.ServiceProvider.GetService<AuthDbContext>();
             authDbContext.Database.Migrate();
 

@@ -2,6 +2,7 @@ using DartLeague.Repositories.LeagueData;
 using DartLeague.Web.Areas.Manage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,15 +25,15 @@ namespace DartLeague.Web.Areas.Manage.Controllers
             var playersList = new MembersListViewModel()
             {
                 Members = _leagueContext.Members.Select(x =>
-new MemberViewModel
-{
-Id = x.Id,
-FirstName = x.FirstName,
-LastName = x.LastName,
-Email = x.Email,
-CellPhone = x.CellPhone,
-ShirtSize = x.ShirtSize
-}).ToList()
+                    new MemberViewModel
+                    {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    CellPhone = x.CellPhone,
+                    ShirtSize = x.ShirtSize
+                    }).ToList()
             };
 
             return View(playersList);
@@ -48,6 +49,8 @@ ShirtSize = x.ShirtSize
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MemberViewModel player)
         {
+            Contract.Requires(player != null, nameof(player));
+
             try
             {
                 if (ModelState.IsValid)
@@ -119,6 +122,8 @@ ShirtSize = x.ShirtSize
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, MemberViewModel player)
         {
+            Contract.Requires(player != null);
+
             try
             {
                 if (ModelState.IsValid)
