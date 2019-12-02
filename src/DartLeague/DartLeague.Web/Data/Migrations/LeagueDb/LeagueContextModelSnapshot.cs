@@ -3,9 +3,6 @@ using DartLeague.Repositories.LeagueData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace DartLeague.Web.Data.Migrations.LeagueDb
@@ -39,7 +36,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activities","league");
+                    b.ToTable("Activities", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.BrowsableFile", b =>
@@ -57,7 +54,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("BrowsableFiles","league");
+                    b.ToTable("BrowsableFiles", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEvent", b =>
@@ -127,7 +124,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("DartEvents","league");
+                    b.ToTable("DartEvents", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEventResult", b =>
@@ -149,7 +146,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("DartEventResults","league");
+                    b.ToTable("DartEventResults", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.LeagueLink", b =>
@@ -173,7 +170,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeagueLinks","league");
+                    b.ToTable("LeagueLinks", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Lod", b =>
@@ -195,7 +192,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lods","league");
+                    b.ToTable("Lods", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.LuckofTheDraw", b =>
@@ -217,7 +214,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("LuckOfTheDraws","league");
+                    b.ToTable("LuckOfTheDraws", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Member", b =>
@@ -261,7 +258,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members","league");
+                    b.ToTable("Members", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.PagePart", b =>
@@ -279,7 +276,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("PageParts","league");
+                    b.ToTable("PageParts", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.Sponsor", b =>
@@ -321,7 +318,7 @@ namespace DartLeague.Web.Data.Migrations.LeagueDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sponsors","league");
+                    b.ToTable("Sponsors", "league");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.LeagueData.DartEventResult", b =>

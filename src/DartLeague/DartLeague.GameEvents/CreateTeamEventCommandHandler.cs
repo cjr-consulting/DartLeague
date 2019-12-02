@@ -1,25 +1,8 @@
-﻿using System;
+﻿using DartLeague.Common.Messaging;
+using System;
 
 namespace DartLeague.GameEvents
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1040:Avoid empty interfaces", Justification = "Marker Interface")]
-    public interface ICommand { }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1040:Avoid empty interfaces", Justification = "Marker Interface")]
-    public interface IQuery { }
-
-    public interface ICommandHandler<TCommand, TResult>
-        where TCommand : ICommand
-    {
-        TResult Handle(TCommand command);
-    }
-
-    public interface IQueryHandler<TQuery, TResult>
-        where TQuery : IQuery
-    {
-        TResult Handle(TQuery query);
-    }
-
     public class CreateTeamEventCommandHandler : ICommandHandler<CreateTeamEventCommand, TeamEvent>
     {
         public CreateTeamEventCommandHandler()
@@ -58,12 +41,6 @@ namespace DartLeague.GameEvents
             Name = name;
         }
     }
-
-    public class EventSchedule
-    {
-
-    }
-
 
     /*
      * add team

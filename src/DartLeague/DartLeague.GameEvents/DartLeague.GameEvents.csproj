@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DartLeague.Common\DartLeague.Common.csproj" />
+  </ItemGroup>
+
 </Project>

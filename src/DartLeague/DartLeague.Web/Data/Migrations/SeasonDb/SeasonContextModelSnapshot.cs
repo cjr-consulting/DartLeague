@@ -3,9 +3,6 @@ using DartLeague.Repositories.SeasonData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace DartLeague.Web.Data.Migrations.SeasonDb
@@ -49,7 +46,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasIndex("SeasonId");
 
-                    b.ToTable("BoardMembers","season");
+                    b.ToTable("BoardMembers", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.BoardPosition", b =>
@@ -71,7 +68,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("BoardPositions","season");
+                    b.ToTable("BoardPositions", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.Season", b =>
@@ -95,7 +92,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Seasons","season");
+                    b.ToTable("Seasons", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.SeasonLink", b =>
@@ -127,7 +124,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasIndex("SeasonId");
 
-                    b.ToTable("SeasonLinks","season");
+                    b.ToTable("SeasonLinks", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.Team", b =>
@@ -161,7 +158,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasIndex("SeasonId");
 
-                    b.ToTable("Teams","season");
+                    b.ToTable("Teams", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.TeamPlayer", b =>
@@ -179,7 +176,7 @@ namespace DartLeague.Web.Data.Migrations.SeasonDb
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamPlayers","season");
+                    b.ToTable("TeamPlayers", "season");
                 });
 
             modelBuilder.Entity("DartLeague.Repositories.SeasonData.BoardMember", b =>
