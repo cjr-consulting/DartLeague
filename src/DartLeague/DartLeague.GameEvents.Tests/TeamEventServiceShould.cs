@@ -4,18 +4,28 @@ using Xunit;
 
 namespace DartLeague.GameEvents.Tests
 {
-    public class Given_a_new_team_to_create
+    public class Given_a_new_team_event
     {
-        readonly CreateTeamEventCommand EVENT_DATA = new CreateTeamEventCommand();
+        private GameEvent teamEvent = new GameEvent();
+        private Team firstTeam = new Team(1, "Team 1", new Venue("Venue Name", StreetAddress.Empty()));
+
+        private Team duplicateFirstTeam = new Team(1, "Team 1", new Venue("Venue Name", StreetAddress.Empty()));
 
         [Fact]
-        public void When_creating_a_team_with_required_configuration()
+        public void When_adding_a_team_Then_success()
         {
-            var handler = new CreateTeamEventCommandHandler();
+            teamEvent.AddTeam(firstTeam);
 
-            var teamEvent = handler.Handle(EVENT_DATA);
+            teamEvent.GetTeams().ShouldHaveSingleItem();
+        }
 
-            teamEvent.Id.ShouldNotBeNull();
+        [Fact]
+        public void When_adding_a_duplicate_team_Then_ignore()
+        {
+            teamEvent.AddTeam(firstTeam);
+            teamEvent.AddTeam(duplicateFirstTeam);
+
+            teamEvent.GetTeams().ShouldHaveSingleItem();
         }
     }
 

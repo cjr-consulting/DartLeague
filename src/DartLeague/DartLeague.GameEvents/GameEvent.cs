@@ -1,6 +1,7 @@
 ﻿using DartLeague.Common.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DartLeague.GameEvents
@@ -12,7 +13,17 @@ namespace DartLeague.GameEvents
 
         public void AddTeam(Team team)
         {
+            if (teams.Any(x => string.Equals(x.Name, team.Name, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                return;
+            }
+
             teams.Add(team);
+        }
+
+        public IList<Team> GetTeams()
+        {
+            return teams.ToArray();
         }
     }
 
@@ -56,6 +67,11 @@ namespace DartLeague.GameEvents
             City = city;
             State = state;
             Zip = zip;
+        }
+
+        public static StreetAddress Empty()
+        {
+            return new StreetAddress(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
         }
     }
 
